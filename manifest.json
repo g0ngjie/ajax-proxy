@@ -1,7 +1,33 @@
 {
-  "name": "Ajax Interceptor",
-  "version": "0.9",
-  "description": "To modify response text of ajax requests",
+  "manifest_version": 2,
+  "name": "Ajax proxy",
+  "version": "1.0",
+  "description": "Ajax代理拦截工具",
+  "author": "Gj",
+  "icons": {
+    "16": "images/16g.png",
+    "32": "images/32g.png",
+    "48": "images/48.png",
+    "64": "images/64.png",
+    "128": "images/64.png"
+  },
+  "page_action": {
+    "default_icon": "images/64g.png",
+    "default_title": "My Test",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
   "permissions": [
     "storage",
     "tabs",
@@ -9,29 +35,10 @@
     "https://*/"
   ],
   "background": {
-    "scripts": ["background.js"],
+    "scripts": [
+      "background.js"
+    ],
     "persistent": true
   },
-  "browser_action": {
-  },
-  "icons": {
-    "16": "images/16g.png",
-    "32": "images/32g.png",
-    "48": "images/48.png",
-    "64": "images/64.png"
-  },
-  "manifest_version": 2,
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["./content.js"],
-      "run_at": "document_start",
-      "all_frames": true
-    }
-  ],
-  "web_accessible_resources": [
-    "pageScripts/defaultSettings.js",
-    "pageScripts/main.js",
-    "iframe/index.html"
-  ]
+  "web_accessible_resources": []
 }
