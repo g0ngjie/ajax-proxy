@@ -9,4 +9,8 @@ module.exports = {
     disableHostCheck: true, // 启用 host 访问
     // proxy: {},
   },
+  publicPath: process.env.NODE_ENV === 'production'
+    ? './'
+    : '/',
+  outputDir: '../page'
 };

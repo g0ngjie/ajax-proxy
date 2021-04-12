@@ -40,5 +40,6 @@
     ],
     "persistent": true
   },
-  "web_accessible_resources": []
+  "web_accessible_resources": [],
+  "devtools_page": "view.html"
 }
