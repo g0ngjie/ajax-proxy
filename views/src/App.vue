@@ -2,7 +2,7 @@
   <div id="app">
     <el-tabs v-model="currentTab" type="card" @tab-click="handleClick">
       <el-tab-pane label="请求拦截" name="request"> <Request /> </el-tab-pane>
-      <el-tab-pane label="相应拦截" name="response"> <Response /></el-tab-pane>
+      <el-tab-pane label="响应拦截" name="response"> <Response /></el-tab-pane>
       <el-tab-pane label="全局抓取" name="global"> <GlobalTemp /> </el-tab-pane>
     </el-tabs>
   </div>
