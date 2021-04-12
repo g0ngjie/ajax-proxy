@@ -5,14 +5,14 @@
   "description": "Ajax代理拦截工具",
   "author": "Gj",
   "icons": {
-    "16": "images/16g.png",
-    "32": "images/32g.png",
+    "16": "images/16.png",
+    "32": "images/32.png",
     "48": "images/48.png",
     "64": "images/64.png",
-    "128": "images/64.png"
+    "128": "images/128.png"
   },
   "page_action": {
-    "default_icon": "images/64g.png",
+    "default_icon": "images/128.png",
     "default_title": "My Test",
     "default_popup": "popup.html"
   },
