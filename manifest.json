@@ -41,6 +41,5 @@
     "persistent": true
   },
   "web_accessible_resources": [],
-  "default_locale": "zh_CN",
   "devtools_page": "view.html"
 }
