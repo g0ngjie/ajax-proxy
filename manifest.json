@@ -9,38 +9,32 @@
     "48": "images/48.png",
     "128": "images/128.png"
   },
-  "page_action": {
-    "default_icon": "images/128.png",
-    "default_title": "My Test",
-    "default_popup": "popup.html"
-  },
-  "content_scripts": [
-    {
-      "matches": [
-        "<all_urls>"
-      ],
-      "js": [
-        "content.js"
-      ],
-      "run_at": "document_start",
-      "all_frames": true
-    }
-  ],
   "permissions": [
     "storage",
     "tabs",
     "http://*/",
-    "https://*/"
+    "https://*/",
+    "notifications"
   ],
+  "browser_action": {
+    "default_icon": "images/48g.png"
+  },
   "background": {
     "scripts": [
       "background.js"
     ],
     "persistent": true
   },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
   "web_accessible_resources": [
-    "js/core.js",
-    "page/index.html"
+    "js/core.js"
   ],
   "devtools_page": "view.html"
 }
