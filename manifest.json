@@ -6,9 +6,7 @@
   "author": "Gj",
   "icons": {
     "16": "images/16.png",
-    "32": "images/32.png",
     "48": "images/48.png",
-    "64": "images/64.png",
     "128": "images/128.png"
   },
   "page_action": {
@@ -40,6 +38,9 @@
     ],
     "persistent": true
   },
-  "web_accessible_resources": [],
+  "web_accessible_resources": [
+    "js/core.js",
+    "page/index.html"
+  ],
   "devtools_page": "view.html"
 }
