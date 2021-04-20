@@ -3,18 +3,7 @@ const __ajax_global_setting = {
     // 总开关
     globalSwitchOn: false,
     // 请求拦截
-    proxy_routes: [
-        {
-            switchOn: true,
-            match: '/api/login',
-            override: `{ ok: true, message: '登录成功', data: {} }`
-        },
-        {
-            switchOn: true,
-            match: 'bux-thirdsystem-api/speech/nlu/new/v1.0/query-intent-list',
-            override: `{ "code": "000000", "description": "SUCCESS", "data": { "total": 362, "list": [{ "intentId": 30353, "intent": "Noise_Title", "description": "", "function": "噪音", "functionId": 20149, "domain": "Noise", "domainId": 10029, "suppliers": "全部供应商" }], "pageNum": 1, "pageSize": 10, "size": 362, "startRow": 0, "endRow": 0, "pages": 0, "prePage": 0, "nextPage": 0, "isFirstPage": false, "isLastPage": false, "hasPreviousPage": false, "hasNextPage": false, "navigatePages": 0, "navigatepageNums": null, "navigateFirstPage": 0, "navigateLastPage": 0 }, "traceId": "11697388.77.16188227840351875" }`
-        }
-    ],
+    proxy_routes: [],
     // 异常拦截
     err_list: [],
     originalXHR: window.XMLHttpRequest,

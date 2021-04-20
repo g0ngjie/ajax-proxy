@@ -6,12 +6,6 @@ chrome.runtime.onMessage.addListener(msg => {
       if (result.hasOwnProperty('globalSwitchOn')) {
         if (result.globalSwitchOn) {
           postMessage({ type: '__ajax_proxy', to: 'content', key: 'globalSwitchOn', value: result.globalSwitchOn });
-          // chrome.runtime.sendMessage(chrome.runtime.id, {
-          //   type: "__ajax_proxy",
-          //   to: "content",
-          //   key: "globalSwitchOn",
-          //   value: result.globalSwitchOn,
-          // });
           chrome.browserAction.setIcon({ path: "/images/16.png" });
         } else {
           chrome.browserAction.setIcon({ path: "/images/16g.png" });
