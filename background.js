@@ -2,7 +2,7 @@
 // 接收page传来的信息，转发给content.js
 chrome.runtime.onMessage.addListener(msg => {
   if (msg.type === '__ajax_proxy' && msg.to === 'background') {
-    chrome.storage.local.get(['globalSwitchOn', 'routes'], (result) => {
+    chrome.storage.local.get(['globalSwitchOn', 'proxy_routes'], (result) => {
       if (result.hasOwnProperty('globalSwitchOn')) {
         if (result.globalSwitchOn) {
           postMessage({ type: '__ajax_proxy', to: 'content', key: 'globalSwitchOn', value: result.globalSwitchOn });

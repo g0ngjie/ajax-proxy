@@ -31,7 +31,7 @@ chrome.runtime.onMessage.addListener(msg => {
     if (msg.key === 'globalSwitchOn')
       postMessage({ type: '__ajax_proxy', to: 'core', key: 'globalSwitchOn', value: msg.value });
     else
-      postMessage({ type: '__ajax_proxy', to: 'core', key: 'routes', value: msg.value });
+      postMessage({ type: '__ajax_proxy', to: 'core', key: 'proxy_routes', value: msg.value });
   }
 });
 

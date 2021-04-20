@@ -3,7 +3,7 @@ const __ajax_global_setting = {
     // 总开关
     globalSwitchOn: false,
     // 请求拦截
-    routes: [
+    proxy_routes: [
         {
             switchOn: true,
             match: '/api/login',
@@ -20,7 +20,7 @@ const __ajax_global_setting = {
     originalXHR: window.XMLHttpRequest,
     myXHR: function () {
         const modifyResponse = () => {
-            __ajax_global_setting.routes.forEach(({ switchOn = true, match, override = '' }) => {
+            __ajax_global_setting.proxy_routes.forEach(({ switchOn = true, match, override = '' }) => {
                 let matched = false;
                 // 是否需要匹配
                 if (switchOn && match)
