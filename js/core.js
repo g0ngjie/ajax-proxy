@@ -83,22 +83,12 @@ const __ajax_global_setting = {
 
 window.addEventListener("message", function (event) {
     const data = event.data;
-    // alert(111 + JSON.stringify(data))
-
     if (data.type === '__ajax_proxy' && data.to === 'core') {
         __ajax_global_setting[data.key] = data.value;
     }
-
     if (__ajax_global_setting.globalSwitchOn) {
         window.XMLHttpRequest = __ajax_global_setting.myXHR;
     } else {
         window.XMLHttpRequest = __ajax_global_setting.originalXHR;
     }
-
 }, false);
-
-if (__ajax_global_setting.globalSwitchOn) {
-    window.XMLHttpRequest = __ajax_global_setting.myXHR;
-} else {
-    window.XMLHttpRequest = __ajax_global_setting.originalXHR;
-}

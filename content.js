@@ -17,45 +17,48 @@ document.documentElement.appendChild(script);
 script.addEventListener('load', () => {
   chrome.storage.local.get(['globalSwitchOn', 'proxy_routes'], (result) => {
     if (result.hasOwnProperty('globalSwitchOn')) {
-      postMessage({type: '__ajax_proxy', to: 'core', key: 'globalSwitchOn', value: result.globalSwitchOn});
+      postMessage({ type: '__ajax_proxy', to: 'core', key: 'globalSwitchOn', value: result.globalSwitchOn });
     }
     if (result.proxy_routes) {
-      postMessage({type: '__ajax_proxy', to: 'core', key: 'proxy_routes', value: result.proxy_routes});
+      postMessage({ type: '__ajax_proxy', to: 'core', key: 'proxy_routes', value: result.proxy_routes });
     }
   });
 });
 
-// 接收background.js传来的信息，转发给pageScript
+// 接收background.js传来的信息，转发给core
 chrome.runtime.onMessage.addListener(msg => {
   if (msg.type === '__ajax_proxy' && msg.to === 'content') {
-    if (msg.hasOwnProperty('iframeScriptLoaded')) {
-      if (msg.iframeScriptLoaded) iframeLoaded = true;
-    } else {
-      postMessage({...msg, to: 'pageScript'});
-    }
+    if (msg.key === 'globalSwitchOn')
+      postMessage({ type: '__ajax_proxy', to: 'core', key: 'globalSwitchOn', value: msg.value });
+    else
+      postMessage({ type: '__ajax_proxy', to: 'core', key: 'routes', value: msg.value });
   }
 });
 
 // 接收pageScript传来的信息，转发给iframe
-window.addEventListener("pageScript", function(event) {
-  if (iframeLoaded) {
-    chrome.runtime.sendMessage({type: 'ajaxInterceptor', to: 'iframe', ...event.detail});
-  } else {
-    let count = 0;
-    const checktLoadedInterval = setInterval(() => {
-      if (iframeLoaded) {
-        clearInterval(checktLoadedInterval);
-        chrome.runtime.sendMessage({type: 'ajaxInterceptor', to: 'iframe', ...event.detail});
-      }
-      if (count ++ > 500) {
-        clearInterval(checktLoadedInterval);
-      }
-    }, 10);
-  }
-}, false);
+// window.addEventListener("pageScript", function (event) {
+//   if (iframeLoaded) {
+//     chrome.runtime.sendMessage({ type: 'ajaxInterceptor', to: 'iframe', ...event.detail });
+//   } else {
+//     let count = 0;
+//     const checktLoadedInterval = setInterval(() => {
+//       if (iframeLoaded) {
+//         clearInterval(checktLoadedInterval);
+//         chrome.runtime.sendMessage({ type: 'ajaxInterceptor', to: 'iframe', ...event.detail });
+//       }
+//       if (count++ > 500) {
+//         clearInterval(checktLoadedInterval);
+//       }
+//     }, 10);
+//   }
+// }, false);
 
-// window.addEventListener("message", function(event) {
-// console.log(event.data)
+// window.addEventListener("message", function (msg) {
+//   if (msg.type === '__ajax_proxy' && msg.to === 'content') {
+//     // postMessage({ ...msg, to: 'core' });
+//     alert(JSON.stringify(msg))
+//     postMessage({ type: '__ajax_proxy', to: 'core', key: 'globalSwitchOn', value: msg.globalSwitchOn });
+//   }
 // }, false);
 
 // window.parent.postMessage({ type: "CONTENT", text: "Hello from the webpage!" }, "*");
