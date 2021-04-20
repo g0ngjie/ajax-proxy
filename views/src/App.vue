@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <el-switch v-model="switchOn" @change="handleSwitch" />
-    <Response v-if="switchOn" />
+    <Response v-if="switchOn" :routes="proxy_routes" />
   </div>
 </template>
 <script>
@@ -13,6 +13,7 @@ export default {
   data() {
     return {
       switchOn: false,
+      proxy_routes: [],
     };
   },
   methods: {
@@ -26,7 +27,15 @@ export default {
       });
       chrome.storage && chrome.storage.local.set({ globalSwitchOn: bool });
     },
+    initData() {
+      chrome.storage && chrome.storage.local.get(["globalSwitchOn", "proxy_routes"], (result) => {
+        if (result.hasOwnProperty("globalSwitchOn"))
+          this.switchOn = result.globalSwitchOn;
+        if (result.proxy_routes) this.proxy_routes = result.proxy_routes;
+      });
+    },
   },
+  created() {},
 };
 </script>
 <style>

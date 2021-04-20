@@ -2,16 +2,17 @@
   <div class="response-container">
     <el-button type="primary" @click="handleCreate">新建</el-button>
     <section class="tips">
-      <el-alert
-        title="根据请求URL返回响应数据"
-        type="info"
-        :closable="false"
-      />
+      <el-alert title="根据请求URL返回响应数据" type="info" :closable="false" />
     </section>
     <Modal ref="modal" />
     <el-table :data="tableData" stripe>
-      <el-table-column prop="url" label="url" show-overflow-tooltip />
-      <el-table-column prop="response" label="response" show-overflow-tooltip />
+      <el-table-column label="switch">
+        <template slot-scope="{ row }">
+          <el-switch v-model="row.switchOn" />
+        </template>
+      </el-table-column>
+      <el-table-column prop="match" label="match" show-overflow-tooltip />
+      <el-table-column prop="override" label="override" show-overflow-tooltip />
     </el-table>
   </div>
 </template>

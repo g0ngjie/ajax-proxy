@@ -15,9 +15,9 @@
               trigger: 'change',
             },
           ]"
-          prop="url"
+          prop="match"
         >
-          <el-input v-model="form.url" placeholder="请输入"></el-input>
+          <el-input v-model="form.match" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item
           label="响应数据:"
@@ -28,13 +28,13 @@
               trigger: 'change',
             },
           ]"
-          prop="response"
+          prop="override"
         >
           <el-input
             type="textarea"
             :rows="3"
             show-word-limit
-            v-model="form.response"
+            v-model="form.override"
             placeholder="请输入"
           >
           </el-input>
