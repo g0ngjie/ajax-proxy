@@ -8,6 +8,8 @@ document.documentElement.appendChild(script);
 script.addEventListener('load', () => {
   chrome.storage.local.get(['globalSwitchOn', 'proxy_routes'], (result) => {
     if (result.hasOwnProperty('globalSwitchOn')) {
+      if (result.globalSwitchOn) chrome.browserAction.setIcon({ path: "/images/16.png" });
+      else chrome.browserAction.setIcon({ path: "/images/16g.png" });
       postMessage({ type: '__ajax_proxy', to: 'core', key: 'globalSwitchOn', value: result.globalSwitchOn });
     }
     if (result.proxy_routes) {
