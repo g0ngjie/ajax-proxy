@@ -35,6 +35,5 @@
   ],
   "web_accessible_resources": [
     "js/core.js"
-  ],
-  "devtools_page": "view.html"
+  ]
 }

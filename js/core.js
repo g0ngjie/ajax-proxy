@@ -1,7 +1,7 @@
 
 const __ajax_global_setting = {
     // 总开关
-    globalSwitchOn: true,
+    globalSwitchOn: false,
     // 请求拦截
     routes: [
         {
@@ -83,7 +83,7 @@ const __ajax_global_setting = {
 
 window.addEventListener("message", function (event) {
     const data = event.data;
-    alert(111 + JSON.stringify(data))
+    // alert(111 + JSON.stringify(data))
 
     if (data.type === '__ajax_proxy' && data.to === 'core') {
         __ajax_global_setting[data.key] = data.value;

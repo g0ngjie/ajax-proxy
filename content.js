@@ -15,19 +15,19 @@ script.setAttribute('src', chrome.extension.getURL('js/core.js'));
 document.documentElement.appendChild(script);
 
 script.addEventListener('load', () => {
-  chrome.storage.local.get(['ajaxInterceptor_switchOn', 'ajaxInterceptor_rules'], (result) => {
-    if (result.hasOwnProperty('ajaxInterceptor_switchOn')) {
-      postMessage({type: 'ajaxInterceptor', to: 'pageScript', key: 'ajaxInterceptor_switchOn', value: result.ajaxInterceptor_switchOn});
+  chrome.storage.local.get(['globalSwitchOn', 'proxy_routes'], (result) => {
+    if (result.hasOwnProperty('globalSwitchOn')) {
+      postMessage({type: '__ajax_proxy', to: 'core', key: 'globalSwitchOn', value: result.globalSwitchOn});
     }
-    if (result.ajaxInterceptor_rules) {
-      postMessage({type: 'ajaxInterceptor', to: 'pageScript', key: 'ajaxInterceptor_rules', value: result.ajaxInterceptor_rules});
+    if (result.proxy_routes) {
+      postMessage({type: '__ajax_proxy', to: 'core', key: 'proxy_routes', value: result.proxy_routes});
     }
   });
 });
 
 // 接收background.js传来的信息，转发给pageScript
 chrome.runtime.onMessage.addListener(msg => {
-  if (msg.type === 'ajaxInterceptor' && msg.to === 'content') {
+  if (msg.type === '__ajax_proxy' && msg.to === 'content') {
     if (msg.hasOwnProperty('iframeScriptLoaded')) {
       if (msg.iframeScriptLoaded) iframeLoaded = true;
     } else {
