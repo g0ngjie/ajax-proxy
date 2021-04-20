@@ -17,9 +17,12 @@ chrome.runtime.onMessage.addListener(msg => {
           chrome.browserAction.setIcon({ path: "/images/16g.png" });
         }
       }
+      if (result.proxy_routes) {
+        postMessage({ type: '__ajax_proxy', to: 'content', key: 'proxy_routes', value: result.proxy_routes });
+      }
     });
   }
-  chrome.tabs.query({ }, function (tabs) {
+  chrome.tabs.query({}, function (tabs) {
     chrome.tabs.sendMessage(tabs[0].id, { ...msg, to: 'content' });
   })
 });

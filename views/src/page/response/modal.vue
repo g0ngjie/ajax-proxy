@@ -39,6 +39,16 @@
           >
           </el-input>
         </el-form-item>
+        <el-form-item label="备注:">
+          <el-input
+            type="textarea"
+            :rows="3"
+            show-word-limit
+            v-model="form.remark"
+            placeholder="请输入"
+          >
+          </el-input>
+        </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="handleClose">取 消</el-button>
@@ -49,20 +59,29 @@
 </template>
 
 <script>
+import { uniqueId } from "@alrale/common-lib";
+
 export default {
   data() {
     return {
       isShow: false,
       form: {},
       title: "",
+      isEdit: false,
     };
   },
   methods: {
     // 模态展示
-    open(id) {
-      this.title = id ? "编辑" : "新增";
+    open(row) {
+      if (row) {
+        this.isEdit = true;
+        this.title = "编辑";
+      } else {
+        this.isEdit = false;
+        this.title = "新增";
+      }
       this.isShow = true;
-      this.form = {};
+      this.form = row || {};
       this.$nextTick(() => this.$refs.form.clearValidate());
     },
     // 模态关闭
@@ -76,7 +95,10 @@ export default {
       });
     },
     createData() {
-      console.log("[debug]this.form:", this.form);
+      if (this.isEdit) this.$emit("editData", this.form);
+      else
+        this.$emit("putData", { ...this.form, switchOn: true, id: uniqueId() });
+      this.isShow = false;
     },
   },
 };

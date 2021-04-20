@@ -1,7 +1,10 @@
 <template>
   <div id="app">
-    <el-switch v-model="switchOn" @change="handleSwitch" />
-    <Response v-if="switchOn" :routes="proxy_routes" />
+    <div class="global-switch">
+      <i class="el-icon-switch-button"></i>
+      <el-switch v-model="switchOn" @change="handleSwitch" />
+    </div>
+    <Response v-if="switchOn" />
   </div>
 </template>
 <script>
@@ -28,14 +31,16 @@ export default {
       chrome.storage && chrome.storage.local.set({ globalSwitchOn: bool });
     },
     initData() {
-      chrome.storage && chrome.storage.local.get(["globalSwitchOn", "proxy_routes"], (result) => {
-        if (result.hasOwnProperty("globalSwitchOn"))
-          this.switchOn = result.globalSwitchOn;
-        if (result.proxy_routes) this.proxy_routes = result.proxy_routes;
-      });
+      chrome.storage &&
+        chrome.storage.local.get("globalSwitchOn", (result) => {
+          if (result.hasOwnProperty("globalSwitchOn"))
+            this.switchOn = result.globalSwitchOn;
+        });
     },
   },
-  created() {},
+  created() {
+    this.initData();
+  },
 };
 </script>
 <style>
@@ -44,5 +49,18 @@ body,
 #app {
   width: 100%;
   height: 100%;
+}
+</style>
+<style lang="scss" scoped>
+.global-switch {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  i {
+    font-size: 20px;
+    font-weight: bold;
+    color: #e84749;
+    margin-right: 10px;
+  }
 }
 </style>
