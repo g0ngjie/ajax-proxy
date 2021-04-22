@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "AjaxProxy",
   "version": "1.0",
-  "description": "Ajax代理拦截工具",
+  "description": "Ajax拦截器",
   "author": "Gj",
   "icons": {
     "16": "images/16.png",
