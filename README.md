@@ -1,6 +1,6 @@
 # ajax-proxy
 
-> Chrome plugin
-> Chrome extension
-> Interceptor
-> Ajax 拦截，修改响应数据
+Chrome plugin <br/>
+Chrome extension <br/>
+Interceptor <br/>
+Ajax 拦截，修改响应数据 <br/>
