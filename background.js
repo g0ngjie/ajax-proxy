@@ -95,6 +95,47 @@ async function closePanel() {
   }
 }
 
+// 全屏
+async function fullScreenPanel() {
+  const { ok, data } = await getStore(WIN_ID);
+  if (ok) {
+    const list = data || [];
+    chrome.windows.getCurrent(function (current) {
+      const currentId = current.id;
+      const exist = list.some((item) => item === currentId);
+      if (exist) {
+        switch (current.state) {
+          case "fullscreen":
+            chrome.windows.update(currentId, { state: "normal" });
+            break;
+          default:
+            chrome.windows.update(currentId, { state: "fullscreen" });
+            break;
+        }
+      }
+    });
+  }
+}
+
+async function resizeWindow() {
+  const { ok, data } = await getStore(WIN_ID);
+  if (ok) {
+    const list = data || [];
+    chrome.windows.getCurrent(function (current) {
+      const currentId = current.id;
+      const exist = list.some((item) => item === currentId);
+      // normal", "minimized", "maximized", or "fullscreen"
+      const conf = {
+        normal: "maximized",
+        maximized: "fullscreen",
+        fullscreen: "normal",
+      };
+      if (exist)
+        chrome.windows.update(currentId, { state: conf[current.state] });
+    });
+  }
+}
+
 // 监听
 chrome.browserAction.onClicked.addListener(function (tab) {
   createPanel();
@@ -146,9 +187,20 @@ chromeBadge();
 
 // commands
 chrome.commands.onCommand.addListener(function (command) {
-  if (command === "open_panel") {
-    createPanel();
-  } else if (command === "close_panel") {
-    closePanel();
+  switch (command) {
+    case "open_panel":
+      createPanel();
+      break;
+    case "close_panel":
+      closePanel();
+      break;
+    case "full_screen":
+      fullScreenPanel();
+      break;
+    case "resize_window":
+      resizeWindow();
+      break;
+    default:
+      break;
   }
 });

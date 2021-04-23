@@ -55,6 +55,24 @@
         "linux": "Shift+Alt+C"
       },
       "description": "Close panel"
+    },
+    "full_screen": {
+      "suggested_key": {
+        "default": "Shift+Alt+W",
+        "windows": "Shift+Alt+W",
+        "mac": "Shift+Alt+W",
+        "linux": "Shift+Alt+W"
+      },
+      "description": "Full screen"
+    },
+    "resize_window": {
+      "suggested_key": {
+        "default": "Shift+Alt+S",
+        "windows": "Shift+Alt+S",
+        "mac": "Shift+Alt+S",
+        "linux": "Shift+Alt+S"
+      },
+      "description": "Resize screen"
     }
   },
   "web_accessible_resources": [
