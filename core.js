@@ -106,11 +106,7 @@ const __ajax_global_setting = {
       if (txt !== undefined) {
         const stream = new ReadableStream({
           start(controller) {
-            const bufView = new Uint8Array(new ArrayBuffer(txt.length));
-            for (var i = 0; i < txt.length; i++) {
-              bufView[i] = txt.charCodeAt(i);
-            }
-            controller.enqueue(bufView);
+            controller.enqueue(new TextEncoder().encode(txt));
             controller.close();
           },
         });
