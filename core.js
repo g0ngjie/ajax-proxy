@@ -5,6 +5,7 @@ const __ajax_global_setting = {
   proxy_routes: [],
   originalXHR: window.XMLHttpRequest,
   myXHR: function () {
+    let pageScriptEventDispatched = false;
     const modifyResponse = () => {
       __ajax_global_setting.proxy_routes.forEach(
         ({ switchOn = true, match, override = "" }) => {
@@ -16,6 +17,16 @@ const __ajax_global_setting = {
           if (matched) {
             this.responseText = override;
             this.response = override;
+
+            if (!pageScriptEventDispatched) {
+              // 通知到 content 命中统计
+              window.dispatchEvent(
+                new CustomEvent("core_notice", {
+                  detail: { url: this.responseURL, match },
+                })
+              );
+              pageScriptEventDispatched = true;
+            }
           }
         }
       );
@@ -81,6 +92,12 @@ const __ajax_global_setting = {
             // 判断是否匹配到
             matched = response.url.includes(match);
           if (matched) {
+            // 通知到 content 命中统计
+            window.dispatchEvent(
+              new CustomEvent("core_notice", {
+                detail: { url: response.url, match },
+              })
+            );
             txt = override;
           }
         }
