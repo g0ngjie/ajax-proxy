@@ -37,6 +37,26 @@
       "all_frames": true
     }
   ],
+  "commands": {
+    "open_panel": {
+      "suggested_key": {
+        "default": "Shift+Alt+Q",
+        "windows": "Shift+Alt+Q",
+        "mac": "Shift+Alt+Q",
+        "linux": "Shift+Alt+Q"
+      },
+      "description": "Open panel"
+    },
+    "close_panel": {
+      "suggested_key": {
+        "default": "Shift+Alt+C",
+        "windows": "Shift+Alt+C",
+        "mac": "Shift+Alt+C",
+        "linux": "Shift+Alt+C"
+      },
+      "description": "Close panel"
+    }
+  },
   "web_accessible_resources": [
     "core.js"
   ]

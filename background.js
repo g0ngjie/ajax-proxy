@@ -39,14 +39,65 @@ chrome.runtime.onMessage.addListener((msg) => {
   });
 });
 
-chrome.browserAction.onClicked.addListener(function (tab) {
-  chrome.windows.create({
-    url: "page/index.html",
-    type: "popup",
-    width: 1200,
-    height: 600,
-    top: 100,
+// 同步数据
+function setStore(k, v) {
+  chrome.storage.local.set({ [k]: v });
+}
+
+// 获取数据
+function getStore(key) {
+  return new Promise((resolve) => {
+    chrome.storage.local.get(key, (result) => {
+      if (result.hasOwnProperty(key)) resolve({ ok: true, data: result[key] });
+      else resolve({ ok: false });
+    });
   });
+}
+
+const WIN_ID = "__windowId";
+
+// cache windowId
+async function cacheWindowId(id) {
+  const { ok, data } = await getStore(WIN_ID);
+  if (ok) {
+    const list = data || [];
+    list.push(id);
+    setStore(WIN_ID, list);
+  } else setStore(WIN_ID, [id]);
+}
+
+// 创建视图
+function createPanel() {
+  chrome.windows.create(
+    {
+      url: "page/index.html",
+      type: "popup",
+      width: 1200,
+      height: 600,
+      top: 100,
+    },
+    function (target) {
+      cacheWindowId(target.id);
+    }
+  );
+}
+
+// 关闭试图
+async function closePanel() {
+  const { ok, data } = await getStore(WIN_ID);
+  if (ok) {
+    const list = data || [];
+    for (let i = 0; i < list.length; i++) {
+      const winId = list[i];
+      chrome.windows.remove(winId);
+    }
+    setStore(WIN_ID, []);
+  }
+}
+
+// 监听
+chrome.browserAction.onClicked.addListener(function (tab) {
+  createPanel();
 });
 
 // 设置默认icon
@@ -92,3 +143,12 @@ function chromeBadge() {
 }
 // 初始化
 chromeBadge();
+
+// commands
+chrome.commands.onCommand.addListener(function (command) {
+  if (command === "open_panel") {
+    createPanel();
+  } else if (command === "close_panel") {
+    closePanel();
+  }
+});
