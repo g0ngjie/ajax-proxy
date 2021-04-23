@@ -56,60 +56,70 @@ function getStore(key) {
 
 const WIN_ID = "__windowId";
 
-// cache windowId
-async function cacheWindowId(id) {
-  const { ok, data } = await getStore(WIN_ID);
-  if (ok) {
-    const list = data || [];
-    list.push(id);
-    setStore(WIN_ID, list);
-  } else setStore(WIN_ID, [id]);
+// 获取所有windowId
+async function getAllWindowIds() {
+  return new Promise((resolve) => {
+    chrome.windows.getAll(function (targets) {
+      const ids = targets.map((item) => item.id);
+      resolve(ids);
+    });
+  });
 }
 
 // 创建视图
-function createPanel() {
-  chrome.windows.create(
-    {
-      url: "page/index.html",
-      type: "popup",
-      width: 1200,
-      height: 600,
-      top: 100,
-    },
-    function (target) {
-      cacheWindowId(target.id);
+async function createPanel() {
+  const { ok, data: windowId } = await getStore(WIN_ID);
+  const _createFunc = function () {
+    chrome.windows.create(
+      {
+        url: "page/index.html",
+        type: "popup",
+        width: 1200,
+        height: 600,
+        top: 100,
+      },
+      function (target) {
+        setStore(WIN_ID, target.id);
+      }
+    );
+  };
+  if (!ok || !windowId) {
+    _createFunc();
+  } else {
+    // 获取所有窗口id，判断cacheId是否存在
+    // 如果已经存在则置前
+    const ids = await getAllWindowIds();
+    const exist = ids.some((item) => item === windowId);
+    if (exist) {
+      chrome.windows.update(windowId, { focused: true });
+      return;
     }
-  );
+    // 不存在，则重新创建，刷新cacheId
+    _createFunc();
+  }
 }
 
 // 关闭试图
 async function closePanel() {
-  const { ok, data } = await getStore(WIN_ID);
-  if (ok) {
-    const list = data || [];
-    for (let i = 0; i < list.length; i++) {
-      const winId = list[i];
-      chrome.windows.remove(winId);
-    }
-    setStore(WIN_ID, []);
+  const { ok, data: windowId } = await getStore(WIN_ID);
+  if (ok && windowId) {
+    chrome.windows.remove(windowId);
+    setStore(WIN_ID, "");
   }
 }
 
 // 全屏
 async function fullScreenPanel() {
-  const { ok, data } = await getStore(WIN_ID);
+  const { ok, data: windowId } = await getStore(WIN_ID);
   if (ok) {
-    const list = data || [];
     chrome.windows.getCurrent(function (current) {
-      const currentId = current.id;
-      const exist = list.some((item) => item === currentId);
-      if (exist) {
+      if (current.id === windowId) {
         switch (current.state) {
           case "fullscreen":
-            chrome.windows.update(currentId, { state: "normal" });
+            chrome.windows.update(current.id, { state: "normal" });
             break;
           default:
-            chrome.windows.update(currentId, { state: "fullscreen" });
+            chrome.windows.update(current.id, { state: "fullscreen" });
             break;
         }
       }
@@ -118,20 +128,17 @@ async function fullScreenPanel() {
 }
 
 async function resizeWindow() {
-  const { ok, data } = await getStore(WIN_ID);
+  const { ok, data: windowId } = await getStore(WIN_ID);
   if (ok) {
-    const list = data || [];
     chrome.windows.getCurrent(function (current) {
-      const currentId = current.id;
-      const exist = list.some((item) => item === currentId);
       // normal", "minimized", "maximized", or "fullscreen"
       const conf = {
         normal: "maximized",
         maximized: "fullscreen",
         fullscreen: "normal",
       };
-      if (exist)
-        chrome.windows.update(currentId, { state: conf[current.state] });
+      if (current.id === windowId)
+        chrome.windows.update(current.id, { state: conf[current.state] });
     });
   }
 }
