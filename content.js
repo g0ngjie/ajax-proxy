@@ -45,17 +45,23 @@ chrome.runtime.onMessage.addListener((msg) => {
   }
 });
 
-// 接收core.js转发给page
 window.addEventListener(
   "core_notice",
   function (event) {
-    // debugger;
-    chrome.runtime &&
+    if (chrome.runtime) {
+      // 接收core.js转发给page
       chrome.runtime.sendMessage({
         type: "__ajax_proxy",
         to: "page",
         ...event.detail,
       });
+      // 转发给background
+      chrome.runtime.sendMessage({
+        type: "__ajax_proxy",
+        to: "background",
+        key: "badge",
+      });
+    }
   },
   false
 );
