@@ -162,10 +162,14 @@ chrome.storage.local.get("globalSwitchOn", (result) => {
 
 // 通知
 function chromeNotice({ title, message }) {
-  new Notification(title, {
+  const notification = new Notification(title, {
     icon: "images/48.png",
     body: message,
   });
+  notification.onclick = function () {
+    createPanel();
+    notification.close();
+  };
 }
 
 // 同步一下 命中率
