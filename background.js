@@ -1,14 +1,17 @@
+const WIN_ID = "__windowId";
+const ROUTES_KEY = "proxy_routes";
+const GLOBAL_WTITCH_ON = "globalSwitchOn";
+const LANG = "lang";
+
 // 接收page传来的信息，转发给content.js
 chrome.runtime.onMessage.addListener((msg) => {
   if (msg.type === "__ajax_proxy" && msg.to === "background") {
-    if (msg.key === "notice") {
-      msg.value && chromeNotice(msg.value);
-    } else if (msg.key === "badge") {
+    if (msg.key === "badge") {
       // 统计一下
-      chromeBadge();
+      chromeBadge(msg.match);
     } else {
       // 统计一下
-      chromeBadge();
+      chromeBadge(msg.match);
       chrome.storage.local.get(["globalSwitchOn", "proxy_routes"], (result) => {
         if (result.hasOwnProperty("globalSwitchOn")) {
           if (result.globalSwitchOn) {
@@ -53,8 +56,6 @@ function getStore(key) {
     });
   });
 }
-
-const WIN_ID = "__windowId";
 
 // 获取所有windowId
 async function getAllWindowIds() {
@@ -167,27 +168,72 @@ function chromeNotice({ title, message }) {
   });
 }
 
-// badge
-function chromeBadge() {
-  chrome.browserAction.setBadgeBackgroundColor({ color: "#F56C6C" });
-  chrome.storage.local.get(["globalSwitchOn", "proxy_routes"], (result) => {
-    if (result.hasOwnProperty("globalSwitchOn")) {
-      if (result.globalSwitchOn) {
-        if (result.proxy_routes) {
-          const routes = result.proxy_routes || [];
-          let count = 0;
-          debugger;
-          let text = "";
-          routes.forEach((item) => {
-            if (item.switchOn && item.hit) count += item.hit;
-          });
-          if (count) text = count + "";
-          else text = "";
-          chrome.browserAction.setBadgeText({ text });
-        } else chrome.browserAction.setBadgeText({ text: "" });
-      } else chrome.browserAction.setBadgeText({ text: "" });
+// 同步一下 命中率
+async function syncRoutesAsHit(routes, match) {
+  const list = routes || [];
+  for (let i = 0; i < list.length; i++) {
+    const item = list[i];
+    if (item.switchOn && item.match === match) {
+      item.hit = item.hit ? item.hit + 1 : 1;
+      // 命中次数 太多，通知一下
+      let tooHigh = item.hit === 50;
+      // 每隔10次提醒一下
+      if (!tooHigh && item.hit > 50) {
+        tooHigh = (item.hit - 50) % 10 === 0;
+      }
+      if (tooHigh) {
+        const message = [item.match, item.remark || ""].join("\n");
+        const { ok, data } = await getStore(LANG);
+        let _lang;
+        if (!ok || !data) _lang = "en";
+        else _lang = data;
+        const i18n = {
+          en: "The percentage of hits is a little high",
+          zh: "命中率多少有点高了",
+        };
+        chromeNotice({
+          title: i18n[_lang],
+          message,
+        });
+      }
     }
-  });
+  }
+  setStore(ROUTES_KEY, list);
+  return list;
+}
+
+// badge
+async function chromeBadge(match) {
+  chrome.browserAction.setBadgeBackgroundColor({ color: "#F56C6C" });
+  const { ok: gOk, data: globalSwitchOn } = await getStore(GLOBAL_WTITCH_ON);
+  if (!gOk || !globalSwitchOn) {
+    chrome.browserAction.setBadgeText({ text: "" });
+    return;
+  }
+  const { ok: rOk, data: proxy_routes } = await getStore(ROUTES_KEY);
+  if (!rOk || !proxy_routes) {
+    chrome.browserAction.setBadgeText({ text: "" });
+    return;
+  }
+  let routes;
+  if (match) {
+    routes = await syncRoutesAsHit(proxy_routes, match);
+    // 接收content转发给page
+    chrome.runtime.sendMessage({
+      type: "__ajax_proxy",
+      to: "page",
+      match,
+    });
+  } else routes = proxy_routes || [];
+  let count = 0;
+  let text = "";
+  for (let i = 0; i < routes.length; i++) {
+    const item = routes[i];
+    if (item.switchOn && item.hit) count += item.hit;
+  }
+  if (count) text = "+" + count;
+  else text = "";
+  chrome.browserAction.setBadgeText({ text });
 }
 // 初始化
 chromeBadge();

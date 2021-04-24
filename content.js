@@ -49,17 +49,12 @@ window.addEventListener(
   "core_notice",
   function (event) {
     if (chrome.runtime) {
-      // 接收core.js转发给page
-      chrome.runtime.sendMessage({
-        type: "__ajax_proxy",
-        to: "page",
-        ...event.detail,
-      });
       // 转发给background
       chrome.runtime.sendMessage({
         type: "__ajax_proxy",
         to: "background",
         key: "badge",
+        ...event.detail,
       });
     }
   },
