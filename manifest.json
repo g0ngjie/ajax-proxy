@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "AjaxProxy",
-  "version": "1.6",
+  "version": "1.7",
   "description": "Response data for modifying Ajax",
   "author": "Gj",
   "icons": {
