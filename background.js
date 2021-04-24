@@ -175,11 +175,12 @@ async function syncRoutesAsHit(routes, match) {
     const item = list[i];
     if (item.switchOn && item.match === match) {
       item.hit = item.hit ? item.hit + 1 : 1;
+      const LIMIT = 50;
       // 命中次数 太多，通知一下
-      let tooHigh = item.hit === 50;
+      let tooHigh = item.hit === LIMIT;
       // 每隔10次提醒一下
-      if (!tooHigh && item.hit > 50) {
-        tooHigh = (item.hit - 50) % 10 === 0;
+      if (!tooHigh && item.hit > LIMIT) {
+        tooHigh = (item.hit - LIMIT) % 10 === 0;
       }
       if (tooHigh) {
         const message = [item.match, item.remark || ""].join("\n");
