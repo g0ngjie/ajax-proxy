@@ -1,12 +1,8 @@
 # Ajax proxy
 
-> Chrome plugin
->
 > Chrome extension
 >
-> Interceptor
->
-> Ajax 拦截，修改响应数据
+> Ajax 代理，数据劫持并修改响应
 
 ### 使用示例
 
