@@ -6,7 +6,11 @@
 
 ### 使用示例
 
-[视频地址(Youtube)](https://youtu.be/ckxhh98Yi-g)
+> 视频使用示例
+
+[Youtube](https://youtu.be/ckxhh98Yi-g)
+
+[BiliBili](https://www.bilibili.com/video/BV1rf4y1p749/)
 
 ![](assets/main.jpg)
 
