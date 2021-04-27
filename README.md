@@ -6,6 +6,8 @@
 
 ### 使用示例
 
+[视频地址(Youtube)](https://youtu.be/ckxhh98Yi-g)
+
 ![](assets/main.jpg)
 
 ![examples](assets/examples.jpg)
