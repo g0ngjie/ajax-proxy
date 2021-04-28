@@ -215,6 +215,7 @@ window.addEventListener(
         window.XMLHttpRequest = __ajax_global_setting.myXHR;
         window.fetch = __ajax_global_setting.myFetch;
       } else {
+        window.XMLHttpRequest = __ajax_global_setting.originalXHR;
         // 请求重定向
         _xhrRedirect(window.XMLHttpRequest);
       }
