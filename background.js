@@ -225,6 +225,11 @@ async function syncRoutesAsHit(routes, match) {
 
 // badge
 async function chromeBadge(match) {
+  const { ok: gOk, data: globalSwitchOn } = await getStore(GLOBAL_WTITCH_ON);
+  if (!gOk || !globalSwitchOn) {
+    chrome.browserAction.setBadgeText({ text: "" });
+    return;
+  }
   // 判断模式
   const { ok: mOk, data: mode } = await getStore(MODE);
   if (!mOk || mode === "redirector") {
@@ -233,11 +238,6 @@ async function chromeBadge(match) {
     return;
   }
   chrome.browserAction.setBadgeBackgroundColor({ color: "#F56C6C" });
-  const { ok: gOk, data: globalSwitchOn } = await getStore(GLOBAL_WTITCH_ON);
-  if (!gOk || !globalSwitchOn) {
-    chrome.browserAction.setBadgeText({ text: "" });
-    return;
-  }
   const { ok: rOk, data: proxy_routes } = await getStore(ROUTES_KEY);
   if (!rOk || !proxy_routes) {
     chrome.browserAction.setBadgeText({ text: "" });
