@@ -225,13 +225,14 @@ async function syncRoutesAsHit(routes, match) {
 
 // badge
 async function chromeBadge(match) {
-  chrome.browserAction.setBadgeBackgroundColor({ color: "#F56C6C" });
   // 判断模式
   const { ok: mOk, data: mode } = await getStore(MODE);
   if (!mOk || mode === "redirector") {
-    chrome.browserAction.setBadgeText({ text: "" });
+    chrome.browserAction.setBadgeBackgroundColor({ color: "#006d75" });
+    chrome.browserAction.setBadgeText({ text: "R" });
     return;
   }
+  chrome.browserAction.setBadgeBackgroundColor({ color: "#F56C6C" });
   const { ok: gOk, data: globalSwitchOn } = await getStore(GLOBAL_WTITCH_ON);
   if (!gOk || !globalSwitchOn) {
     chrome.browserAction.setBadgeText({ text: "" });
