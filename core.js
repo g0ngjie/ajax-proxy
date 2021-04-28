@@ -169,8 +169,7 @@ function _xhrRedirect(xhr) {
       if (switchOn) {
         window.XMLHttpRequest.prototype.open = function (_, url) {
           if (url.startsWith(domain)) {
-            const [, router] = url.split(domain);
-            url = url.replace(domain, redirect) + router;
+            url = url.replace(domain, redirect);
 
             this.setRequestHeader = function (header, value) {
               for (let j = 0; j < headers.length; j++) {
