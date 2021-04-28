@@ -162,10 +162,10 @@ window.addEventListener(
   false
 );
 
+/*
 const oldXHROpen = window.XMLHttpRequest.prototype.open;
 const oldXHRSetHeader = window.XMLHttpRequest.prototype.setRequestHeader;
 
-/**
 window.XMLHttpRequest.prototype.open = function (_, url) {
   const startUrl = "https://bt-web-gateway-test.beantechyun.cn";
   if (url.startsWith(startUrl)) {
@@ -179,17 +179,7 @@ window.XMLHttpRequest.prototype.open = function (_, url) {
       if (header === "sss") value = 1;
       oldXHRSetHeader.apply(this, arguments);
     };
-  } else if (url.startsWith("http://") || url.startsWith("https://")) {
-    // do nothing with the url
-  } else if (url.startsWith("//")) {
-    url = "https:" + url;
-  } else if (url.startsWith("/")) {
-    url = "https://site2.com" + url;
-  } else if (url.startsWith(".")) {
-    url = "https://site2.com" + url.replace("./", "/");
-  } else {
-    url = "https://site2.com" + url;
   }
   return oldXHROpen.apply(this, arguments);
 };
- */
+*/
