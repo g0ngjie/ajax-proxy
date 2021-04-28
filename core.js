@@ -1,6 +1,12 @@
-const __ajax_global_setting = {
+// 全局配置
+const __globalSetting = {
   // 总开关
   globalSwitchOn: false,
+  // 二选一 response | request
+  currentFocus: "request",
+};
+
+const __ajax_global_setting = {
   // 请求拦截
   proxy_routes: [],
   originalXHR: window.XMLHttpRequest,
@@ -38,7 +44,7 @@ const __ajax_global_setting = {
         xhr.onreadystatechange = (...args) => {
           if (this.readyState == 4) {
             // 请求成功
-            if (__ajax_global_setting.globalSwitchOn) {
+            if (__globalSetting.globalSwitchOn) {
               // 开启拦截
               modifyResponse();
             }
@@ -49,7 +55,7 @@ const __ajax_global_setting = {
       } else if (attr === "onload") {
         xhr.onload = (...args) => {
           // 请求成功
-          if (__ajax_global_setting.globalSwitchOn) {
+          if (__globalSetting.globalSwitchOn) {
             // 开启拦截
             modifyResponse();
           }
@@ -144,16 +150,84 @@ const __ajax_global_setting = {
   },
 };
 
+// 重定向 配置
+const __redirectSetting = {
+  rules: [
+    {
+      switchOn: true,
+      domain: "https://bt-web-gateway-test.beantechyun.cn",
+      redirect: "http://localhost:8090",
+      headers: [
+        {
+          key: "userId",
+          value: "666",
+          description: "测试",
+        },
+      ],
+    },
+  ],
+};
+
+function _xhrRedirect(xhr) {
+  const oldXHROpen = xhr.prototype.open;
+  const oldXHRSetHeader = xhr.prototype.setRequestHeader;
+  if (__globalSetting.globalSwitchOn) {
+    for (let i = 0; i < __redirectSetting.rules.length; i++) {
+      const { switchOn, domain, redirect, headers } = __redirectSetting.rules[
+        i
+      ];
+      if (switchOn) {
+        window.XMLHttpRequest.prototype.open = function (_, url) {
+          if (url.startsWith(domain)) {
+            const [, router] = url.split(domain);
+            url = url.replace(domain, redirect) + router;
+
+            this.setRequestHeader = function (header, value) {
+              for (let j = 0; j < headers.length; j++) {
+                const _header = headers[j];
+                if (_header.key === header) value = _header.value;
+              }
+              oldXHRSetHeader.apply(this, arguments);
+            };
+          }
+          return oldXHROpen.apply(this, arguments);
+        };
+      }
+    }
+  }
+}
+
 window.addEventListener(
   "message",
   function (event) {
     const data = event.data;
     if (data.type === "__ajax_proxy" && data.to === "core") {
-      __ajax_global_setting[data.key] = data.value;
+      switch (data.key) {
+        case "globalSwitchOn":
+          __globalSetting.globalSwitchOn = data.value;
+          break;
+        case "proxy_routes":
+          __ajax_global_setting.proxy_routes = data.value;
+          break;
+        case "currentFocus":
+          __globalSetting.currentFocus = data.value;
+          break;
+        case "redirect":
+          __redirectSetting.rules = data.value;
+          break;
+        default:
+          break;
+      }
     }
-    if (__ajax_global_setting.globalSwitchOn) {
-      window.XMLHttpRequest = __ajax_global_setting.myXHR;
-      window.fetch = __ajax_global_setting.myFetch;
+    if (__globalSetting.globalSwitchOn) {
+      // 判断 响应拦截 or 请求重定向 redirect
+      if (__globalSetting.currentFocus === "response") {
+        window.XMLHttpRequest = __ajax_global_setting.myXHR;
+        window.fetch = __ajax_global_setting.myFetch;
+      } else {
+        // 请求重定向
+        _xhrRedirect(window.XMLHttpRequest);
+      }
     } else {
       window.XMLHttpRequest = __ajax_global_setting.originalXHR;
       window.fetch = __ajax_global_setting.originalFetch;
@@ -161,25 +235,3 @@ window.addEventListener(
   },
   false
 );
-
-/*
-const oldXHROpen = window.XMLHttpRequest.prototype.open;
-const oldXHRSetHeader = window.XMLHttpRequest.prototype.setRequestHeader;
-
-window.XMLHttpRequest.prototype.open = function (_, url) {
-  const startUrl = "https://bt-web-gateway-test.beantechyun.cn";
-  if (url.startsWith(startUrl)) {
-    const [, router] = url.split(url, startUrl);
-    url = url.replace(startUrl, "https://bt-web-gateway-pre.beantechyun.cn");
-    // url = 'http://localhost:8090/bux-thirdsystem-api/action/v1/query-by-id'
-    const _self = this;
-    this.setRequestHeader = function (header, value) {
-      console.log("[debug]header1:", header);
-      console.log("[debug]value:1", value);
-      if (header === "sss") value = 1;
-      oldXHRSetHeader.apply(this, arguments);
-    };
-  }
-  return oldXHROpen.apply(this, arguments);
-};
-*/
