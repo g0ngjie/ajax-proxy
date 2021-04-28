@@ -161,3 +161,35 @@ window.addEventListener(
   },
   false
 );
+
+const oldXHROpen = window.XMLHttpRequest.prototype.open;
+const oldXHRSetHeader = window.XMLHttpRequest.prototype.setRequestHeader;
+
+/**
+window.XMLHttpRequest.prototype.open = function (_, url) {
+  const startUrl = "https://bt-web-gateway-test.beantechyun.cn";
+  if (url.startsWith(startUrl)) {
+    const [, router] = url.split(url, startUrl);
+    url = url.replace(startUrl, "https://bt-web-gateway-pre.beantechyun.cn");
+    // url = 'http://localhost:8090/bux-thirdsystem-api/action/v1/query-by-id'
+    const _self = this;
+    this.setRequestHeader = function (header, value) {
+      console.log("[debug]header1:", header);
+      console.log("[debug]value:1", value);
+      if (header === "sss") value = 1;
+      oldXHRSetHeader.apply(this, arguments);
+    };
+  } else if (url.startsWith("http://") || url.startsWith("https://")) {
+    // do nothing with the url
+  } else if (url.startsWith("//")) {
+    url = "https:" + url;
+  } else if (url.startsWith("/")) {
+    url = "https://site2.com" + url;
+  } else if (url.startsWith(".")) {
+    url = "https://site2.com" + url.replace("./", "/");
+  } else {
+    url = "https://site2.com" + url;
+  }
+  return oldXHROpen.apply(this, arguments);
+};
+ */
