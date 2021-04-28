@@ -3,45 +3,6 @@ const ROUTES_KEY = "proxy_routes";
 const GLOBAL_WTITCH_ON = "globalSwitchOn";
 const LANG = "lang";
 
-// 接收page传来的信息，转发给content.js
-chrome.runtime.onMessage.addListener((msg) => {
-  if (msg.type === "__ajax_proxy" && msg.to === "background") {
-    if (msg.key === "badge") {
-      // 统计一下
-      chromeBadge(msg.match);
-    } else {
-      // 统计一下
-      chromeBadge(msg.match);
-      chrome.storage.local.get(["globalSwitchOn", "proxy_routes"], (result) => {
-        if (result.hasOwnProperty("globalSwitchOn")) {
-          if (result.globalSwitchOn) {
-            postMessage({
-              type: "__ajax_proxy",
-              to: "content",
-              key: "globalSwitchOn",
-              value: result.globalSwitchOn,
-            });
-            chrome.browserAction.setIcon({ path: "/images/16.png" });
-          } else {
-            chrome.browserAction.setIcon({ path: "/images/16g.png" });
-          }
-        }
-        if (result.proxy_routes) {
-          postMessage({
-            type: "__ajax_proxy",
-            to: "content",
-            key: "proxy_routes",
-            value: result.proxy_routes,
-          });
-        }
-      });
-    }
-  }
-  chrome.tabs.query({}, function (tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, { ...msg, to: "content" });
-  });
-});
-
 // 同步数据
 function setStore(k, v) {
   chrome.storage.local.set({ [k]: v });
@@ -56,6 +17,89 @@ function getStore(key) {
     });
   });
 }
+
+// page事件分发
+async function pageEventDispatch(msg) {
+  const { key, match, value } = msg;
+  // 统计一下
+  if (key === "badge") chromeBadge(match);
+  if (key === "proxy_routes") {
+    chromeBadge(match);
+    postMessage({
+      type: "__ajax_proxy",
+      to: "content",
+      key: "proxy_routes",
+      value,
+    });
+  }
+  if (key === "globalSwitchOn") {
+    chromeBadge(match);
+    if (value) chrome.browserAction.setIcon({ path: "/images/16.png" });
+    else chrome.browserAction.setIcon({ path: "/images/16g.png" });
+    postMessage({
+      type: "__ajax_proxy",
+      to: "content",
+      key: "globalSwitchOn",
+      value,
+    });
+  }
+  if (key === "mode") {
+    postMessage({
+      type: "__ajax_proxy",
+      to: "content",
+      key: "mode",
+      value,
+    });
+  }
+  if (key === "redirect") {
+    postMessage({
+      type: "__ajax_proxy",
+      to: "content",
+      key: "redirect",
+      value,
+    });
+  }
+}
+
+// 接收page传来的信息，转发给content.js
+chrome.runtime.onMessage.addListener((msg) => {
+  if (msg.type === "__ajax_proxy" && msg.to === "background") {
+    pageEventDispatch(msg);
+    // if (msg.key === "badge") {
+    //   // 统计一下
+    //   chromeBadge(msg.match);
+    // } else {
+    //   // 统计一下
+    //   chromeBadge(msg.match);
+    //   chrome.storage.local.get(["globalSwitchOn", "proxy_routes"], (result) => {
+    //     if (result.hasOwnProperty("globalSwitchOn")) {
+    //       if (result.globalSwitchOn) {
+    //         postMessage({
+    //           type: "__ajax_proxy",
+    //           to: "content",
+    //           key: "globalSwitchOn",
+    //           value: result.globalSwitchOn,
+    //         });
+    //         chrome.browserAction.setIcon({ path: "/images/16.png" });
+    //       } else {
+    //         chrome.browserAction.setIcon({ path: "/images/16g.png" });
+    //       }
+    //     }
+    //     if (result.proxy_routes) {
+    //       postMessage({
+    //         type: "__ajax_proxy",
+    //         to: "content",
+    //         key: "proxy_routes",
+    //         value: result.proxy_routes,
+    //       });
+    //     }
+    //   });
+    // }
+  }
+  chrome.tabs.query({}, function (tabs) {
+    chrome.tabs.sendMessage(tabs[0].id, { ...msg, to: "content" });
+  });
+});
 
 // 获取所有windowId
 async function getAllWindowIds() {

@@ -5,46 +5,65 @@ script.setAttribute("src", chrome.extension.getURL("core.js"));
 document.documentElement.appendChild(script);
 
 script.addEventListener("load", () => {
-  chrome.storage.local.get(["globalSwitchOn", "proxy_routes"], (result) => {
-    if (result.hasOwnProperty("globalSwitchOn")) {
-      postMessage({
-        type: "__ajax_proxy",
-        to: "core",
-        key: "globalSwitchOn",
-        value: result.globalSwitchOn,
-      });
+  chrome.storage.local.get(
+    ["globalSwitchOn", "proxy_routes", "mode", "redirect"],
+    (result) => {
+      if (result.hasOwnProperty("globalSwitchOn")) {
+        postMessage({
+          type: "__ajax_proxy",
+          to: "core",
+          key: "globalSwitchOn",
+          value: result.globalSwitchOn,
+        });
+      }
+      if (result.proxy_routes) {
+        postMessage({
+          type: "__ajax_proxy",
+          to: "core",
+          key: "proxy_routes",
+          value: result.proxy_routes,
+        });
+      }
+      if (result.mode) {
+        postMessage({
+          type: "__ajax_proxy",
+          to: "core",
+          key: "mode",
+          value: result.mode,
+        });
+      }
+      if (result.redirect) {
+        postMessage({
+          type: "__ajax_proxy",
+          to: "core",
+          key: "redirect",
+          value: result.redirect,
+        });
+      }
     }
-    if (result.proxy_routes) {
-      postMessage({
-        type: "__ajax_proxy",
-        to: "core",
-        key: "proxy_routes",
-        value: result.proxy_routes,
-      });
-    }
-  });
+  );
 });
 
 // 接收background.js传来的信息，转发给core
 chrome.runtime.onMessage.addListener((msg) => {
   if (msg.type === "__ajax_proxy" && msg.to === "content") {
-    if (msg.key === "globalSwitchOn")
+    const _isInclude = [
+      "globalSwitchOn",
+      "proxy_routes",
+      "mode",
+      "redirect",
+    ].includes(msg.key);
+    if (_isInclude)
       postMessage({
         type: "__ajax_proxy",
         to: "core",
-        key: "globalSwitchOn",
-        value: msg.value,
-      });
-    else if (msg.key === "proxy_routes")
-      postMessage({
-        type: "__ajax_proxy",
-        to: "core",
-        key: "proxy_routes",
+        key: msg.key,
         value: msg.value,
       });
   }
 });
 
+// 接收core传来的信息,转发给background
 window.addEventListener(
   "core_notice",
   function (event) {

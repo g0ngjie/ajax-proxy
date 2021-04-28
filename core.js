@@ -3,7 +3,7 @@ const __globalSetting = {
   // 总开关
   globalSwitchOn: false,
   // 二选一 response | request
-  currentFocus: "request",
+  mode: "interceptor",
 };
 
 const __ajax_global_setting = {
@@ -152,20 +152,7 @@ const __ajax_global_setting = {
 
 // 重定向 配置
 const __redirectSetting = {
-  rules: [
-    {
-      switchOn: true,
-      domain: "https://bt-web-gateway-test.beantechyun.cn",
-      redirect: "http://localhost:8090",
-      headers: [
-        {
-          key: "userId",
-          value: "666",
-          description: "测试",
-        },
-      ],
-    },
-  ],
+  rules: [],
 };
 
 function _xhrRedirect(xhr) {
@@ -173,9 +160,12 @@ function _xhrRedirect(xhr) {
   const oldXHRSetHeader = xhr.prototype.setRequestHeader;
   if (__globalSetting.globalSwitchOn) {
     for (let i = 0; i < __redirectSetting.rules.length; i++) {
-      const { switchOn, domain, redirect, headers } = __redirectSetting.rules[
-        i
-      ];
+      const {
+        switchOn = true,
+        domain = "",
+        redirect = "",
+        headers = [],
+      } = __redirectSetting.rules[i];
       if (switchOn) {
         window.XMLHttpRequest.prototype.open = function (_, url) {
           if (url.startsWith(domain)) {
@@ -209,8 +199,8 @@ window.addEventListener(
         case "proxy_routes":
           __ajax_global_setting.proxy_routes = data.value;
           break;
-        case "currentFocus":
-          __globalSetting.currentFocus = data.value;
+        case "mode":
+          __globalSetting.mode = data.value;
           break;
         case "redirect":
           __redirectSetting.rules = data.value;
@@ -221,7 +211,7 @@ window.addEventListener(
     }
     if (__globalSetting.globalSwitchOn) {
       // 判断 响应拦截 or 请求重定向 redirect
-      if (__globalSetting.currentFocus === "response") {
+      if (__globalSetting.mode === "interceptor") {
         window.XMLHttpRequest = __ajax_global_setting.myXHR;
         window.fetch = __ajax_global_setting.myFetch;
       } else {
