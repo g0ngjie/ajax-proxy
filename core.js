@@ -3,7 +3,7 @@ const __globalSetting = {
   // 总开关
   globalSwitchOn: false,
   // 二选一 response | request
-  mode: "interceptor",
+  mode: "",
 };
 
 const __ajax_global_setting = {

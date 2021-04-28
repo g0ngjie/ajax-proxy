@@ -1,6 +1,7 @@
 const WIN_ID = "__windowId";
 const ROUTES_KEY = "proxy_routes";
 const GLOBAL_WTITCH_ON = "globalSwitchOn";
+const MODE = "mode";
 const LANG = "lang";
 
 // 同步数据
@@ -44,6 +45,7 @@ async function pageEventDispatch(msg) {
     });
   }
   if (key === "mode") {
+    chromeBadge();
     postMessage({
       type: "__ajax_proxy",
       to: "content",
@@ -65,36 +67,6 @@ async function pageEventDispatch(msg) {
 chrome.runtime.onMessage.addListener((msg) => {
   if (msg.type === "__ajax_proxy" && msg.to === "background") {
     pageEventDispatch(msg);
-    // if (msg.key === "badge") {
-    //   // 统计一下
-    //   chromeBadge(msg.match);
-    // } else {
-    //   // 统计一下
-    //   chromeBadge(msg.match);
-    //   chrome.storage.local.get(["globalSwitchOn", "proxy_routes"], (result) => {
-    //     if (result.hasOwnProperty("globalSwitchOn")) {
-    //       if (result.globalSwitchOn) {
-    //         postMessage({
-    //           type: "__ajax_proxy",
-    //           to: "content",
-    //           key: "globalSwitchOn",
-    //           value: result.globalSwitchOn,
-    //         });
-    //         chrome.browserAction.setIcon({ path: "/images/16.png" });
-    //       } else {
-    //         chrome.browserAction.setIcon({ path: "/images/16g.png" });
-    //       }
-    //     }
-    //     if (result.proxy_routes) {
-    //       postMessage({
-    //         type: "__ajax_proxy",
-    //         to: "content",
-    //         key: "proxy_routes",
-    //         value: result.proxy_routes,
-    //       });
-    //     }
-    //   });
-    // }
   }
   chrome.tabs.query({}, function (tabs) {
     chrome.tabs.sendMessage(tabs[0].id, { ...msg, to: "content" });
@@ -254,6 +226,12 @@ async function syncRoutesAsHit(routes, match) {
 // badge
 async function chromeBadge(match) {
   chrome.browserAction.setBadgeBackgroundColor({ color: "#F56C6C" });
+  // 判断模式
+  const { ok: mOk, data: mode } = await getStore(MODE);
+  if (!mOk || mode === "redirector") {
+    chrome.browserAction.setBadgeText({ text: "" });
+    return;
+  }
   const { ok: gOk, data: globalSwitchOn } = await getStore(GLOBAL_WTITCH_ON);
   if (!gOk || !globalSwitchOn) {
     chrome.browserAction.setBadgeText({ text: "" });
