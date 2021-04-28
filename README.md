@@ -4,19 +4,16 @@
 >
 > Ajax 代理，数据劫持并修改响应
 
-
-
-- [x] XMLHttpRequest、fetch代理
-
-- [x] 扩展Icon状态[启动/禁用]
+- [x] XMLHttpRequest、fetch 代理
+- [x] XMLHttpRequest 重定向
+- [ ] fetch 重定向
+- [x] 扩展 Icon 状态[启动/禁用]
 - [x] 国际化[中/英]
-- [x] JSON编辑器
+- [x] JSON 编辑器
 - [x] 标签、筛选
 - [x] 数据备份/恢复
 - [x] 快捷键映射
 - [x] 命中率统计
-
-
 
 ### 使用示例
 
