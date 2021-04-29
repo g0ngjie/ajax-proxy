@@ -5,8 +5,7 @@
 > Ajax 代理，数据劫持并修改响应
 
 - [x] XMLHttpRequest、fetch 代理
-- [x] XMLHttpRequest 重定向
-- [ ] fetch 重定向
+- [x] XMLHttpRequest、fetch 重定向
 - [x] 扩展 Icon 状态[启动/禁用]
 - [x] 国际化[中/英]
 - [x] JSON 编辑器
