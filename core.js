@@ -155,19 +155,19 @@ const __redirectSetting = {
   rules: [],
 };
 
-function _xhrRedirect(xhr) {
-  const oldXHROpen = xhr.prototype.open;
-  const oldXHRSetHeader = xhr.prototype.setRequestHeader;
+function _xhrRedirect() {
+  const oldXHROpen = window.XMLHttpRequest.prototype.open;
+  const oldXHRSetHeader = window.XMLHttpRequest.prototype.setRequestHeader;
   if (__globalSetting.globalSwitchOn) {
-    for (let i = 0; i < __redirectSetting.rules.length; i++) {
-      const {
-        switchOn = true,
-        domain = "",
-        redirect = "",
-        headers = [],
-      } = __redirectSetting.rules[i];
-      if (switchOn) {
-        window.XMLHttpRequest.prototype.open = function (_, url) {
+    window.XMLHttpRequest.prototype.open = function (_, url) {
+      for (let i = 0; i < __redirectSetting.rules.length; i++) {
+        const {
+          switchOn = true,
+          domain = "",
+          redirect = "",
+          headers = [],
+        } = __redirectSetting.rules[i];
+        if (switchOn) {
           if (url.startsWith(domain)) {
             url = url.replace(domain, redirect);
 
@@ -179,11 +179,41 @@ function _xhrRedirect(xhr) {
               oldXHRSetHeader.apply(this, arguments);
             };
           }
-          return oldXHROpen.apply(this, arguments);
-        };
+          oldXHROpen.apply(this, arguments);
+        }
+      }
+    };
+  }
+}
+
+function _fetchRedirect() {
+  const originFetch = window.fetch.bind(window);
+  window.fetch = function (url, options) {
+    for (let i = 0; i < __redirectSetting.rules.length; i++) {
+      const {
+        switchOn = true,
+        domain = "",
+        redirect = "",
+        headers = [],
+      } = __redirectSetting.rules[i];
+      if (switchOn) {
+        let matched = false;
+        if (url.startsWith(domain)) {
+          url = url.replace(domain, redirect);
+          matched = true;
+        }
+        if (matched) {
+          for (let j = 0; j < headers.length; j++) {
+            const { key, value } = headers[j];
+            if (options && key in options.headers) {
+              options.headers[key] = value;
+            }
+          }
+        }
       }
     }
-  }
+    originFetch.call(this, url, options);
+  };
 }
 
 window.addEventListener(
@@ -215,8 +245,10 @@ window.addEventListener(
         window.fetch = __ajax_global_setting.myFetch;
       } else {
         window.XMLHttpRequest = __ajax_global_setting.originalXHR;
+        window.fetch = __ajax_global_setting.originalFetch;
         // 请求重定向
-        _xhrRedirect(window.XMLHttpRequest);
+        _xhrRedirect();
+        _fetchRedirect();
       }
     } else {
       window.XMLHttpRequest = __ajax_global_setting.originalXHR;
