@@ -247,7 +247,7 @@ window.addEventListener(
       if (__globalSetting.mode === "interceptor") {
         window.XMLHttpRequest = __ajax_global_setting.myXHR;
         window.fetch = __ajax_global_setting.myFetch;
-      } else {
+      } else if (__globalSetting.mode === "redirector") {
         window.XMLHttpRequest = __ajax_global_setting.originalXHR;
         window.fetch = __ajax_global_setting.originalFetch;
         // 请求重定向
