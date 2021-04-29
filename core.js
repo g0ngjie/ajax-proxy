@@ -178,10 +178,12 @@ function _xhrRedirect() {
               }
               oldXHRSetHeader.apply(this, arguments);
             };
+            // 值取当前命中的第一个，后续再命中的忽略
+            break;
           }
-          oldXHROpen.apply(this, arguments);
         }
       }
+      oldXHROpen.apply(this, arguments);
     };
   }
 }
@@ -209,6 +211,8 @@ function _fetchRedirect() {
               options.headers[key] = value;
             }
           }
+          // 值取当前命中的第一个，后续再命中的忽略
+          break;
         }
       }
     }
