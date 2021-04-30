@@ -2,7 +2,7 @@
 
 > Chrome extension
 >
-> Ajax 代理，数据劫持并修改响应
+> 轻量级Ajax代理 数据劫持并修改响应 & 重定向 URL
 
 - [x] XMLHttpRequest、fetch 代理
 - [x] XMLHttpRequest、fetch 重定向
