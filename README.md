@@ -22,9 +22,9 @@
 
 [BiliBili](https://www.bilibili.com/video/BV1rf4y1p749/)
 
-![](assets/main.jpg)
+![](https://github.com/g0ngjie/ajax-proxy/wiki/images/intercept.png)
 
-![examples](assets/examples.jpg)
+![examples](https://github.com/g0ngjie/ajax-proxy/wiki/images/examples.png)
 
 ### 快捷键
 
