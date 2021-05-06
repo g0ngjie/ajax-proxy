@@ -1,6 +1,6 @@
 # Ajax proxy
 
-> Chrome extension & edge-extension
+> Chrome、Edge、Firefox
 >
 > 轻量级 Ajax 代理 数据劫持并修改响应 & 重定向 URL
 
