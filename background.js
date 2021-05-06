@@ -6,13 +6,13 @@ const LANG = "lang";
 
 // 同步数据
 function setStore(k, v) {
-  chrome.storage.local.set({ [k]: v });
+  browser.storage.local.set({ [k]: v });
 }
 
 // 获取数据
 function getStore(key) {
   return new Promise((resolve) => {
-    chrome.storage.local.get(key, (result) => {
+    browser.storage.local.get(key, (result) => {
       if (result.hasOwnProperty(key)) resolve({ ok: true, data: result[key] });
       else resolve({ ok: false });
     });
@@ -35,8 +35,8 @@ async function pageEventDispatch(msg) {
   }
   if (key === "globalSwitchOn") {
     chromeBadge(match);
-    if (value) chrome.browserAction.setIcon({ path: "/images/16.png" });
-    else chrome.browserAction.setIcon({ path: "/images/16g.png" });
+    if (value) browser.browserAction.setIcon({ path: "/images/16.png" });
+    else browser.browserAction.setIcon({ path: "/images/16g.png" });
     postMessage({
       type: "__ajax_proxy",
       to: "content",
@@ -64,19 +64,19 @@ async function pageEventDispatch(msg) {
 }
 
 // 接收page传来的信息，转发给content.js
-chrome.runtime.onMessage.addListener((msg) => {
+browser.runtime.onMessage.addListener((msg) => {
   if (msg.type === "__ajax_proxy" && msg.to === "background") {
     pageEventDispatch(msg);
   }
-  chrome.tabs.query({}, function (tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, { ...msg, to: "content" });
+  browser.tabs.query({}, function (tabs) {
+    browser.tabs.sendMessage(tabs[0].id, { ...msg, to: "content" });
   });
 });
 
 // 获取所有windowId
 async function getAllWindowIds() {
   return new Promise((resolve) => {
-    chrome.windows.getAll(function (targets) {
+    browser.windows.getAll(function (targets) {
       const ids = targets.map((item) => item.id);
       resolve(ids);
     });
@@ -87,7 +87,7 @@ async function getAllWindowIds() {
 async function createPanel() {
   const { ok, data: windowId } = await getStore(WIN_ID);
   const _createFunc = function () {
-    chrome.windows.create(
+    browser.windows.create(
       {
         url: "page/index.html",
         type: "popup",
@@ -108,7 +108,7 @@ async function createPanel() {
     const ids = await getAllWindowIds();
     const exist = ids.some((item) => item === windowId);
     if (exist) {
-      chrome.windows.update(windowId, { focused: true });
+      browser.windows.update(windowId, { focused: true });
       return;
     }
     // 不存在，则重新创建，刷新cacheId
@@ -120,7 +120,7 @@ async function createPanel() {
 async function closePanel() {
   const { ok, data: windowId } = await getStore(WIN_ID);
   if (ok && windowId) {
-    chrome.windows.remove(windowId);
+    browser.windows.remove(windowId);
     setStore(WIN_ID, "");
   }
 }
@@ -129,14 +129,14 @@ async function closePanel() {
 async function fullScreenPanel() {
   const { ok, data: windowId } = await getStore(WIN_ID);
   if (ok) {
-    chrome.windows.getCurrent(function (current) {
+    browser.windows.getCurrent(function (current) {
       if (current.id === windowId) {
         switch (current.state) {
           case "fullscreen":
-            chrome.windows.update(current.id, { state: "normal" });
+            browser.windows.update(current.id, { state: "normal" });
             break;
           default:
-            chrome.windows.update(current.id, { state: "fullscreen" });
+            browser.windows.update(current.id, { state: "fullscreen" });
             break;
         }
       }
@@ -147,7 +147,7 @@ async function fullScreenPanel() {
 async function resizeWindow() {
   const { ok, data: windowId } = await getStore(WIN_ID);
   if (ok) {
-    chrome.windows.getCurrent(function (current) {
+    browser.windows.getCurrent(function (current) {
       // normal", "minimized", "maximized", or "fullscreen"
       const conf = {
         normal: "maximized",
@@ -155,23 +155,23 @@ async function resizeWindow() {
         fullscreen: "normal",
       };
       if (current.id === windowId)
-        chrome.windows.update(current.id, { state: conf[current.state] });
+      browser.windows.update(current.id, { state: conf[current.state] });
     });
   }
 }
 
 // 监听
-chrome.browserAction.onClicked.addListener(function (tab) {
+browser.browserAction.onClicked.addListener(function (tab) {
   createPanel();
 });
 
 // 设置默认icon
-chrome.storage.local.get("globalSwitchOn", (result) => {
+browser.storage.local.get("globalSwitchOn", (result) => {
   if (result.hasOwnProperty("globalSwitchOn")) {
     if (result.globalSwitchOn) {
-      chrome.browserAction.setIcon({ path: "/images/16.png" });
+      browser.browserAction.setIcon({ path: "/images/16.png" });
     } else {
-      chrome.browserAction.setIcon({ path: "/images/16g.png" });
+      browser.browserAction.setIcon({ path: "/images/16g.png" });
     }
   }
 });
@@ -227,27 +227,27 @@ async function syncRoutesAsHit(routes, match) {
 async function chromeBadge(match) {
   const { ok: gOk, data: globalSwitchOn } = await getStore(GLOBAL_WTITCH_ON);
   if (!gOk || !globalSwitchOn) {
-    chrome.browserAction.setBadgeText({ text: "" });
+    browser.browserAction.setBadgeText({ text: "" });
     return;
   }
   // 判断模式
   const { ok: mOk, data: mode } = await getStore(MODE);
   if (!mOk || mode === "redirector") {
-    chrome.browserAction.setBadgeBackgroundColor({ color: "#006d75" });
-    chrome.browserAction.setBadgeText({ text: "R" });
+    browser.browserAction.setBadgeBackgroundColor({ color: "#006d75" });
+    browser.browserAction.setBadgeText({ text: "R" });
     return;
   }
-  chrome.browserAction.setBadgeBackgroundColor({ color: "#F56C6C" });
+  browser.browserAction.setBadgeBackgroundColor({ color: "#F56C6C" });
   const { ok: rOk, data: proxy_routes } = await getStore(ROUTES_KEY);
   if (!rOk || !proxy_routes) {
-    chrome.browserAction.setBadgeText({ text: "" });
+    browser.browserAction.setBadgeText({ text: "" });
     return;
   }
   let routes;
   if (match) {
     routes = await syncRoutesAsHit(proxy_routes, match);
     // 接收content转发给page
-    chrome.runtime.sendMessage({
+    browser.runtime.sendMessage({
       type: "__ajax_proxy",
       to: "page",
       match,
@@ -261,13 +261,13 @@ async function chromeBadge(match) {
   }
   if (count) text = "+" + count;
   else text = "";
-  chrome.browserAction.setBadgeText({ text });
+  browser.browserAction.setBadgeText({ text });
 }
 // 初始化
 chromeBadge();
 
 // commands
-chrome.commands.onCommand.addListener(function (command) {
+browser.commands.onCommand.addListener(function (command) {
   switch (command) {
     case "open_panel":
       createPanel();
