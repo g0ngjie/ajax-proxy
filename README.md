@@ -16,6 +16,9 @@
 
 ### 地址
 
+> 待 2020 年 3 月 24 日过后，Chrome 网上应用店将不再接受新的 Chrome 应用。
+> 所以 Chrome 版只能通过本地加载扩展程序的方式去使用
+
 - [Chromium 内核 Edge 版](https://microsoftedge.microsoft.com/addons/detail/ajaxproxy/iladajdkobpmadjfpeginhngnneaoefi?hl=zh-CN)
 - [Firefox 版](https://addons.mozilla.org/zh-CN/firefox/addon/ajaxproxy/?utm_source=addons.mozilla.org&utm_medium=referral&utm_content=search)
 
