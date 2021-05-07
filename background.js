@@ -35,8 +35,8 @@ async function pageEventDispatch(msg) {
   }
   if (key === "globalSwitchOn") {
     chromeBadge(match);
-    if (value) browser.browserAction.setIcon({ path: "/images/16.png" });
-    else browser.browserAction.setIcon({ path: "/images/16g.png" });
+    if (value) browser.browserAction.setIcon({ path: "/images/48.png" });
+    else browser.browserAction.setIcon({ path: "/images/48g.png" });
     postMessage({
       type: "__ajax_proxy",
       to: "content",
@@ -169,9 +169,9 @@ browser.browserAction.onClicked.addListener(function (tab) {
 browser.storage.local.get("globalSwitchOn", (result) => {
   if (result.hasOwnProperty("globalSwitchOn")) {
     if (result.globalSwitchOn) {
-      browser.browserAction.setIcon({ path: "/images/16.png" });
+      browser.browserAction.setIcon({ path: "/images/48.png" });
     } else {
-      browser.browserAction.setIcon({ path: "/images/16g.png" });
+      browser.browserAction.setIcon({ path: "/images/48g.png" });
     }
   }
 });
