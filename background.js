@@ -232,7 +232,7 @@ async function chromeBadge(match) {
   }
   // 判断模式
   const { ok: mOk, data: mode } = await getStore(MODE);
-  if (!mOk || mode === "redirector") {
+  if (mOk && mode === "redirector") {
     browser.browserAction.setBadgeBackgroundColor({ color: "#006d75" });
     browser.browserAction.setBadgeText({ text: "R" });
     return;
