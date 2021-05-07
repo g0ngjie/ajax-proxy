@@ -17,7 +17,7 @@
     "notifications"
   ],
   "browser_action": {
-    "default_icon": "images/48.png"
+    "default_icon": "images/48g.png"
   },
   "background": {
     "scripts": [
