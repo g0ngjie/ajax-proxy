@@ -1,17 +1,14 @@
 # Ajax proxy
 
 > Chrome、Edge、Firefox
->
-> 轻量级 Ajax 代理 数据劫持并修改响应 & 重定向 URL
 
-- [x] XMLHttpRequest、fetch 代理
-- [x] XMLHttpRequest、fetch 重定向
-- [x] 扩展 Icon 状态[启动/禁用]
-- [x] 国际化[中/英]
+- [x] 响应劫持
+- [x] 重定向
+- [x] 中/英支持
 - [x] JSON 编辑器
 - [x] 标签、筛选
 - [x] 数据备份/恢复
-- [x] 快捷键映射
+- [x] 快捷键
 - [x] 命中率统计
 
 ### 地址
