@@ -68,9 +68,6 @@ chrome.runtime.onMessage.addListener((msg) => {
   if (msg.type === "__ajax_proxy" && msg.to === "background") {
     pageEventDispatch(msg);
   }
-  chrome.tabs.query({}, function (tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, { ...msg, to: "content" });
-  });
 });
 
 // 获取所有windowId

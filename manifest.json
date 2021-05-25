@@ -9,7 +9,6 @@
   },
   "permissions": [
     "storage",
-    "tabs",
     "http://*/",
     "https://*/",
     "notifications"
