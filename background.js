@@ -88,8 +88,8 @@ async function createPanel() {
       {
         url: "page/index.html",
         type: "popup",
-        width: 1200,
-        height: 600,
+        width: 1230,
+        height: 720,
         top: 100,
       },
       function (target) {

@@ -6,6 +6,28 @@ const __globalSetting = {
   mode: "",
 };
 
+/**
+ * 判断响应url是否与规则相匹配
+ * @param {String} url 响应url
+ * @param {String} match 匹配规则
+ * @param {String} type 匹配类型 normal | regex
+ */
+function matchUrl(url, match, type = "normal") {
+  // type默认为 normal，兼容版本升级后type为null问题
+  let matched = false;
+  switch (type) {
+    // 普通匹配规则
+    case "normal":
+      matched = url.includes(match);
+      break;
+    // 正则匹配规则
+    case "regex":
+      matched = url.match(new RegExp(match, "i"));
+      break;
+  }
+  return matched;
+}
+
 const __ajax_global_setting = {
   // 请求拦截
   proxy_routes: [],
@@ -14,12 +36,13 @@ const __ajax_global_setting = {
     let pageScriptEventDispatched = false;
     const modifyResponse = () => {
       __ajax_global_setting.proxy_routes.forEach(
-        ({ switchOn = true, match, override = "" }) => {
+        ({ switchOn = true, match, override = "", filterType }) => {
           let matched = false;
           // 是否需要匹配
-          if (switchOn && match)
-            // 判断是否匹配到
-            matched = this.responseURL.includes(match);
+          if (switchOn && match) {
+            // 规则匹配
+            matched = matchUrl(this.responseURL, match, filterType);
+          }
           if (matched) {
             this.responseText = override;
             this.response = override;
@@ -91,12 +114,13 @@ const __ajax_global_setting = {
     return __ajax_global_setting.originalFetch(...args).then((response) => {
       let txt = undefined;
       __ajax_global_setting.proxy_routes.forEach(
-        ({ switchOn = true, match, override = "" }) => {
+        ({ switchOn = true, match, override = "", filterType }) => {
           let matched = false;
           // 是否需要匹配
-          if (switchOn && match)
-            // 判断是否匹配到
-            matched = response.url.includes(match);
+          if (switchOn && match) {
+            // 规则匹配
+            matched = matchUrl(response.url, match, filterType);
+          }
           if (matched) {
             // 通知到 content 命中统计
             window.dispatchEvent(
@@ -155,6 +179,33 @@ const __redirectSetting = {
   rules: [],
 };
 
+// 再根据规则匹配
+function matchWhitelistAndRule(url, domain, type = "normal", whitelist) {
+  let matched = false;
+  // 先判断是否白名单过滤
+  const findOne = whitelist.find((target) => url.includes(target));
+  // 白名单过滤掉
+  if (findOne) return matched;
+  matched = matchUrl(url, domain, type);
+  return matched;
+}
+
+// 获取重定向URL
+function getFinalRedirectUrl(url, match, redirect, type = "normal") {
+  let finalUrl = url;
+  switch (type) {
+    // 普通替换
+    case "normal":
+      finalUrl = url.replace(match, redirect);
+      break;
+    // 正则替换
+    case "regex":
+      finalUrl = url.replace(new RegExp(match, "i"), redirect);
+      break;
+  }
+  return finalUrl;
+}
+
 function _xhrRedirect() {
   const oldXHROpen = window.XMLHttpRequest.prototype.open;
   const oldXHRSetHeader = window.XMLHttpRequest.prototype.setRequestHeader;
@@ -164,20 +215,30 @@ function _xhrRedirect() {
         const {
           switchOn = true,
           domain = "",
+          filterType,
           redirect = "",
           headers = [],
+          whitelist = [],
         } = __redirectSetting.rules[i];
         if (switchOn) {
-          if (url.startsWith(domain)) {
-            url = url.replace(domain, redirect);
+          // if (url.startsWith(domain)) {
+          if (matchWhitelistAndRule(url, domain, filterType, whitelist)) {
+            // url = url.replace(domain, redirect);
+            url = getFinalRedirectUrl(url, domain, redirect, filterType);
 
             this.setRequestHeader = function (header, value) {
               for (let j = 0; j < headers.length; j++) {
                 const _header = headers[j];
+                // 老版本只做替换
                 if (_header.key === header) value = _header.value;
               }
               oldXHRSetHeader.apply(this, arguments);
             };
+            // 全部替换&新增
+            // for (let j = 0; j < headers.length; j++) {
+            //   const { key, value } = headers[j];
+            //   this.setRequestHeader(key, value);
+            // }
             // 值取当前命中的第一个，后续再命中的忽略
             break;
           }
@@ -195,28 +256,44 @@ function _fetchRedirect() {
       const {
         switchOn = true,
         domain = "",
+        filterType,
         redirect = "",
         headers = [],
+        whitelist = [],
       } = __redirectSetting.rules[i];
       if (switchOn) {
         let matched = false;
-        if (url.startsWith(domain)) {
-          url = url.replace(domain, redirect);
+        // if (url.startsWith(domain)) {
+        if (matchWhitelistAndRule(url, domain, filterType, whitelist)) {
+          // url = url.replace(domain, redirect);
+          url = getFinalRedirectUrl(url, domain, redirect, filterType);
           matched = true;
         }
         if (matched) {
           for (let j = 0; j < headers.length; j++) {
             const { key, value } = headers[j];
-            if (options && key in options.headers) {
-              options.headers[key] = value;
-            }
+            // 老版本只做替换
+            // if (options && options.headers && key in options.headers) {
+            //   options.headers[key] = value;
+            // }
+            // 全部替换&新增
+            // options.headers[key] = value;
+            // if (options) {
+            //   // alert(value)
+            //   // options.headers[key] = value;
+            //   // options?.headers?.append(key, value)
+            //   options?.headers?.set(key, value)
+            // }
+            if (options && options.headers) options.headers = new Headers({ key, value });
+            // fetch.headers.set(key, value)
+
           }
           // 值取当前命中的第一个，后续再命中的忽略
           break;
         }
       }
     }
-    originFetch.call(this, url, options);
+    return Promise.resolve(originFetch.call(this, url, options));
   };
 }
 
