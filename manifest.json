@@ -9,8 +9,7 @@
   },
   "permissions": [
     "storage",
-    "http://*/",
-    "https://*/",
+    "<all_urls>",
     "notifications"
   ],
   "browser_action": {
@@ -25,8 +24,7 @@
   "content_scripts": [
     {
       "matches": [
-        "http://*/",
-        "https://*/"
+        "<all_urls>"
       ],
       "js": [
         "content.js"
