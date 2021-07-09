@@ -234,11 +234,6 @@ function _xhrRedirect() {
               }
               oldXHRSetHeader.apply(this, arguments);
             };
-            // 全部替换&新增
-            // for (let j = 0; j < headers.length; j++) {
-            //   const { key, value } = headers[j];
-            //   this.setRequestHeader(key, value);
-            // }
             // 值取当前命中的第一个，后续再命中的忽略
             break;
           }
@@ -272,21 +267,9 @@ function _fetchRedirect() {
         if (matched) {
           for (let j = 0; j < headers.length; j++) {
             const { key, value } = headers[j];
-            // 老版本只做替换
-            // if (options && options.headers && key in options.headers) {
-            //   options.headers[key] = value;
-            // }
-            // 全部替换&新增
-            // options.headers[key] = value;
-            // if (options) {
-            //   // alert(value)
-            //   // options.headers[key] = value;
-            //   // options?.headers?.append(key, value)
-            //   options?.headers?.set(key, value)
-            // }
-            if (options && options.headers) options.headers = new Headers({ key, value });
-            // fetch.headers.set(key, value)
-
+            if (options && options.headers && key in options.headers) {
+              options.headers[key] = value;
+            }
           }
           // 值取当前命中的第一个，后续再命中的忽略
           break;
