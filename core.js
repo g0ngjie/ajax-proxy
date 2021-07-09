@@ -229,7 +229,6 @@ function _xhrRedirect() {
             this.setRequestHeader = function (header, value) {
               for (let j = 0; j < headers.length; j++) {
                 const _header = headers[j];
-                // 老版本只做替换
                 if (_header.key === header) value = _header.value;
               }
               oldXHRSetHeader.apply(this, arguments);
