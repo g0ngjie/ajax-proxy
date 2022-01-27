@@ -9,7 +9,7 @@ vue 为视图文件所在目录
 
 ### 调试模式
 
-1. 如果已经安装了 ajax-proxy 插件，因为 background.js 脚本常驻后台，会影响调试。需先卸载。
+1. 如果已经安装了 ajax-proxy 插件，因为 background.js 脚本常驻后台，会影响调试，需先卸载原有插件。
    运行 vue 文件夹的项目，并修改 extensions 文件夹下，background.js 里视图 url 地址。如下
 
 ```js
