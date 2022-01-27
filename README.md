@@ -1,3 +1,7 @@
+## Ajax Proxy
+
+原始项目已迁移 _main-history-20220127_
+
 ### 目录结构
 
 extensions 为浏览器插件目录
