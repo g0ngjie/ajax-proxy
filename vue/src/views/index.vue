@@ -109,11 +109,7 @@ export default {
         // 没有数据可以下载
         return this.$message.warning(this.$t("toolbar.no_down_data"));
       simpleDownload(
-        JSON.stringify(
-          { lang, proxy_routes, tags, mode, redirect },
-          null,
-          "\t"
-        ),
+        JSON.stringify({ lang, proxy_routes, tags, mode, redirect }),
         `${value}.json`
       );
     },
