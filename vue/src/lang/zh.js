@@ -40,7 +40,7 @@ export default {
         placeholder: "http|https://foo2.com",
       },
       headers: {
-        name: "请求头",
+        name: "请求头修改",
         key: "Key",
         value: "Value",
         option: "选项",
@@ -50,7 +50,7 @@ export default {
         valueMsg: "value值不能为空",
         description: "描述",
       },
-      whitelist: "白名单",
+      whitelist: "排除名单",
       noEmpty: "不能为空",
     },
     btn: {

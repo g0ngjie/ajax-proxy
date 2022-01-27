@@ -40,7 +40,7 @@ export default {
         placeholder: "http|https://foo2.com",
       },
       headers: {
-        name: "Headers",
+        name: "Request header modification",
         key: "Key",
         value: "Value",
         option: "Option",
@@ -50,7 +50,7 @@ export default {
         valueMsg: "value cannot be empty",
         description: "Description",
       },
-      whitelist: "Whitelist",
+      whitelist: "Exclusion list",
       noEmpty: "Cannot be empty",
     },
     btn: {

@@ -164,7 +164,7 @@
                 :prop="`whitelist[${index}]`"
               >
                 <el-input
-                  :placeholder="$t('modal.form.placeholder')"
+                  placeholder="http|https://foo.xxx"
                   v-model="form.whitelist[index]"
                 >
                   <el-button
