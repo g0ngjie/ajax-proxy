@@ -49,6 +49,8 @@ npm run build
 
 根目录下生成扩展文件
 
+> 开发环境为 Linux，如 Windows 用户无需用此方式
+
 ```shell
 ./zip.sh
 ```
