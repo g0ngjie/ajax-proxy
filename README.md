@@ -2,30 +2,22 @@
 
 原始项目已迁移 _main-history-20220127_
 
-### 安装
-
----
+## 安装
 
 [Edge 版本](https://microsoftedge.microsoft.com/addons/detail/ajax-proxy/iladajdkobpmadjfpeginhngnneaoefi)
 
 [Chrome 版本](https://chrome.google.com/webstore/detail/ajax-proxy/jbikjaejnjfbloojafllmdiknfndgljo)
 
-### 注意
-
----
+## 注意
 
 1. 设置一个新的**拦截**或**重定向**功能时，需要重新刷新一下页面
 
-### 目录结构
-
----
+## 目录结构
 
 extensions 为浏览器插件目录
 vue 为视图文件所在目录
 
-### 调试模式
-
----
+## 调试模式
 
 1. 如果已经安装了 ajax-proxy 插件，因为 background.js 脚本常驻后台，会影响调试，需先卸载原有插件。
    运行 vue 文件夹的项目，并修改 extensions 文件夹下，background.js 里视图 url 地址。如下
@@ -56,9 +48,7 @@ async function createPanel() {
 
 2. 浏览器打开开发人员模式，选择加载解压缩的扩展，选择 extensions 文件夹即可
 
-### 扩展使用方式
-
----
+## 扩展使用方式
 
 编译 vue 文件
 
