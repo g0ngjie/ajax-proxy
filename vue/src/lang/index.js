@@ -27,7 +27,7 @@ import langIE from "./ireland.js"
 Vue.use(VueI18n)
 
 const i18n = new VueI18n({
-    locale: 'zh',
+    locale: 'en',
     messages: {
         'zh': { ...langZh, ...zhLocale },
         'en': { ...langEN, ...enLocale },
