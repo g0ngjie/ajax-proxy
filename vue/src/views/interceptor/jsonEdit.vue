@@ -9,7 +9,7 @@
       ></vue-json-editor>
       <div class="json-editor-drawer__footer">
         <el-button type="primary" style="width: 100px" @click="handleSubmit">{{
-          $t("drawer.btn")
+          $t("confirm")
         }}</el-button>
       </div>
     </el-drawer>

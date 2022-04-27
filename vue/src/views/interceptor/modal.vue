@@ -9,47 +9,47 @@
     >
       <el-form :model="form" ref="form">
         <el-form-item
-          :label="$t('modal.form.match.name')"
+          :label="$t('matchPath')"
           :rules="[
             {
               required: true,
               trigger: 'change',
-              message: $t('modal.form.match.msg'),
+              message: $t('msg.pathNotEmpty'),
             },
           ]"
           prop="match"
         >
           <el-input
             v-model="form.match"
-            :placeholder="$t('modal.form.placeholder')"
+            :placeholder="$t('placeholder.input')"
           >
             <el-select
-              style="width: 90px;"
+              style="width: 90px"
               v-model="form.filterType"
               slot="prepend"
             >
               <el-option
-                :label="$t('modal.form.filterType.normal')"
+                :label="$t('normal')"
                 value="normal"
               ></el-option>
               <el-option
-                :label="$t('modal.form.filterType.regex')"
+                :label="$t('regex')"
                 value="regex"
               ></el-option>
             </el-select>
           </el-input>
         </el-form-item>
-        <el-form-item :label="$t('modal.form.remark.name')">
+        <el-form-item :label="$t('remark')">
           <el-input
             v-model="form.remark"
-            :placeholder="$t('modal.form.placeholder')"
+            :placeholder="$t('placeholder.input')"
           >
           </el-input>
         </el-form-item>
-        <el-form-item :label="$t('modal.form.tag.name')">
+        <el-form-item :label="$t('tag')">
           <el-select
             v-model="form.tagId"
-            :placeholder="$t('modal.form.tag.placeholder')"
+            :placeholder="$t('placeholder.select')"
             style="width: 100%"
             clearable
           >
@@ -63,12 +63,12 @@
           </el-select>
         </el-form-item>
         <el-form-item
-          :label="$t('modal.form.res.name')"
+          :label="$t('responseData')"
           :rules="[
             {
               required: true,
               trigger: 'change',
-              message: $t('modal.form.res.msg'),
+              message: $t('msg.responseDataNotEmpty'),
             },
           ]"
           prop="override"
@@ -77,7 +77,7 @@
             type="textarea"
             :rows="10"
             v-model="form.override"
-            :placeholder="$t('modal.form.placeholder')"
+            :placeholder="$t('placeholder.input')"
           >
           </el-input>
         </el-form-item>
@@ -89,9 +89,9 @@
         >
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="handleClose">{{ $t("modal.btn.cancel") }}</el-button>
+        <el-button @click="handleClose">{{ $t("cancel") }}</el-button>
         <el-button type="primary" @click="handleSubmit">{{
-          $t("modal.btn.confirm")
+          $t("confirm")
         }}</el-button>
       </span>
     </el-dialog>
@@ -122,7 +122,7 @@ export default {
         const _json = JSON.parse(jsonStr);
         this.$refs.jsonEditor.show(_json);
       } catch (error) {
-        this.$message.error(this.$t("modal.msg.not_json"));
+        this.$message.error(this.$t("msg.jsonFormatError"));
       }
     },
     handleJsonSubmit(json) {
@@ -135,11 +135,11 @@ export default {
       if (row) {
         this.isEdit = true;
         // 编辑
-        this.title = this.$t("modal.title.edit");
+        this.title = this.$t("edit");
       } else {
         this.isEdit = false;
         // 新增
-        this.title = this.$t("modal.title.create");
+        this.title = this.$t("create");
       }
       this.isShow = true;
       this.form = row || { remark: "", filterType: "normal" };

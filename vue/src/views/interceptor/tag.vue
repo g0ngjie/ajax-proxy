@@ -39,7 +39,7 @@ export default {
   methods: {
     // 移除
     async handleRemove({ id }) {
-      const { ok } = await confirmFunc({ message: this.$t("confirMsg") });
+      const { ok } = await confirmFunc({ message: this.$t("msg.confirmDeletion") });
       if (!ok) return;
       const newTags = [];
       this.dynamicTags.forEach((item) => {

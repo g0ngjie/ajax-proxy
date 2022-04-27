@@ -8,48 +8,48 @@
 
     <!-- 表格 -->
     <el-table :data="tableData" stripe style="margin-top: 20px">
-      <el-table-column :label="$t('table.columns.switch')" width="100">
+      <el-table-column :label="$t('status')" width="100">
         <template slot-scope="{ row }">
           <el-switch v-model="row.switchOn" @change="handleSwitch" />
         </template>
       </el-table-column>
-      <el-table-column :label="$t('table.columns.matchType')" width="100">
+      <el-table-column :label="$t('matchType')" width="100">
         <template slot-scope="{ row }">
-          {{ $t("modal.form.filterType")[row.filterType || "normal"] }}
+          {{ { "normal": $t("normal"), regex: $t("regex") }[row.filterType || "normal"] }}
         </template>
       </el-table-column>
       <el-table-column
         prop="domain"
-        :label="$t('table.columns.domain')"
+        :label="$t('domain')"
         show-overflow-tooltip
       />
       <el-table-column
         prop="redirect"
-        :label="$t('table.columns.redirect')"
+        :label="$t('redirect')"
         show-overflow-tooltip
       />
       <el-table-column
         prop="remark"
-        :label="$t('table.columns.remark')"
+        :label="$t('remark')"
         show-overflow-tooltip
       />
       <el-table-column
-        :label="$t('table.columns.options')"
+        :label="$t('handle')"
         align="center"
-        width="220"
+        width="270"
       >
         <template slot-scope="{ row }">
           <!-- 编辑 -->
           <el-button @click="handleEdit(row)" round plain>{{
-            $t("table.btn.edit")
+            $t("edit")
           }}</el-button>
           <!-- 删除 -->
           <el-button type="danger" round @click="handleDel(row)" plain>{{
-            $t("table.btn.del")
+            $t("del")
           }}</el-button>
           <!-- 复制 -->
           <el-button type="primary" round @click="handleCopy(row)" plain>{{
-            $t("table.btn.copy")
+            $t("copy")
           }}</el-button>
         </template>
       </el-table-column>
@@ -85,7 +85,7 @@ export default {
       this.modifyNotice(this.tableData);
     },
     async handleDel({ id }) {
-      const { ok } = await confirmFunc({ message: this.$t("confirMsg") });
+      const { ok } = await confirmFunc({ message: this.$t("msg.confirmDeletion") });
       if (ok) {
         const newList = [];
         this.tableData.forEach((item) => {

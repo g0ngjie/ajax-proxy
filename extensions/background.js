@@ -213,7 +213,7 @@ async function syncRoutesAsHit(routes, match) {
           zh: "命中率多少有点高了",
         };
         chromeNotice({
-          title: i18n[_lang],
+          title: i18n[_lang] || i18n.en,
           message,
         });
       }
