@@ -69,7 +69,7 @@ npm run build
 
 下载 [Interceptor.test.json](https://github.com/g0ngjie/ajax-proxy/blob/main/Interceptor.test.json)
 
-分别在 [掘金](https://juejin.cn/) 首页、[百度翻译](https://fanyi.baidu.com/) 两个网站测试
+分别使用在 [掘金](https://juejin.cn/) 首页、[百度翻译](https://fanyi.baidu.com/) 两个网站测试
 
 1. 掘金: 直接在首页查看效果；
 2. 百度翻译: 随便翻译点内容即可；
