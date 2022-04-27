@@ -7,71 +7,75 @@
       <Tag @initList="initList" ref="tag" />
     </section>
     <section class="tips">
-      <el-alert :title="$t('errTips')" type="error" :closable="false" />
+      <el-alert :title="$t('msg.errTips')" type="error" :closable="false" />
     </section>
     <Modal ref="modal" @putData="putData" @editData="editData" />
     <!-- 搜索栏 -->
     <section>
       <el-form :inline="true" :model="searchForm">
-        <el-form-item :label="$t('search.match.name')">
+        <el-form-item :label="$t('path')">
           <el-input
             v-model="searchForm.match"
             clearable
-            :placeholder="$t('search.match.placeholder')"
+            :placeholder="$t('matchPath')"
           ></el-input>
         </el-form-item>
-        <el-form-item :label="$t('search.remark.name')">
+        <el-form-item :label="$t('remark')">
           <el-input
             v-model="searchForm.remark"
             clearable
-            :placeholder="$t('search.remark.placeholder')"
+            :placeholder="$t('remark')"
           ></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="handleSearch">{{
-            $t("search.btn.search")
+            $t("searchTxt")
           }}</el-button>
           <el-button @click="handleReset">{{
-            $t("search.btn.reset")
+            $t("reset")
           }}</el-button>
         </el-form-item>
       </el-form>
     </section>
     <!-- 表格 -->
     <el-table :data="tableData" stripe>
-      <el-table-column :label="$t('table.columns.switch')" width="100">
+      <el-table-column :label="$t('status')" width="100">
         <template slot-scope="{ row }">
           <el-switch v-model="row.switchOn" @change="handleSwitch" />
         </template>
       </el-table-column>
-      <el-table-column :label="$t('table.columns.matchType')" width="100">
+      <el-table-column :label="$t('matchType')" width="100">
         <template slot-scope="{ row }">
-          {{ $t("modal.form.filterType")[row.filterType || "normal"] }}
+          {{
+            { normal: $t("normal"), regex: $t("regex") }[
+              row.filterType || "normal"
+            ]
+          }}
         </template>
       </el-table-column>
       <el-table-column
         prop="match"
-        :label="$t('table.columns.match')"
+        :label="$t('matchPath')"
         show-overflow-tooltip
       />
       <el-table-column
         prop="override"
-        :label="$t('table.columns.res')"
+        :label="$t('responseData')"
         show-overflow-tooltip
       />
       <el-table-column
         prop="remark"
-        :label="$t('table.columns.remark')"
+        :label="$t('remark')"
         show-overflow-tooltip
       />
       <el-table-column
-        :label="$t('table.columns.tag')"
+        :label="$t('tag')"
         :formatter="fmtTag"
         show-overflow-tooltip
         width="100"
       />
       <el-table-column
-        :label="$t('table.columns.hit')"
+        :label="$t('hit')"
         align="center"
         width="100"
       >
@@ -87,22 +91,22 @@
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t('table.columns.options')"
+        :label="$t('handle')"
         align="center"
         width="220"
       >
         <template slot-scope="{ row }">
           <!-- 编辑 -->
           <el-button @click="handleEdit(row)" round plain>{{
-            $t("table.btn.edit")
+            $t("edit")
           }}</el-button>
           <!-- 删除 -->
           <el-button type="danger" round @click="handleDel(row)" plain>{{
-            $t("table.btn.del")
+            $t("del")
           }}</el-button>
           <!-- 复制 -->
           <el-button type="primary" round @click="handleCopy(row)" plain>{{
-            $t("table.btn.copy")
+            $t("copy")
           }}</el-button>
         </template>
       </el-table-column>
@@ -187,7 +191,7 @@ export default {
     },
     // 删除
     async handleDel({ id }) {
-      const { ok } = await confirmFunc({ message: this.$t("confirMsg") });
+      const { ok } = await confirmFunc({ message: this.$t("msg.confirmDeletion") });
       if (ok) {
         const newList = [];
         const routes = await getRoutes();

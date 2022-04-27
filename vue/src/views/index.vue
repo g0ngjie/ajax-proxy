@@ -14,7 +14,7 @@
             round
             plain
             @click="handleDownload"
-            >{{ $t("toolbar.backup") }}</el-button
+            >{{ $t("backup") }}</el-button
           >
           <!-- 数据恢复 -->
           <el-upload
@@ -24,7 +24,7 @@
             :show-file-list="false"
             style="margin-right: 20px"
           >
-            <el-button type="info" round>{{ $t("toolbar.restore") }}</el-button>
+            <el-button type="info" round>{{ $t("restore") }}</el-button>
           </el-upload>
           <!-- 模式选择 -->
           <el-radio-group
@@ -33,17 +33,31 @@
             @change="handleModeChange"
           >
             <el-radio-button label="interceptor">{{
-              $t("document.interceptor")
+              $t("interceptor")
             }}</el-radio-button>
             <el-radio-button label="redirector">{{
-              $t("document.redirector")
+              $t("redirector")
             }}</el-radio-button>
           </el-radio-group>
           <!-- 国际化 -->
-          <el-radio-group v-model="language" @change="handleLangChange">
+          <!-- <el-radio-group v-model="language" @change="handleLangChange">
             <el-radio-button label="en">En</el-radio-button>
             <el-radio-button label="zh">汉</el-radio-button>
-          </el-radio-group>
+          </el-radio-group> -->
+          <el-select
+            style="width: 100px"
+            @change="handleLangChange"
+            v-model="language"
+            placeholder="language"
+          >
+            <el-option
+              v-for="item in Langs"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
         </section>
       </section>
     </div>
@@ -80,6 +94,7 @@ import { noticeSwitchOn, noticeMode } from "@/common/notice";
 import { confirmFunc, promptFunc } from "@/common";
 import { typeIs } from "@alrale/common-lib";
 import { simpleDownload } from "@alrale/downloads";
+import { Langs } from "@/lang/index";
 export default {
   components: {
     IntercepTable,
@@ -90,6 +105,7 @@ export default {
       switchOn: false,
       language: "",
       currentMode: "",
+      Langs,
     };
   },
   methods: {
@@ -97,17 +113,17 @@ export default {
     async handleDownload() {
       const { ok, data } = await getStoreAll();
       // 数据异常
-      if (!ok) return this.$message.warning(this.$t("toolbar.data_err"));
+      if (!ok) return this.$message.warning(this.$t("msg.dataErr"));
       const { ok: isOk, data: value } = await promptFunc({
         // 备份
-        title: this.$t("toolbar.backup"),
+        title: this.$t("backup"),
         inputValue: "backup",
       });
       if (!isOk) return;
       const { lang, proxy_routes, tags, mode, redirect } = data || {};
       if (proxy_routes?.length === 0)
         // 没有数据可以下载
-        return this.$message.warning(this.$t("toolbar.no_down_data"));
+        return this.$message.warning(this.$t("msg.noDataToDownload"));
       simpleDownload(
         JSON.stringify({ lang, proxy_routes, tags, mode, redirect }),
         `${value}.json`
@@ -118,10 +134,10 @@ export default {
       let reader = new FileReader();
       const {
         // 上传成功原文件会被覆盖
-        override_data,
+        overrideData,
         // 读取异常，文件可能不是一个JSON
-        read_err,
-      } = this.$t("toolbar");
+        readJsonErr,
+      } = this.$t("msg");
       reader.onload = async (e) => {
         try {
           let _json = JSON.parse(e.target.result);
@@ -130,12 +146,12 @@ export default {
           if (routes.length > 0) {
             // 如果存在
             const { ok } = await confirmFunc({
-              message: override_data,
+              message: overrideData,
             });
             if (ok) this.setStoreData(_json);
           } else this.setStoreData(_json);
         } catch (err) {
-          this.$message.error(read_err);
+          this.$message.error(readJsonErr);
         }
       };
       reader.readAsText(file.raw);
@@ -143,13 +159,13 @@ export default {
     setStoreData({ lang, proxy_routes, tags, mode, redirect }) {
       const {
         // 你导入了一个空列表
-        import_empty,
-      } = this.$t("toolbar");
+        importEmpty,
+      } = this.$t("msg");
       // 设置拦截列表
       if (typeIs(proxy_routes) === "array" && proxy_routes.length > 0) {
         setRoutes(proxy_routes);
         this.$refs.table?.initList();
-      } else this.$message.warning(import_empty);
+      } else this.$message.warning(importEmpty);
       // 设置标签列表
       if (typeIs(tags) === "array" && tags.length > 0) {
         setTags(tags);

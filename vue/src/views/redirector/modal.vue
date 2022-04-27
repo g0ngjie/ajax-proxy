@@ -10,19 +10,19 @@
       <el-form :model="form" ref="form">
         <!-- 域名 -->
         <el-form-item
-          :label="$t('modal.form.domain.name')"
+          :label="$t('domain')"
           :rules="[
             {
               required: true,
               trigger: 'change',
-              message: $t('modal.form.domain.msg'),
+              message: $t('msg.domainNotEmpty'),
             },
           ]"
           prop="domain"
         >
           <el-input
             v-model="form.domain"
-            :placeholder="$t('modal.form.domain.placeholder')"
+            placeholder="http|https://foo.com"
           >
             <el-select
               style="width: 90px;"
@@ -30,11 +30,11 @@
               slot="prepend"
             >
               <el-option
-                :label="$t('modal.form.filterType.normal')"
+                :label="$t('normal')"
                 value="normal"
               ></el-option>
               <el-option
-                :label="$t('modal.form.filterType.regex')"
+                :label="$t('regex')"
                 value="regex"
               ></el-option>
             </el-select>
@@ -42,23 +42,23 @@
         </el-form-item>
         <!-- 重定向 -->
         <el-form-item
-          :label="$t('modal.form.redirect.name')"
+          :label="$t('redirector')"
           :rules="[
             {
               required: true,
               trigger: 'change',
-              message: $t('modal.form.redirect.msg'),
+              message: $t('msg.redirectNotEmpty'),
             },
           ]"
           prop="redirect"
         >
           <el-input
             v-model="form.redirect"
-            :placeholder="$t('modal.form.redirect.placeholder')"
+            placeholder="http|https://foo2.com"
           ></el-input>
         </el-form-item>
         <!-- 请求头 -->
-        <el-form-item :label="$t('modal.form.headers.name')">
+        <el-form-item :label="$t('updateRequestHeaders')">
           <section style="padding: 0 20px">
             <!-- 新增槽 -->
             <el-button
@@ -66,15 +66,15 @@
               size="mini"
               type="text"
               @click="handleHeaderAdd"
-              >+{{ $t("modal.form.headers.append") }}</el-button
+              >+{{ $t("append") }}</el-button
             >
             <el-row :gutter="24" style="margin-bottom: 10px">
-              <el-col :span="7">{{ $t("modal.form.headers.key") }}</el-col>
-              <el-col :span="7">{{ $t("modal.form.headers.value") }}</el-col>
+              <el-col :span="7">Key</el-col>
+              <el-col :span="7">Value</el-col>
               <el-col :span="7">{{
-                $t("modal.form.headers.description")
+                $t("describe")
               }}</el-col>
-              <el-col :span="3">{{ $t("modal.form.headers.option") }}</el-col>
+              <el-col :span="3">{{ $t("option") }}</el-col>
             </el-row>
             <el-row
               :gutter="24"
@@ -87,7 +87,7 @@
                   :rules="[
                     {
                       required: true,
-                      message: $t('modal.form.headers.keyMsg'),
+                      message: $t('msg.keyNotEmpty'),
                       trigger: 'change',
                     },
                   ]"
@@ -95,7 +95,7 @@
                 >
                   <el-input
                     v-model="form.headers[index].key"
-                    :placeholder="$t('modal.form.placeholder')"
+                    :placeholder="$t('placeholder.input')"
                   />
                 </el-form-item>
               </el-col>
@@ -105,7 +105,7 @@
                   :rules="[
                     {
                       required: true,
-                      message: $t('modal.form.headers.valueMsg'),
+                      message: $t('msg.valueNotEmpty'),
                       trigger: 'change',
                     },
                   ]"
@@ -113,7 +113,7 @@
                 >
                   <el-input
                     v-model="form.headers[index].value"
-                    :placeholder="$t('modal.form.placeholder')"
+                    :placeholder="$t('placeholder.input')"
                   />
                 </el-form-item>
               </el-col>
@@ -122,7 +122,7 @@
                 <el-form-item>
                   <el-input
                     v-model="form.headers[index].description"
-                    :placeholder="$t('modal.form.placeholder')"
+                    :placeholder="$t('placeholder.input')"
                   />
                 </el-form-item>
               </el-col>
@@ -131,14 +131,14 @@
                   type="text"
                   class="text-btn-underline"
                   @click.stop="handleDel(index)"
-                  >{{ $t("modal.form.headers.delete") }}</el-button
+                  >{{ $t("del") }}</el-button
                 >
               </el-col>
             </el-row>
           </section>
         </el-form-item>
         <!-- 白名单列表 -->
-        <el-form-item :label="$t('modal.form.whitelist')">
+        <el-form-item :label="$t('exclusionList')">
           <section style="padding: 0 20px">
             <!-- 新增槽 -->
             <el-button
@@ -146,7 +146,7 @@
               size="mini"
               type="text"
               @click="handleWhitelistAdd"
-              >+{{ $t("modal.form.headers.append") }}</el-button
+              >+{{ $t("append") }}</el-button
             >
             <el-row
               v-for="(item, index) in form.whitelist"
@@ -157,7 +157,7 @@
                 :rules="[
                   {
                     required: true,
-                    message: $t('modal.form.noEmpty'),
+                    message: $t('noEmpty'),
                     trigger: 'change',
                   },
                 ]"
@@ -178,20 +178,20 @@
           </section>
         </el-form-item>
         <!-- 备注 -->
-        <el-form-item :label="$t('modal.form.remark.name')">
+        <el-form-item :label="$t('remark')">
           <el-input
             type="textarea"
             :rows="5"
             v-model="form.remark"
-            :placeholder="$t('modal.form.placeholder')"
+            :placeholder="$t('placeholder.input')"
           >
           </el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="handleClose">{{ $t("modal.btn.cancel") }}</el-button>
+        <el-button @click="handleClose">{{ $t("cancel") }}</el-button>
         <el-button type="primary" @click="handleSubmit">{{
-          $t("modal.btn.confirm")
+          $t("confirm")
         }}</el-button>
       </span>
     </el-dialog>
@@ -240,13 +240,13 @@ export default {
       if (row) {
         this.isEdit = true;
         // 编辑
-        this.title = this.$t("modal.title.edit");
+        this.title = this.$t("edit");
         // 兼容版本迭代，旧数据未存在白名单
         if (!row.whitelist) row.whitelist = [];
       } else {
         this.isEdit = false;
         // 新增
-        this.title = this.$t("modal.title.create");
+        this.title = this.$t("create");
       }
       this.isShow = true;
       this.form = row || {
