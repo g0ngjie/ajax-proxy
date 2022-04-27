@@ -93,7 +93,7 @@
       <el-table-column
         :label="$t('handle')"
         align="center"
-        width="220"
+        width="270"
       >
         <template slot-scope="{ row }">
           <!-- 编辑 -->
