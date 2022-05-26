@@ -3,8 +3,9 @@
     <el-drawer size="60%" :visible.sync="drawer" :with-header="false">
       <vue-json-editor
         v-model="json"
+        style="height: 100%"
         :expandedOnStart="true"
-        mode="form"
+        mode="code"
         @json-change="onJsonChange"
       ></vue-json-editor>
       <div class="json-editor-drawer__footer">
@@ -15,7 +16,7 @@
     </el-drawer>
   </div>
 </template>
- 
+
 <script>
 import vueJsonEditor from "vue-json-editor";
 
@@ -56,17 +57,24 @@ export default {
   // ::v-deep .el-drawer__container ::-webkit-scrollbar {
   //   display: none;
   // }
+  ::v-deep .jsoneditor-vue {
+    height: 100%;
+  }
   ::v-deep .jsoneditor-mode-form {
     border-color: teal !important;
   }
   ::v-deep .jsoneditor-menu {
     background-color: teal !important;
     border-bottom: 1px solid teal !important;
+    a.jsoneditor-poweredBy {
+      display: none;
+    }
   }
   ::v-deep .json-editor-drawer__footer {
     position: absolute;
     bottom: 10px;
-    left: 20px;
+    right: 40px;
+    z-index: 999;
   }
 }
 </style>
