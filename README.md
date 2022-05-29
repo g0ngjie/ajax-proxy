@@ -8,6 +8,14 @@
 
 [Chrome 版本](https://chrome.google.com/webstore/detail/ajax-proxy/jbikjaejnjfbloojafllmdiknfndgljo)
 
+## 展示
+
+可视化编辑响应数据
+
+![interceptor](https://github.com/g0ngjie/ajax-proxy/wiki/images/interceptor-1.png)
+
+![zhihu](https://github.com/g0ngjie/ajax-proxy/wiki/images/zhihu-ajaxproxy.png)
+
 ## 注意
 
 1. 设置一个新的**拦截**或**重定向**功能时，需要重新刷新一下页面
