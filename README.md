@@ -8,7 +8,7 @@
 
 [Chrome 版本](https://chrome.google.com/webstore/detail/ajax-proxy/jbikjaejnjfbloojafllmdiknfndgljo)
 
-## 展示
+## 效果展示
 
 可视化编辑响应数据
 
