@@ -62,7 +62,11 @@
         prop="override"
         :label="$t('responseData')"
         show-overflow-tooltip
-      />
+      >
+        <template slot-scope="{ row }">
+          <p>{{ row.override | limitFilter }}</p>
+        </template>
+      </el-table-column>
       <el-table-column
         prop="remark"
         :label="$t('remark')"
@@ -126,6 +130,12 @@ export default {
   components: {
     Modal,
     Tag,
+  },
+  filters: {
+    limitFilter(str) {
+      if (!str) return "";
+      return str.length > 2000 ? str.slice(0, 2000) + "..." : str;
+    },
   },
   data() {
     return {
