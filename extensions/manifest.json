@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Ajax Proxy",
-  "version": "1.9.8",
+  "version": "1.9.9",
   "description": "轻量级Ajax代理 数据劫持并修改响应 & 重定向 URL",
   "author": "Gj",
   "icons": {
