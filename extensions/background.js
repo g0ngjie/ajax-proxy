@@ -96,7 +96,8 @@ async function createPanel() {
         top: 100,
       },
       function (target) {
-        setStore(WIN_ID, target.id);
+        // bugfix: id undefined 问题
+        if (target) setStore(WIN_ID, target.id);
       }
     );
   };
