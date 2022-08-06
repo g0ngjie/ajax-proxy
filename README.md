@@ -20,6 +20,14 @@
 
 1. 设置一个新的**拦截**或**重定向**功能时，需要重新刷新一下页面
 
+## 常见问题
+
+1. 数据拦截不起作用
+   - 方法 1: 可以通过切换 `interceptor` 和 `redirector` 来刷新 Ajax 引用问题
+     ![issues_checked](https://github.com/g0ngjie/ajax-proxy/wiki/images/issues_checked.png)
+   - 方法 2: 可以在开发者工具的`网络（network）`里面，通过 ☑️ 禁用缓存
+     ![issues_disabled_cache](https://github.com/g0ngjie/ajax-proxy/wiki/images/issues_disabled_cache.png)
+
 ## 目录结构
 
 extensions 为浏览器插件目录
