@@ -1,7 +1,7 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Ajax Proxy",
-  "version": "1.9.9",
+  "version": "2.0.0",
   "description": "轻量级Ajax代理 数据劫持并修改响应 & 重定向 URL",
   "author": "Gj",
   "icons": {
@@ -9,17 +9,13 @@
   },
   "permissions": [
     "storage",
-    "<all_urls>",
     "notifications"
   ],
-  "browser_action": {
+  "action": {
     "default_icon": "images/48g.png"
   },
   "background": {
-    "scripts": [
-      "background.js"
-    ],
-    "persistent": true
+    "service_worker": "background.js"
   },
   "content_scripts": [
     {
@@ -72,6 +68,13 @@
     }
   },
   "web_accessible_resources": [
-    "core.js"
+    {
+      "resources": [
+        "core.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
   ]
 }

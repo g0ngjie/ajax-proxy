@@ -26,40 +26,44 @@ async function pageEventDispatch(msg) {
   if (key === "badge") chromeBadge(match);
   if (key === "proxy_routes") {
     chromeBadge(match);
-    postMessage({
-      type: "__ajax_proxy",
-      to: "content",
-      key: "proxy_routes",
-      value,
-    });
+    noticeContent(key, value);
+    // postMessage({
+    //   type: "__ajax_proxy",
+    //   to: "content",
+    //   key: "proxy_routes",
+    //   value,
+    // });
   }
   if (key === "globalSwitchOn") {
     chromeBadge(match);
-    if (value) chrome.browserAction.setIcon({ path: "/images/128.png" });
-    else chrome.browserAction.setIcon({ path: "/images/128g.png" });
-    postMessage({
-      type: "__ajax_proxy",
-      to: "content",
-      key: "globalSwitchOn",
-      value,
-    });
+    if (value) chrome.action.setIcon({ path: "/images/128.png" });
+    else chrome.action.setIcon({ path: "/images/128g.png" });
+    noticeContent(key, value);
+    // postMessage({
+    //   type: "__ajax_proxy",
+    //   to: "content",
+    //   key: "globalSwitchOn",
+    //   value,
+    // });
   }
   if (key === "mode") {
     chromeBadge();
-    postMessage({
-      type: "__ajax_proxy",
-      to: "content",
-      key: "mode",
-      value,
-    });
+    noticeContent(key, value);
+    // postMessage({
+    //   type: "__ajax_proxy",
+    //   to: "content",
+    //   key: "mode",
+    //   value,
+    // });
   }
   if (key === "redirect") {
-    postMessage({
-      type: "__ajax_proxy",
-      to: "content",
-      key: "redirect",
-      value,
-    });
+    noticeContent(key, value);
+    // postMessage({
+    //   type: "__ajax_proxy",
+    //   to: "content",
+    //   key: "redirect",
+    //   value,
+    // });
   }
 }
 
@@ -69,6 +73,17 @@ chrome.runtime.onMessage.addListener((msg) => {
     pageEventDispatch(msg);
   }
 });
+
+function noticeContent(key, value) {
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    chrome.tabs.sendMessage(tabs[0].id, {
+      type: '__ajax_proxy',
+      to: "content",
+      key,
+      value,
+    });
+  });
+}
 
 // 获取所有windowId
 async function getAllWindowIds() {
@@ -162,7 +177,7 @@ async function resizeWindow() {
 }
 
 // 监听
-chrome.browserAction.onClicked.addListener(function (tab) {
+chrome.action.onClicked.addListener(function (tab) {
   createPanel();
 });
 
@@ -170,9 +185,9 @@ chrome.browserAction.onClicked.addListener(function (tab) {
 chrome.storage.local.get("globalSwitchOn", (result) => {
   if (result.hasOwnProperty("globalSwitchOn")) {
     if (result.globalSwitchOn) {
-      chrome.browserAction.setIcon({ path: "/images/128.png" });
+      chrome.action.setIcon({ path: "/images/128.png" });
     } else {
-      chrome.browserAction.setIcon({ path: "/images/128g.png" });
+      chrome.action.setIcon({ path: "/images/128g.png" });
     }
   }
 });
@@ -228,20 +243,20 @@ async function syncRoutesAsHit(routes, match) {
 async function chromeBadge(match) {
   const { ok: gOk, data: globalSwitchOn } = await getStore(GLOBAL_WTITCH_ON);
   if (!gOk || !globalSwitchOn) {
-    chrome.browserAction.setBadgeText({ text: "" });
+    chrome.action.setBadgeText({ text: "" });
     return;
   }
   // 判断模式
   const { ok: mOk, data: mode } = await getStore(MODE);
   if (mOk && mode === "redirector") {
-    chrome.browserAction.setBadgeBackgroundColor({ color: "#006d75" });
-    chrome.browserAction.setBadgeText({ text: "R" });
+    chrome.action.setBadgeBackgroundColor({ color: "#006d75" });
+    chrome.action.setBadgeText({ text: "R" });
     return;
   }
-  chrome.browserAction.setBadgeBackgroundColor({ color: "#F56C6C" });
+  chrome.action.setBadgeBackgroundColor({ color: "#F56C6C" });
   const { ok: rOk, data: proxy_routes } = await getStore(ROUTES_KEY);
   if (!rOk || !proxy_routes) {
-    chrome.browserAction.setBadgeText({ text: "" });
+    chrome.action.setBadgeText({ text: "" });
     return;
   }
   let routes;
@@ -262,7 +277,7 @@ async function chromeBadge(match) {
   }
   if (count) text = "+" + count;
   else text = "";
-  chrome.browserAction.setBadgeText({ text });
+  chrome.action.setBadgeText({ text });
 }
 // 初始化
 chromeBadge();
