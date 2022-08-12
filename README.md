@@ -89,3 +89,12 @@ npm run build
 
 1. 掘金: 直接在首页查看效果；
 2. 百度翻译: 随便翻译点内容即可；
+
+## ajax proxy v2 新版本入口
+
+- 轻量级
+- TS 重构
+- 无需刷新即可使用
+- 支持根据协议类型拦截
+
+[Colibri](https://github.com/g0ngjie/colibri)
