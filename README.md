@@ -95,6 +95,6 @@ npm run build
 - 轻量级
 - TS 重构
 - 无需刷新即可使用
-- 支持根据协议类型拦截
+- 支持根据协议拦截
 
 [Colibri](https://github.com/g0ngjie/colibri)
