@@ -12,5 +12,6 @@
         "js"
     ],
     "i18n-ally.annotationInPlace": false,
-    "i18n-ally.autoDetection": true
+    "i18n-ally.autoDetection": true,
+    "i18n-ally.keystyle": "nested"
 }

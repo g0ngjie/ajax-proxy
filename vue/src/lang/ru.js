@@ -39,8 +39,6 @@ export default {
         keyNotEmpty: 'значение key не может быть пустым',
         valueNotEmpty: 'значение value не может быть пустым',
         jsonFormatError: 'ошибка формата JSON',
-        errTips:
-            "все responseText будут работать в фоновом режиме постоянного браузера;  обратите внимание на риск управления, не забывайте закрыть",
         confirmDeletion: 'Подтверждение удаления?',
         noDataToDownload: 'Нет данных, которые можно загрузить',
         overrideData: 'Файл будет перезаписан',

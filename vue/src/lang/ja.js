@@ -39,8 +39,6 @@ export default {
         keyNotEmpty: 'key値は空にできません',
         valueNotEmpty: 'value値は空にできません',
         jsonFormatError: 'JSON形式エラー',
-        errTips:
-            "すべてのresponseTextはブラウザのバックグラウンドに常駐します。リスクに注意してコントロールして、使わないなら閉じてください",
         confirmDeletion: '削除の確認?',
         noDataToDownload: 'ダウンロードできるデータがありません',
         overrideData: 'アップロードに成功すると、元のファイルが上書きされます。',

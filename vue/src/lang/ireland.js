@@ -39,8 +39,6 @@ export default {
         keyNotEmpty: 'Ní féidir an luach eochrach a bheith folamh',
         valueNotEmpty: 'Ní féidir luach a bheith folamh',
         jsonFormatError: 'Earráid fhormáide JSON',
-        errTips:
-            "Beidh gach freagraText ina gcónaí i gcúlra an bhrabhsálaí; Tabhair aird ar rialú riosca agus dún é mura bhfuil sé de dhíth agat",
         confirmDeletion: 'deimhnigh scriosadh?',
         noDataToDownload: 'Gan sonraí le híosluchtú',
         overrideData: 'Má tá an t- uasluchtú rathúil, sárófar an bunchomhad',

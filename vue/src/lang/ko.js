@@ -39,8 +39,6 @@ export default {
         keyNotEmpty: '키 값은 비워둘 수 없습니다.',
         valueNotEmpty: 'value 값은 비워 둘 수 없습니다.',
         jsonFormatError: 'JSON 형식 오류',
-        errTips:
-            "모든responseText는 브라우저 백엔드에 상주합니다.위험을 주의해서 제어하고, 사용하지 않으면 닫는 것을 기억해라",
         confirmDeletion: '삭제 확인?',
         noDataToDownload: '다운로드할 데이터가 없습니다.',
         overrideData: '업로드에 성공한 원본 파일을 덮어씁니다',

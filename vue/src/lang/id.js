@@ -39,8 +39,6 @@ export default {
     keyNotEmpty: 'key值不能为空',
     valueNotEmpty: 'value值不能为空',
     jsonFormatError: 'JSON格式错误',
-    errTips:
-      "所有responseText会常驻浏览器后台；注意风险把控，不用的话记得关闭",
     confirmDeletion: '确认删除?',
     noDataToDownload: '没有数据可以下载',
     overrideData: '上传成功原文件会被覆盖',

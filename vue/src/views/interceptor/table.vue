@@ -6,9 +6,6 @@
     <section class="tags">
       <Tag @initList="initList" ref="tag" />
     </section>
-    <section class="tips">
-      <el-alert :title="$t('msg.errTips')" type="error" :closable="false" />
-    </section>
     <Modal ref="modal" @putData="putData" @editData="editData" />
     <!-- 搜索栏 -->
     <section>
@@ -302,10 +299,7 @@ export default {
 .response-container {
   padding: 0 10px;
 }
-.tips {
-  margin: 10px 0;
-}
 .tags {
-  margin: 10px 0;
+  margin: 10px 0 20px 0;
 }
 </style>

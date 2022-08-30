@@ -38,8 +38,6 @@ export default {
     keyNotEmpty: 'key cannot be empty',
     valueNotEmpty: 'value cannot be empty',
     jsonFormatError: 'JSON format error',
-    errTips:
-      "All responseText will be resident in the browser background; pay attention to risk control, and remember to close it if you don't use it",
     confirmDeletion: 'Are you sure you want to delete?',
     noDataToDownload: 'There is no data to download',
     overrideData: 'If the upload is successful, the original file will be overwritten',

@@ -39,8 +39,6 @@ export default {
         keyNotEmpty: "La valeur de la clé ne peut pas être vide",
         valueNotEmpty: 'La valeur ne peut pas être vide',
         jsonFormatError: 'Erreur de format json',
-        errTips:
-            "Tous les textes de réponse résident dans l'arrière - plan du Navigateur; Faites attention aux risques et fermez - les si vous n'en avez pas besoin.",
         confirmDeletion: 'Confirmer la suppression?',
         noDataToDownload: 'Aucune donnée à télécharger',
         overrideData: 'Le fichier original sera écrasé si le téléchargement réussit',
