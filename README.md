@@ -98,3 +98,9 @@ npm run build
 - 支持根据协议拦截
 
 [Colibri](https://github.com/g0ngjie/colibri)
+
+## ⭐ Stargazers
+
+非常感谢您的支持!
+
+[![Stargazers for ajax-proxy](https://reporoster.com/stars/g0ngjie/ajax-proxy)](https://github.com/g0ngjie/ajax-proxy/stargazers)
