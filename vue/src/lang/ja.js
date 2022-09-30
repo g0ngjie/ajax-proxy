@@ -14,6 +14,7 @@ export default {
     responseData: 'レスポンスデータ',
     remark: 'コメント',
     tag: 'タブ',
+    statusCode: 'じょうたいコード',
     domain: "ドメイン名",
     updateRequestHeaders: "要求ヘッダの変更",
     option: "オプション",
@@ -44,6 +45,7 @@ export default {
         overrideData: 'アップロードに成功すると、元のファイルが上書きされます。',
         readJsonErr: '読み込み異常、ファイルがJSONでない可能性があります',
         dataErr: 'データ異常',
+        formatErr: 'フォーマットエラー',
         importEmpty: '空のリストをインポートしました',
     },
     placeholder: {

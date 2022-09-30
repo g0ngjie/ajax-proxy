@@ -13,6 +13,7 @@ export default {
   responseData: 'ResponseText',
   remark: 'Remark',
   tag: 'Tag',
+  statusCode: 'StatusCode',
   domain: "Domain",
   updateRequestHeaders: "Request header modificatio",
   option: "Option",
@@ -43,6 +44,7 @@ export default {
     overrideData: 'If the upload is successful, the original file will be overwritten',
     readJsonErr: 'Read exception. The file may not be a JSON',
     dataErr: 'Data exception',
+    formatErr: 'Format error',
     importEmpty: 'You imported an empty list',
   },
   placeholder: {

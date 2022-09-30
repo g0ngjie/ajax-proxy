@@ -13,6 +13,7 @@ export default {
   responseData: '响应数据',
   remark: '备注',
   tag: '标签',
+  statusCode: '状态码',
   domain: "域名",
   updateRequestHeaders: "请求头修改",
   option: "选项",
@@ -43,6 +44,7 @@ export default {
     overrideData: '上传成功原文件会被覆盖',
     readJsonErr: '读取异常，文件可能不是一个JSON',
     dataErr: '数据异常',
+    formatErr: '格式错误',
     importEmpty: '你导入了一个空列表',
   },
   placeholder: {

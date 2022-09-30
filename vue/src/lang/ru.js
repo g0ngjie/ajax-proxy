@@ -14,6 +14,7 @@ export default {
     responseData: 'данные ответа',
     remark: 'Примечание',
     tag: 'метка',
+    statusCode: 'код состояния',
     domain: "доменное имя",
     updateRequestHeaders: "заголовок запроса",
     option: "Параметры",
@@ -44,6 +45,7 @@ export default {
         overrideData: 'Файл будет перезаписан',
         readJsonErr: 'Ошибка чтения файла может быть не JSON',
         dataErr: 'аномалия данных',
+        formatErr: 'ошибка формата',
         importEmpty: 'вы импортировали пустой список',
     },
     placeholder: {

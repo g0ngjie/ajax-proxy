@@ -14,6 +14,7 @@ export default {
     responseData: 'Sonraí freagra',
     remark: 'ráitis',
     tag: 'label',
+    statusCode: 'Cód stádais',
     domain: "domain name",
     updateRequestHeaders: "Request header modification",
     option: "rogha",
@@ -44,6 +45,7 @@ export default {
         overrideData: 'Má tá an t- uasluchtú rathúil, sárófar an bunchomhad',
         readJsonErr: 'Reading exception. The file may not be a JSON',
         dataErr: 'Eisceachta sonraí',
+        formatErr: 'Earráid fhormáide',
         importEmpty: 'Iompórtáil tú liosta folamh',
     },
     placeholder: {

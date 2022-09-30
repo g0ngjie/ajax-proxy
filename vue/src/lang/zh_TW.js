@@ -14,6 +14,7 @@ export default {
     responseData: '響應數據',
     remark: '備註',
     tag: '標籤',
+    statusCode: '狀態碼',
     domain: "域名",
     updateRequestHeaders: "請求頭修改",
     option: "選項",
@@ -44,6 +45,7 @@ export default {
         overrideData: '上傳成功原檔案會被覆蓋',
         readJsonErr: '讀取异常，檔案可能不是一個JSON',
         dataErr: '數據异常',
+        formatErr: '格式錯誤',
         importEmpty: '你導入了一個空清單',
     },
     placeholder: {

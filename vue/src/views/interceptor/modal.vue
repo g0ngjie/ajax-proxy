@@ -19,23 +19,14 @@
           ]"
           prop="match"
         >
-          <el-input
-            v-model="form.match"
-            :placeholder="$t('placeholder.input')"
-          >
+          <el-input v-model="form.match" :placeholder="$t('placeholder.input')">
             <el-select
               style="width: 90px"
               v-model="form.filterType"
               slot="prepend"
             >
-              <el-option
-                :label="$t('normal')"
-                value="normal"
-              ></el-option>
-              <el-option
-                :label="$t('regex')"
-                value="regex"
-              ></el-option>
+              <el-option :label="$t('normal')" value="normal"></el-option>
+              <el-option :label="$t('regex')" value="regex"></el-option>
             </el-select>
           </el-input>
         </el-form-item>
@@ -61,6 +52,20 @@
             >
             </el-option>
           </el-select>
+        </el-form-item>
+        <el-form-item
+          :label="$t('statusCode')"
+          prop="statusCode"
+          :rules="[
+            {
+              type: 'number',
+              max: 999,
+              min: 100,
+              message: $t('msg.formatErr'),
+            },
+          ]"
+        >
+          <el-input v-model.number="form.statusCode" placeholder="200" />
         </el-form-item>
         <el-form-item
           :label="$t('responseData')"

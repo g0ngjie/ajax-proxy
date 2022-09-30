@@ -36,7 +36,7 @@ const __ajax_global_setting = {
     let pageScriptEventDispatched = false;
     const modifyResponse = () => {
       __ajax_global_setting.proxy_routes.forEach(
-        ({ switchOn = true, match, override = "", filterType }) => {
+        ({ switchOn = true, match, override = "", filterType, statusCode = 200 }) => {
           let matched = false;
           // 是否需要匹配
           if (switchOn && match) {
@@ -46,6 +46,9 @@ const __ajax_global_setting = {
           if (matched) {
             this.responseText = override;
             this.response = override;
+            // issues #7
+            this.status = +statusCode
+            this.statusText = statusCode + ""
 
             if (!pageScriptEventDispatched) {
               // 通知到 content 命中统计
@@ -91,7 +94,7 @@ const __ajax_global_setting = {
         this[attr] = xhr[attr].bind(xhr);
       } else {
         // responseText和response不是writeable的，但拦截时需要修改它，所以修改就存储在this[`_${attr}`]上
-        if (attr === "responseText" || attr === "response") {
+        if (['responseText', 'response', 'status', 'statusText'].includes(attr)) {
           Object.defineProperty(this, attr, {
             get: () =>
               this[`_${attr}`] == undefined ? xhr[attr] : this[`_${attr}`],
@@ -113,8 +116,10 @@ const __ajax_global_setting = {
   myFetch: function (...args) {
     return __ajax_global_setting.originalFetch(...args).then((response) => {
       let txt = undefined;
+      let status = response.status
+      let statusText = response.statusText
       __ajax_global_setting.proxy_routes.forEach(
-        ({ switchOn = true, match, override = "", filterType }) => {
+        ({ switchOn = true, match, override = "", filterType, statusCode = 200 }) => {
           let matched = false;
           // 是否需要匹配
           if (switchOn && match) {
@@ -129,6 +134,9 @@ const __ajax_global_setting = {
               })
             );
             txt = override;
+            // issues #7
+            status = +statusCode
+            statusText = statusCode + ""
           }
         }
       );
@@ -142,8 +150,8 @@ const __ajax_global_setting = {
         });
         const newResponse = new Response(stream, {
           headers: response.headers,
-          status: response.status,
-          statusText: response.statusText,
+          status: status,
+          statusText: statusText,
         });
         const proxy = new Proxy(newResponse, {
           get: function (target, name) {

@@ -14,6 +14,7 @@ export default {
     responseData: '응답 데이터',
     remark: '비고',
     tag: '라벨',
+    statusCode: '상태 코드',
     domain: "도메인 이름",
     updateRequestHeaders: "헤더 수정 요청",
     option: "옵션",
@@ -44,6 +45,7 @@ export default {
         overrideData: '업로드에 성공한 원본 파일을 덮어씁니다',
         readJsonErr: '읽기 예외, 파일이 JSON이 아닐 수 있음',
         dataErr: '데이터 예외',
+        formatErr: '형식 오류',
         importEmpty: '빈 목록을 가져왔습니다',
     },
     placeholder: {

@@ -14,6 +14,7 @@ export default {
     responseData: 'Données de réponse',
     remark: 'Remarques',
     tag: 'Étiquettes',
+    statusCode: "Code d'état",
     domain: "Nom de domaine",
     updateRequestHeaders: "Modification de l'en - tête de la demande",
     option: "Options",
@@ -44,6 +45,7 @@ export default {
         overrideData: 'Le fichier original sera écrasé si le téléchargement réussit',
         readJsonErr: 'Exception de lecture, le fichier peut ne pas être un json',
         dataErr: 'Données anormales',
+        formatErr: 'Mauvais format',
         importEmpty: 'Vous avez importé une liste vide',
     },
     placeholder: {
