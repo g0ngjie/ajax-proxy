@@ -32,4 +32,6 @@ export const NoticeKey = {
   MODE: "mode",
   /**重定向列表 */
   REDIRECT: "redirect",
+  /**获取当前title */
+  GET_CURRENT_TITLE: "getCurrentTitle",
 };

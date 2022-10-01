@@ -38,3 +38,8 @@ export function noticeMode(value) {
 export function noticeRedirects(value) {
   noticeMsg(NoticeKey.REDIRECT, value);
 }
+
+/**获取当前title */
+export function noticeGetCurrentTitle() {
+  noticeMsg(NoticeKey.GET_CURRENT_TITLE)
+}

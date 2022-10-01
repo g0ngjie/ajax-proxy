@@ -87,6 +87,11 @@ async function pageEventDispatch(msg) {
     // 接收content转发给page
     noticePage(key, value)
   }
+  // page主动获取title
+  // page -> background -> content -> background -> page
+  if (key === "getCurrentTitle") {
+    noticeContent(key)
+  }
 }
 
 // 接收page传来的信息，转发给content.js

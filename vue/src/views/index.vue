@@ -108,7 +108,11 @@ import {
   getMode,
   setRedirects,
 } from "@/common/store";
-import { noticeSwitchOn, noticeMode } from "@/common/notice";
+import {
+  noticeSwitchOn,
+  noticeMode,
+  noticeGetCurrentTitle,
+} from "@/common/notice";
 import { confirmFunc, promptFunc } from "@/common";
 import { typeIs } from "@alrale/common-lib";
 import { simpleDownload } from "@alrale/downloads";
@@ -245,6 +249,8 @@ export default {
           if (key === "currentTitle") this.currentTitle = value;
         }
       });
+    // 获取Title
+    noticeGetCurrentTitle();
   },
   created() {
     this.initData();
