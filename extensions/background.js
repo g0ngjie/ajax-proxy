@@ -27,43 +27,19 @@ async function pageEventDispatch(msg) {
   if (key === "proxy_routes") {
     chromeBadge(match);
     noticeContent(key, value);
-    // postMessage({
-    //   type: "__ajax_proxy",
-    //   to: "content",
-    //   key: "proxy_routes",
-    //   value,
-    // });
   }
   if (key === "globalSwitchOn") {
     chromeBadge(match);
     if (value) chrome.action.setIcon({ path: "/images/128.png" });
     else chrome.action.setIcon({ path: "/images/128g.png" });
     noticeContent(key, value);
-    // postMessage({
-    //   type: "__ajax_proxy",
-    //   to: "content",
-    //   key: "globalSwitchOn",
-    //   value,
-    // });
   }
   if (key === "mode") {
     chromeBadge();
     noticeContent(key, value);
-    // postMessage({
-    //   type: "__ajax_proxy",
-    //   to: "content",
-    //   key: "mode",
-    //   value,
-    // });
   }
   if (key === "redirect") {
     noticeContent(key, value);
-    // postMessage({
-    //   type: "__ajax_proxy",
-    //   to: "content",
-    //   key: "redirect",
-    //   value,
-    // });
   }
 }
 
