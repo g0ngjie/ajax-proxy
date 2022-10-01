@@ -28,6 +28,19 @@
               <el-option :label="$t('normal')" value="normal"></el-option>
               <el-option :label="$t('regex')" value="regex"></el-option>
             </el-select>
+            <el-select
+              style="width: 90px"
+              v-model="form.method"
+              slot="append"
+              placeholder="Method"
+            >
+              <el-option label="any(*)" value="ANY" />
+              <el-option label="GET" value="GET" />
+              <el-option label="POST" value="POST" />
+              <el-option label="PUT" value="PUT" />
+              <el-option label="DELETE" value="DELETE" />
+              <el-option label="PATCH" value="PATCH" />
+            </el-select>
           </el-input>
         </el-form-item>
         <el-form-item :label="$t('remark')">
@@ -147,7 +160,7 @@ export default {
         this.title = this.$t("create");
       }
       this.isShow = true;
-      this.form = row || { remark: "", filterType: "normal" };
+      this.form = row || { statusCode: 200, remark: "", filterType: "normal" };
       this.$nextTick(() => this.$refs.form.clearValidate());
     },
     // 模态关闭

@@ -33,13 +33,26 @@ const __ajax_global_setting = {
   proxy_routes: [],
   originalXHR: window.XMLHttpRequest,
   myXHR: function () {
+
+    const xhr = new __ajax_global_setting.originalXHR();
+
+    const { open } = xhr
+    xhr.open = (
+      method, url, async, username, password
+    ) => {
+      xhr.method = (method || 'ANY').toUpperCase()
+      open.apply(xhr, [method, url, async !== undefined ? async : true, username, password])
+    }
+
     let pageScriptEventDispatched = false;
     const modifyResponse = () => {
       __ajax_global_setting.proxy_routes.forEach(
-        ({ switchOn = true, match, override = "", filterType, statusCode = 200 }) => {
+        ({ switchOn = true, match, override = "", filterType, statusCode = 200, method }) => {
           let matched = false;
           // 是否需要匹配
           if (switchOn && match) {
+            // 判断是否存在协议匹配
+            if (method && ![xhr.method, 'ANY'].includes(method?.toUpperCase())) return
             // 规则匹配
             matched = matchUrl(this.responseURL, match, filterType);
           }
@@ -64,7 +77,6 @@ const __ajax_global_setting = {
       );
     };
 
-    const xhr = new __ajax_global_setting.originalXHR();
     for (let attr in xhr) {
       if (attr === "onreadystatechange") {
         xhr.onreadystatechange = (...args) => {
@@ -113,16 +125,22 @@ const __ajax_global_setting = {
   },
 
   originalFetch: window.fetch.bind(window),
-  myFetch: function (...args) {
-    return __ajax_global_setting.originalFetch(...args).then((response) => {
+  myFetch: function (input, init) {
+    let fetchMethod = "ANY"
+    if (init) {
+      fetchMethod = init.method?.toUpperCase() || "ANY"
+    }
+    return __ajax_global_setting.originalFetch(input, init).then((response) => {
       let txt = undefined;
       let status = response.status
       let statusText = response.statusText
       __ajax_global_setting.proxy_routes.forEach(
-        ({ switchOn = true, match, override = "", filterType, statusCode = 200 }) => {
+        ({ switchOn = true, match, override = "", filterType, statusCode = 200, method }) => {
           let matched = false;
           // 是否需要匹配
           if (switchOn && match) {
+            // 判断是否存在协议匹配
+            if (method && ![fetchMethod, 'ANY'].includes(method?.toUpperCase())) return
             // 规则匹配
             matched = matchUrl(response.url, match, filterType);
           }

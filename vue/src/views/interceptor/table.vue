@@ -28,20 +28,18 @@
           <el-button type="primary" @click="handleSearch">{{
             $t("searchTxt")
           }}</el-button>
-          <el-button @click="handleReset">{{
-            $t("reset")
-          }}</el-button>
+          <el-button @click="handleReset">{{ $t("reset") }}</el-button>
         </el-form-item>
       </el-form>
     </section>
     <!-- 表格 -->
     <el-table :data="tableData" stripe>
-      <el-table-column :label="$t('status')" width="100">
+      <el-table-column :label="$t('status')" width="80">
         <template slot-scope="{ row }">
           <el-switch v-model="row.switchOn" @change="handleSwitch" />
         </template>
       </el-table-column>
-      <el-table-column :label="$t('matchType')" width="100">
+      <el-table-column :label="$t('matchType')" width="90">
         <template slot-scope="{ row }">
           {{
             { normal: $t("normal"), regex: $t("regex") }[
@@ -50,20 +48,26 @@
           }}
         </template>
       </el-table-column>
+      <el-table-column label="Method" width="90">
+        <template slot-scope="{ row }">
+          {{ row.method || "ANY" }}
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="statusCode"
+        :label="$t('statusCode')"
+        show-overflow-tooltip
+        width="100"
+      >
+        <template slot-scope="{ row }">
+          {{ row.statusCode || 200 }}
+        </template>
+      </el-table-column>
       <el-table-column
         prop="match"
         :label="$t('matchPath')"
         show-overflow-tooltip
       />
-      <el-table-column
-        prop="override"
-        :label="$t('responseData')"
-        show-overflow-tooltip
-      >
-        <template slot-scope="{ row }">
-          <p>{{ row.override | limitFilter }}</p>
-        </template>
-      </el-table-column>
       <el-table-column
         prop="remark"
         :label="$t('remark')"
@@ -75,11 +79,7 @@
         show-overflow-tooltip
         width="100"
       />
-      <el-table-column
-        :label="$t('hit')"
-        align="center"
-        width="100"
-      >
+      <el-table-column :label="$t('hit')" align="center" width="70">
         <template slot-scope="{ row }">
           <el-tag
             type="info"
@@ -91,11 +91,7 @@
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column
-        :label="$t('handle')"
-        align="center"
-        width="270"
-      >
+      <el-table-column :label="$t('handle')" align="center" width="270">
         <template slot-scope="{ row }">
           <!-- 编辑 -->
           <el-button @click="handleEdit(row)" round plain>{{
@@ -127,12 +123,6 @@ export default {
   components: {
     Modal,
     Tag,
-  },
-  filters: {
-    limitFilter(str) {
-      if (!str) return "";
-      return str.length > 2000 ? str.slice(0, 2000) + "..." : str;
-    },
   },
   data() {
     return {
@@ -198,7 +188,9 @@ export default {
     },
     // 删除
     async handleDel({ id }) {
-      const { ok } = await confirmFunc({ message: this.$t("msg.confirmDeletion") });
+      const { ok } = await confirmFunc({
+        message: this.$t("msg.confirmDeletion"),
+      });
       if (ok) {
         const newList = [];
         const routes = await getRoutes();
