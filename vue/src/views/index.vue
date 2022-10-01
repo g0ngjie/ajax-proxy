@@ -11,7 +11,6 @@
           <el-button
             style="margin-right: 10px"
             type="info"
-            round
             plain
             @click="handleDownload"
             >{{ $t("backup") }}</el-button
@@ -24,7 +23,7 @@
             :show-file-list="false"
             style="margin-right: 20px"
           >
-            <el-button type="info" round>{{ $t("restore") }}</el-button>
+            <el-button type="info">{{ $t("restore") }}</el-button>
           </el-upload>
           <!-- 模式选择 -->
           <el-radio-group

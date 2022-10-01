@@ -40,15 +40,15 @@
       >
         <template slot-scope="{ row }">
           <!-- 编辑 -->
-          <el-button @click="handleEdit(row)" round plain>{{
+          <el-button @click="handleEdit(row)" plain>{{
             $t("edit")
           }}</el-button>
           <!-- 删除 -->
-          <el-button type="danger" round @click="handleDel(row)" plain>{{
+          <el-button type="danger" @click="handleDel(row)" plain>{{
             $t("del")
           }}</el-button>
           <!-- 复制 -->
-          <el-button type="primary" round @click="handleCopy(row)" plain>{{
+          <el-button type="primary" @click="handleCopy(row)" plain>{{
             $t("copy")
           }}</el-button>
         </template>
