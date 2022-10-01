@@ -44,16 +44,18 @@ script.addEventListener("load", () => {
   );
 });
 
+// 长链接通信接收
+const port = chrome.runtime.connect({ name: "__ajax_proxy-content-connect__" });
 // 接收background.js传来的信息，转发给core
-chrome.runtime.onMessage.addListener((msg) => {
+port.onMessage.addListener(function (msg) {
   if (msg.type === "__ajax_proxy" && msg.to === "content") {
-    const _isInclude = [
-      "globalSwitchOn",
-      "proxy_routes",
-      "mode",
-      "redirect",
-    ].includes(msg.key);
-    if (_isInclude)
+    if (
+      ["globalSwitchOn",
+        "proxy_routes",
+        "mode",
+        "redirect",
+      ].includes(msg.key)
+    )
       postMessage({
         type: "__ajax_proxy",
         to: "core",
@@ -62,6 +64,26 @@ chrome.runtime.onMessage.addListener((msg) => {
       });
   }
 });
+
+// 接收background.js传来的信息，转发给core
+// 短链接通信接收
+// chrome.runtime.onMessage.addListener((msg) => {
+//   if (msg.type === "__ajax_proxy" && msg.to === "content") {
+//     const _isInclude = [
+//       "globalSwitchOn",
+//       "proxy_routes",
+//       "mode",
+//       "redirect",
+//     ].includes(msg.key);
+//     if (_isInclude)
+//       postMessage({
+//         type: "__ajax_proxy",
+//         to: "core",
+//         key: msg.key,
+//         value: msg.value,
+//       });
+//   }
+// });
 
 // 接收core传来的信息,转发给background
 window.addEventListener(

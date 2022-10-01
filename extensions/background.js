@@ -4,6 +4,14 @@ const GLOBAL_WTITCH_ON = "globalSwitchOn";
 const MODE = "mode";
 const LANG = "lang";
 
+let last_port = null;
+// 长链接
+// 好处是可以实现无刷新更新拦截器代理
+// 弊端是每一个新的tab页都会更新last_port，旧的长链会注销
+chrome.runtime.onConnect.addListener(function (port) {
+  last_port = port;
+})
+
 // 同步数据
 function setStore(k, v) {
   chrome.storage.local.set({ [k]: v });
@@ -51,14 +59,25 @@ chrome.runtime.onMessage.addListener((msg) => {
 });
 
 function noticeContent(key, value) {
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    chrome.tabs.sendMessage(tabs[0].id, {
-      type: '__ajax_proxy',
-      to: "content",
-      key,
-      value,
-    });
-  });
+  // 长链接通信
+  last_port.postMessage({
+    type: '__ajax_proxy',
+    to: "content",
+    key,
+    value,
+  })
+  // 短链接通信
+  // chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+  //   chrome.tabs.sendMessage(tabs[0].id, {
+  //     type: '__ajax_proxy',
+  //     to: "content",
+  //     key,
+  //     value,
+  //   }).catch(err => {
+  //     // 离线状态 或 网页未加载成功情况下，content_script 未加载，导致没有接收方
+  //     // 会导致：Error: Could not establish connection. Receiving end does not exist.
+  //   })
+  // });
 }
 
 // 获取所有windowId
