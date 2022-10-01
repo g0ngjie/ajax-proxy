@@ -4,6 +4,18 @@ const GLOBAL_WTITCH_ON = "globalSwitchOn";
 const MODE = "mode";
 const LANG = "lang";
 
+// 发送给page
+function noticePage(key, value) {
+  chrome.runtime.sendMessage({
+    type: "__ajax_proxy",
+    to: "page",
+    key, value
+  }).catch(err => {
+    // 离线状态 或 网页未加载成功情况下，page 未加载，导致没有接收方
+    // 会导致：Error: Could not establish connection. Receiving end does not exist.
+  })
+}
+
 let last_port = null;
 // 长链接
 // 好处是可以实现无刷新更新拦截器代理
@@ -11,6 +23,28 @@ let last_port = null;
 chrome.runtime.onConnect.addListener(function (port) {
   last_port = port;
 })
+
+function noticeContent(key, value) {
+  // 长链接通信
+  last_port.postMessage({
+    type: '__ajax_proxy',
+    to: "content",
+    key,
+    value,
+  })
+  // 短链接通信
+  // chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+  //   chrome.tabs.sendMessage(tabs[0].id, {
+  //     type: '__ajax_proxy',
+  //     to: "content",
+  //     key,
+  //     value,
+  //   }).catch(err => {
+  //     // 离线状态 或 网页未加载成功情况下，content_script 未加载，导致没有接收方
+  //     // 会导致：Error: Could not establish connection. Receiving end does not exist.
+  //   })
+  // });
+}
 
 // 同步数据
 function setStore(k, v) {
@@ -49,6 +83,10 @@ async function pageEventDispatch(msg) {
   if (key === "redirect") {
     noticeContent(key, value);
   }
+  if (key === "currentTitle") {
+    // 接收content转发给page
+    noticePage(key, value)
+  }
 }
 
 // 接收page传来的信息，转发给content.js
@@ -57,28 +95,6 @@ chrome.runtime.onMessage.addListener((msg) => {
     pageEventDispatch(msg);
   }
 });
-
-function noticeContent(key, value) {
-  // 长链接通信
-  last_port.postMessage({
-    type: '__ajax_proxy',
-    to: "content",
-    key,
-    value,
-  })
-  // 短链接通信
-  // chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-  //   chrome.tabs.sendMessage(tabs[0].id, {
-  //     type: '__ajax_proxy',
-  //     to: "content",
-  //     key,
-  //     value,
-  //   }).catch(err => {
-  //     // 离线状态 或 网页未加载成功情况下，content_script 未加载，导致没有接收方
-  //     // 会导致：Error: Could not establish connection. Receiving end does not exist.
-  //   })
-  // });
-}
 
 // 获取所有windowId
 async function getAllWindowIds() {
@@ -258,11 +274,7 @@ async function chromeBadge(match) {
   if (match) {
     routes = await syncRoutesAsHit(proxy_routes, match);
     // 接收content转发给page
-    chrome.runtime.sendMessage({
-      type: "__ajax_proxy",
-      to: "page",
-      match,
-    });
+    noticePage("hit", match)
   } else routes = proxy_routes || [];
   let count = 0;
   let text = "";

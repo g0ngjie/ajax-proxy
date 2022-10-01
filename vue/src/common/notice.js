@@ -10,7 +10,7 @@ function noticeMsg(key, value) {
       to: "background",
       key,
       value,
-    });
+    }).catch(err => { });
   }
 }
 

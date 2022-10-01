@@ -94,9 +94,7 @@
       <el-table-column :label="$t('handle')" align="center" width="270">
         <template slot-scope="{ row }">
           <!-- 编辑 -->
-          <el-button @click="handleEdit(row)" plain>{{
-            $t("edit")
-          }}</el-button>
+          <el-button @click="handleEdit(row)" plain>{{ $t("edit") }}</el-button>
           <!-- 删除 -->
           <el-button type="danger" @click="handleDel(row)" plain>{{
             $t("del")
@@ -275,8 +273,10 @@ export default {
     // 监听 准备刷新
     listenerFix() {
       chrome.runtime &&
-        chrome.runtime.onMessage.addListener(({ type, to }) => {
-          if (type === "__ajax_proxy" && to === "page") this.initList();
+        chrome.runtime.onMessage.addListener(({ type, to, key }) => {
+          if (type === "__ajax_proxy" && to === "page") {
+            if (key === "hit") this.initList();
+          }
         });
     },
   },

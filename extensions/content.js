@@ -5,6 +5,14 @@ script.setAttribute("src", chrome.runtime.getURL("core.js"));
 document.documentElement.appendChild(script);
 
 script.addEventListener("load", () => {
+  // 发送当前tab页 title
+  chrome.runtime.sendMessage({
+    type: "__ajax_proxy",
+    to: "background",
+    key: "currentTitle",
+    value: window.document.title
+  }).catch(err => { })
+
   chrome.storage.local.get(
     ["globalSwitchOn", "proxy_routes", "mode", "redirect"],
     (result) => {
@@ -96,7 +104,7 @@ window.addEventListener(
         to: "background",
         key: "badge",
         ...event.detail,
-      });
+      }).catch(err => { });
     }
   },
   false

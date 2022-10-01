@@ -5,76 +5,82 @@
         <i class="el-icon-switch-button"></i>
         <el-switch v-model="switchOn" @change="handleSwitch" />
       </section>
-      <section>
-        <section v-if="switchOn">
-          <!-- 备份 -->
-          <el-button
-            style="margin-right: 10px"
-            type="info"
-            plain
-            @click="handleDownload"
-            >{{ $t("backup") }}</el-button
-          >
-          <!-- 数据恢复 -->
-          <el-upload
-            action
-            :auto-upload="false"
-            :on-change="handleUpload"
-            :show-file-list="false"
-            style="margin-right: 20px"
-          >
-            <el-button type="info">{{ $t("restore") }}</el-button>
-          </el-upload>
-          <!-- 模式选择 -->
-          <el-radio-group
-            style="margin-right: 10px"
-            v-model="currentMode"
-            @change="handleModeChange"
-          >
-            <el-radio-button label="interceptor">{{
-              $t("interceptor")
-            }}</el-radio-button>
-            <el-radio-button label="redirector">{{
-              $t("redirector")
-            }}</el-radio-button>
-          </el-radio-group>
-          <!-- 国际化 -->
-          <!-- <el-radio-group v-model="language" @change="handleLangChange">
+      <section v-if="switchOn">
+        <!-- 备份 -->
+        <el-button
+          style="margin-right: 10px"
+          type="info"
+          plain
+          @click="handleDownload"
+          >{{ $t("backup") }}</el-button
+        >
+        <!-- 数据恢复 -->
+        <el-upload
+          action
+          :auto-upload="false"
+          :on-change="handleUpload"
+          :show-file-list="false"
+          style="margin-right: 20px"
+        >
+          <el-button type="info">{{ $t("restore") }}</el-button>
+        </el-upload>
+        <!-- 模式选择 -->
+        <el-radio-group
+          style="margin-right: 10px"
+          v-model="currentMode"
+          @change="handleModeChange"
+        >
+          <el-radio-button label="interceptor">{{
+            $t("interceptor")
+          }}</el-radio-button>
+          <el-radio-button label="redirector">{{
+            $t("redirector")
+          }}</el-radio-button>
+        </el-radio-group>
+        <!-- 国际化 -->
+        <!-- <el-radio-group v-model="language" @change="handleLangChange">
             <el-radio-button label="en">En</el-radio-button>
             <el-radio-button label="zh">汉</el-radio-button>
           </el-radio-group> -->
-          <el-select
-            style="width: 100px"
-            @change="handleLangChange"
-            v-model="language"
-            placeholder="language"
+        <el-select
+          style="width: 100px"
+          @change="handleLangChange"
+          v-model="language"
+          placeholder="language"
+        >
+          <el-option
+            v-for="item in Langs"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
           >
-            <el-option
-              v-for="item in Langs"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
-          <svg
-            @click="linkToGithub"
-            class="icon"
-            viewBox="0 0 1024 1024"
-            version="1.1"
-            xmlns="http://www.w3.org/2000/svg"
-            width="22"
-            height="22"
-          >
-            <path
-              d="M20.48 503.72608c0 214.4256 137.4208 396.73856 328.94976 463.6672 25.8048 6.5536 21.87264-11.8784 21.87264-24.33024v-85.07392c-148.93056 17.44896-154.86976-81.1008-164.94592-97.52576-20.23424-34.52928-67.91168-43.33568-53.69856-59.76064 33.91488-17.44896 68.48512 4.42368 108.46208 63.61088 28.95872 42.88512 85.44256 35.6352 114.15552 28.4672a138.8544 138.8544 0 0 1 38.0928-66.7648c-154.25536-27.60704-218.60352-121.77408-218.60352-233.79968 0-54.31296 17.94048-104.2432 53.0432-144.54784-22.36416-66.43712 2.08896-123.24864 5.3248-131.6864 63.81568-5.7344 130.00704 45.6704 135.168 49.68448 36.2496-9.78944 77.57824-14.9504 123.82208-14.9504 46.4896 0 88.064 5.3248 124.5184 15.23712 12.288-9.4208 73.80992-53.53472 133.12-48.128 3.15392 8.43776 27.0336 63.93856 6.02112 129.4336 35.59424 40.38656 53.69856 90.76736 53.69856 145.24416 0 112.18944-64.7168 206.4384-219.42272 233.71776a140.0832 140.0832 0 0 1 41.7792 99.9424v123.4944c0.86016 9.87136 0 19.6608 16.50688 19.6608 194.31424-65.49504 334.2336-249.15968 334.2336-465.5104C1002.57792 232.48896 782.66368 12.77952 511.5904 12.77952 240.18944 12.65664 20.48 232.40704 20.48 503.72608z"
-            ></path>
-          </svg>
-        </section>
+          </el-option>
+        </el-select>
+        <svg
+          @click="linkToGithub"
+          class="icon"
+          viewBox="0 0 1024 1024"
+          version="1.1"
+          xmlns="http://www.w3.org/2000/svg"
+          width="22"
+          height="22"
+        >
+          <path
+            d="M20.48 503.72608c0 214.4256 137.4208 396.73856 328.94976 463.6672 25.8048 6.5536 21.87264-11.8784 21.87264-24.33024v-85.07392c-148.93056 17.44896-154.86976-81.1008-164.94592-97.52576-20.23424-34.52928-67.91168-43.33568-53.69856-59.76064 33.91488-17.44896 68.48512 4.42368 108.46208 63.61088 28.95872 42.88512 85.44256 35.6352 114.15552 28.4672a138.8544 138.8544 0 0 1 38.0928-66.7648c-154.25536-27.60704-218.60352-121.77408-218.60352-233.79968 0-54.31296 17.94048-104.2432 53.0432-144.54784-22.36416-66.43712 2.08896-123.24864 5.3248-131.6864 63.81568-5.7344 130.00704 45.6704 135.168 49.68448 36.2496-9.78944 77.57824-14.9504 123.82208-14.9504 46.4896 0 88.064 5.3248 124.5184 15.23712 12.288-9.4208 73.80992-53.53472 133.12-48.128 3.15392 8.43776 27.0336 63.93856 6.02112 129.4336 35.59424 40.38656 53.69856 90.76736 53.69856 145.24416 0 112.18944-64.7168 206.4384-219.42272 233.71776a140.0832 140.0832 0 0 1 41.7792 99.9424v123.4944c0.86016 9.87136 0 19.6608 16.50688 19.6608 194.31424-65.49504 334.2336-249.15968 334.2336-465.5104C1002.57792 232.48896 782.66368 12.77952 511.5904 12.77952 240.18944 12.65664 20.48 232.40704 20.48 503.72608z"
+          ></path>
+        </svg>
       </section>
     </div>
+    <div class="current-title" v-if="switchOn && currentTitle">
+      <el-alert
+        show-icon
+        :title="currentTitle"
+        type="success"
+        :closable="false"
+      />
+    </div>
     <transition name="fade" mode="out-in">
-      <section v-if="switchOn">
+      <section v-if="switchOn" class="table-container">
         <transition name="fade" mode="out-in">
           <IntercepTable v-if="currentMode === 'interceptor'" ref="table" />
           <RedirecTable v-else ref="redirecTable" />
@@ -118,6 +124,7 @@ export default {
       language: "",
       currentMode: "",
       Langs,
+      currentTitle: "",
     };
   },
   methods: {
@@ -229,6 +236,16 @@ export default {
       this.currentMode = await getMode();
     },
   },
+  mounted() {
+    // 获取当前连接状态
+    chrome.runtime &&
+      chrome.runtime.onMessage.addListener(({ type, to, key, value }) => {
+        if (type === "__ajax_proxy" && to === "page") {
+          // 当前链接tab页
+          if (key === "currentTitle") this.currentTitle = value;
+        }
+      });
+  },
   created() {
     this.initData();
   },
@@ -248,7 +265,7 @@ export default {
     opacity: 0;
   }
   .global-switch {
-    height: 50px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -263,6 +280,15 @@ export default {
         margin-right: 10px;
       }
     }
+  }
+  .current-title {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+  }
+  .table-container {
+    padding-top: 8px;
   }
   .closed-container {
     width: 100%;
