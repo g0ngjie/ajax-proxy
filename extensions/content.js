@@ -4,19 +4,18 @@ script.setAttribute("type", "text/javascript");
 script.setAttribute("src", chrome.runtime.getURL("core.js"));
 document.documentElement.appendChild(script);
 
-// 获取一下当前tab页
-function getCurrentTitle() {
+// 通知service-worker
+function noticeWorker(key, value) {
   chrome.runtime.sendMessage({
     type: "__ajax_proxy",
     to: "background",
-    key: "currentTitle",
-    value: window.document.title
+    key, value
   }).catch(err => { })
 }
 
 script.addEventListener("load", () => {
   // 发送当前tab页 title
-  getCurrentTitle()
+  noticeWorker("currentTitle", window.document.title)
 
   chrome.storage.local.get(
     ["globalSwitchOn", "proxy_routes", "mode", "redirect"],
@@ -62,9 +61,6 @@ const port = chrome.runtime.connect({ name: "__ajax_proxy-content-connect__" });
 // 接收background.js传来的信息，转发给core
 port.onMessage.addListener(function (msg) {
   if (msg.type === "__ajax_proxy" && msg.to === "content") {
-    if (msg.key === 'getCurrentTitle') {
-      return getCurrentTitle()
-    }
     if (
       ["globalSwitchOn",
         "proxy_routes",

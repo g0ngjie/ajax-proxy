@@ -21,12 +21,14 @@ let last_port = null;
 // 好处是可以实现无刷新更新拦截器代理
 // 弊端是每一个新的tab页都会更新last_port，旧的长链会注销
 chrome.runtime.onConnect.addListener(function (port) {
-  last_port = port;
+  if (port.name === "__ajax_proxy-content-connect__") {
+    last_port = port;
+  }
 })
 
 function noticeContent(key, value) {
   // 长链接通信
-  last_port.postMessage({
+  last_port?.postMessage({
     type: '__ajax_proxy',
     to: "content",
     key,
@@ -88,9 +90,10 @@ async function pageEventDispatch(msg) {
     noticePage(key, value)
   }
   // page主动获取title
-  // page -> background -> content -> background -> page
+  // page -> background -> connect.port.sender.tab.title -> page
   if (key === "getCurrentTitle") {
-    noticeContent(key)
+    const title = last_port?.sender?.tab?.title
+    noticePage('currentTitle', title)
   }
 }
 
@@ -122,8 +125,8 @@ async function createPanel() {
         url: "page/index.html",
         // url: "http://localhost:8082",
         type: "popup",
-        width: 1230,
-        height: 720,
+        width: 1300,
+        height: 800,
         top: 100,
       },
       function (target) {
