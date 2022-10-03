@@ -33,53 +33,11 @@
 extensions 为浏览器插件目录
 vue 为视图文件所在目录
 
-## 调试模式
+## 源码使用方式
 
-1. 如果已经安装了 ajax-proxy 插件，因为 background.js 脚本常驻后台，会影响调试，需先卸载原有插件。
-   运行 vue 文件夹的项目，并修改 extensions 文件夹下，background.js 里视图 url 地址。如下
-
-```js
-async function createPanel() {
-  ...
-  const _createFunc = function () {
-    chrome.windows.create(
-      {
-        // 如果是本地环境运行，请修改url地址为实际vue请求地址
-        // 例如：http://localhost:8082
-        // url: "page/index.html",
-        url: "http://localhost:8082",
-        type: "popup",
-        width: 1230,
-        height: 720,
-        top: 100,
-      },
-      function (target) {
-        setStore(WIN_ID, target.id);
-      }
-    );
-  };
-  ...
-}
-```
-
-2. 浏览器打开开发人员模式，选择加载解压缩的扩展，选择 extensions 文件夹即可
-
-## 扩展使用方式
-
-编译 vue 文件
-
-```shell
-# 在vue目录下运行build
-npm run build
-```
-
-根目录下生成扩展文件
-
-> 开发环境为 Linux，如 Windows 用户无需用此方式
-
-```shell
-./zip.sh
-```
+1. 下载对应版本的 [Source code](https://github.com/g0ngjie/ajax-proxy/releases) 解压
+2. 浏览器打开 `开发者模式`
+3. 加载源码中 `extensions` 目录
 
 ## 测试用例
 
@@ -92,10 +50,8 @@ npm run build
 
 ## ajax proxy v2 新版本入口
 
-- 轻量级
+- 体积小
 - TS 重构
-- 无需刷新即可使用
-- 支持根据协议拦截
 
 [Colibri](https://github.com/g0ngjie/colibri)
 
