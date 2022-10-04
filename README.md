@@ -51,8 +51,8 @@
 
 ## 目录结构
 
-extensions 为浏览器插件目录
-vue 为视图文件所在目录
+- `extensions` 为浏览器插件目录
+- `vue` 为视图文件所在目录
 
 ## 源码使用方式
 
@@ -70,7 +70,7 @@ vue 为视图文件所在目录
 2. 百度翻译: 随便翻译点内容即可；
 3. 也可以直接在[Swagger](https://petstore.swagger.io/)中测试
 
-## ajax proxy v2 新版本入口
+## Ajax Proxy v2 新版本入口
 
 - 体积小
 - TS 重构
