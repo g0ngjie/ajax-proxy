@@ -23,7 +23,9 @@
 
 可视化编辑响应数据
 
-![interceptor](https://github.com/g0ngjie/ajax-proxy/wiki/images/interceptor-1.png)
+<!-- ![interceptor](https://github.com/g0ngjie/ajax-proxy/wiki/images/interceptor-1.png) -->
+
+![operation.gif](media/operation.gif)
 
 ![zhihu](https://github.com/g0ngjie/ajax-proxy/wiki/images/zhihu-ajaxproxy.png)
 
