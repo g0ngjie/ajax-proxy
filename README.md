@@ -1,17 +1,29 @@
-# Ajax Proxy
+<br>
+
+<p align="center">
+<h1 align="center">Ajax Proxy</h1>
+</p>
+
+<br>
+
+<p align="center">
+<a href="https://chrome.google.com/webstore/detail/ajax-proxy/jbikjaejnjfbloojafllmdiknfndgljo" target="__blank"><img src="https://img.shields.io/chrome-web-store/v/jbikjaejnjfbloojafllmdiknfndgljo.svg?logo=Google%20Chrome&logoColor=white&color=red&style=flat-square" alt="chrome web store"></a>
+<a href="https://chrome.google.com/webstore/detail/ajax-proxy/jbikjaejnjfbloojafllmdiknfndgljo" target="__blank"><img src="https://img.shields.io/chrome-web-store/stars/jbikjaejnjfbloojafllmdiknfndgljo.svg?logo=Google%20Chrome&logoColor=white&color=red&style=flat-square" alt="chrome rating"></a>
+<!-- Temporary badges for edge -->
+<a href="https://microsoftedge.microsoft.com/addons/detail/ajax-proxy/iladajdkobpmadjfpeginhngnneaoefi" target="__blank"><img src="https://img.shields.io/badge/dynamic/json?label=edge%20add-on&style=flat-square&prefix=v&query=%24.version&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Filadajdkobpmadjfpeginhngnneaoefi" alt="edge addons"></a>
+<a href="https://microsoftedge.microsoft.com/addons/detail/ajax-proxy/iladajdkobpmadjfpeginhngnneaoefi" target="__blank"><img src="https://img.shields.io/badge/dynamic/json?label=users&style=flat-square&query=%24.activeInstallCount&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Filadajdkobpmadjfpeginhngnneaoefi" alt="edge users"></a>
+</p>
+
+> `Ajax Proxy` 是一款基于 `Chromium` 内核的浏览器插件，面向开发者的工具，主要用于 Web 端接口数据的修改。
+
+## 适用场景
+
+- 当需要 `mock` 数据时
+- 当我们在开发或者生产阶段需要验证一些 **异常场景** 或者 **临界值** 时
+- 当开发阶段数据频繁变更，导致页面无法正常联调时
+<!-- - 当 ... ... -->
 
 <!-- 原始项目已迁移 _main-history-20220127_ -->
-
-[![](https://img.shields.io/chrome-web-store/v/jbikjaejnjfbloojafllmdiknfndgljo.svg?logo=Google%20Chrome&logoColor=white&color=red&style=flat-square)](https://chrome.google.com/webstore/detail/ajax-proxy/jbikjaejnjfbloojafllmdiknfndgljo)
-[![](https://img.shields.io/chrome-web-store/stars/jbikjaejnjfbloojafllmdiknfndgljo.svg?logo=Google%20Chrome&logoColor=white&color=red&style=flat-square)](https://chrome.google.com/webstore/detail/ajax-proxy/jbikjaejnjfbloojafllmdiknfndgljo)
-
-<!-- [![](https://img.shields.io/chrome-web-store/users/jbikjaejnjfbloojafllmdiknfndgljo.svg?logo=Google%20Chrome&logoColor=white&color=red&style=flat-square)](https://chrome.google.com/webstore/detail/ajax-proxy/jbikjaejnjfbloojafllmdiknfndgljo) -->
-
-<!-- Temporary badges for edge -->
-
-[![](https://img.shields.io/badge/dynamic/json?label=edge%20add-on&style=flat-square&prefix=v&query=%24.version&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Filadajdkobpmadjfpeginhngnneaoefi)](https://microsoftedge.microsoft.com/addons/detail/ajax-proxy/iladajdkobpmadjfpeginhngnneaoefi)
-[![](https://img.shields.io/badge/dynamic/json?label=rating&suffix=/5&style=flat-square&query=%24.averageRating&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Filadajdkobpmadjfpeginhngnneaoefi)](https://microsoftedge.microsoft.com/addons/detail/ajax-proxy/iladajdkobpmadjfpeginhngnneaoefi)
-[![](https://img.shields.io/badge/dynamic/json?label=users&style=flat-square&query=%24.activeInstallCount&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Filadajdkobpmadjfpeginhngnneaoefi)](https://microsoftedge.microsoft.com/addons/detail/ajax-proxy/iladajdkobpmadjfpeginhngnneaoefi)
 
 ## 安装
 
@@ -28,10 +40,6 @@
 ![operation.gif](media/operation.gif)
 
 ![zhihu](https://github.com/g0ngjie/ajax-proxy/wiki/images/zhihu-ajaxproxy.png)
-
-## 注意
-
-1. 设置一个新的**拦截**或**重定向**功能时，需要重新刷新一下页面
 
 ## 常见问题
 
@@ -60,6 +68,7 @@ vue 为视图文件所在目录
 
 1. 掘金: 直接在首页查看效果；
 2. 百度翻译: 随便翻译点内容即可；
+3. 也可以直接在[Swagger](https://petstore.swagger.io/)中测试
 
 ## ajax proxy v2 新版本入口
 
