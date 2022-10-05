@@ -1,13 +1,12 @@
 import { maybeMatching, notice } from "./common";
 import { IGlobalState } from "./types";
-import { Ref } from "@vue/reactivity";
 
 // 共享状态
-let globalState: Ref<IGlobalState>
+let globalState: IGlobalState
 // XMLHttpRequest 副本
 export const OriginXHR = window.XMLHttpRequest;
 // 初始化共享状态
-export const initXHRState = (state: Ref<IGlobalState>) => globalState = state
+export const initXHRState = (state: IGlobalState) => globalState = state
 
 class CustomXHR extends XMLHttpRequest {
     // 响应内容
@@ -49,7 +48,7 @@ class CustomXHR extends XMLHttpRequest {
 
     // 规则匹配，修改响应内容
     private maybeNeedModifyRes() {
-        globalState.value.matching_content.forEach(target => {
+        globalState.matching_content.forEach(target => {
             const { switch_on = true, match_url, override = "", filter_type, method, statusCode = "200" } = target
             // 是否需要匹配
             if (switch_on && match_url) {

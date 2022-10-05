@@ -1,22 +1,21 @@
-import { ref } from "@vue/reactivity";
 import { IGlobalState, IMatchContent, IRequestMethod } from "./types";
 import CreateXHR, { initXHRState, OriginXHR } from "./createXHR";
 import CreateFetch, { initFetchState, OriginFetch } from "./createFetch";
 import { warn } from "./common";
 
 // 初始化共享状态
-const globalState = ref<IGlobalState>({
+let globalState: IGlobalState = {
     // 全局状态开关
     global_on: false,
     // 匹配内容
     matching_content: [],
-})
+}
 
 function initState() {
     // 初始化共享状态
     initXHRState(globalState);
     initFetchState(globalState);
-    mountInstance(globalState.value.global_on)
+    mountInstance(globalState.global_on)
 }
 
 function mountInstance(bool: boolean = true) {
@@ -35,8 +34,8 @@ function isIGlobalState(target: any) {
 
 function updateGlobalState(target: unknown) {
     if (isIGlobalState(target)) {
-        globalState.value = target as IGlobalState
-        mountInstance(globalState.value.global_on)
+        globalState = target as IGlobalState
+        mountInstance(globalState.global_on)
     } else warn("unknow type")
 }
 
@@ -48,21 +47,21 @@ function update<unknow>(target: unknow) {
     if (typeof target === "boolean") {
         setGlobalSwitch(target)
     } else if (Array.isArray(target)) {
-        globalState.value.matching_content = target
+        globalState.matching_content = target
     } else updateGlobalState(target)
 }
 
 // 全局开关
 function setGlobalSwitch(bool: boolean) {
-    globalState.value.global_on = bool
+    globalState.global_on = bool
     mountInstance(bool)
 }
 
 // 修复代理情况
 function fixProxy() {
-    mountInstance(!globalState.value.global_on)
+    mountInstance(!globalState.global_on)
     setTimeout(() => {
-        mountInstance(globalState.value.global_on)
+        mountInstance(globalState.global_on)
     }, 300);
 }
 

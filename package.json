@@ -13,10 +13,10 @@
     "build:lib": "pnpm -C ./packages/proxy-lib build",
     "build:utils": "pnpm -C ./packages/shared-utils build",
     "build:chrome": "pnpm -C ./packages/shell-chrome build",
-    "build:popup": "pnpm -C ./packages/vue-panels build",
+    "build:panels": "pnpm -C ./packages/vue-panels build",
     "clean:build": "rm -rf ./packages/proxy-lib/lib ./packages/shell-chrome/build ./packages/shared-utils/lib",
     "release": "node release.js",
-    "pkg": "cp -r ./packages/vue-panels/dist ./packages/shell-chrome/build/popups",
+    "pkg": "cp -r ./packages/vue-panels/dist ./packages/shell-chrome/build/panels",
     "zip": "node ./extension-zips.js",
     "preinstall": "npx only-allow pnpm"
   },
@@ -36,5 +36,14 @@
   "bugs": {
     "url": "https://github.com/g0ngjie/ajax-proxy/issues"
   },
-  "homepage": "https://github.com/g0ngjie/ajax-proxy#readme"
+  "homepage": "https://github.com/g0ngjie/ajax-proxy#readme",
+  "devDependencies": {
+    "archiver": "^5.3.1",
+    "inquirer": "6.2.0",
+    "npm-run-all": "^4.1.5",
+    "progress": "^2.0.3",
+    "readdir-glob": "^1.1.2",
+    "semver": "^7.3.7",
+    "typescript": "^4.6.4"
+  }
 }

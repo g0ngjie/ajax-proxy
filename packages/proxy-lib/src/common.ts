@@ -1,5 +1,5 @@
 import { IFilterType } from "./types";
-import { Notice } from "@colibri/shared-utils";
+import { Notice } from "@proxy/shared-utils";
 
 // match_url规则匹配
 export function maybeMatching(url: string, match: string, type: IFilterType = "normal") {

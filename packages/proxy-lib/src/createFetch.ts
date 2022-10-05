@@ -1,13 +1,12 @@
 import { maybeMatching, notice } from "./common";
 import { IGlobalState } from "./types";
-import { Ref } from "@vue/reactivity";
 
 // 共享状态
-let globalState: Ref<IGlobalState>
+let globalState: IGlobalState
 // fetch 副本
 export const OriginFetch = window.fetch.bind(window)
 // 初始化共享状态
-export const initFetchState = (state: Ref<IGlobalState>) => globalState = state
+export const initFetchState = (state: IGlobalState) => globalState = state
 
 function CustomFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
     let fetchMethod: string | undefined | "ANY" = "ANY"
@@ -19,7 +18,7 @@ function CustomFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Resp
         let txt: string | undefined;
         let status = response.status
         let statusText = response.statusText
-        globalState.value.matching_content.forEach(target => {
+        globalState.matching_content.forEach(target => {
             const { switch_on = true, match_url, override = "", filter_type, method, statusCode = "200" } = target
             // 是否需要匹配
             if (switch_on && match_url) {
@@ -39,7 +38,7 @@ function CustomFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Resp
         });
 
         // 返回原始响应
-        if (!globalState.value.global_on || !txt) return response
+        if (!globalState.global_on || !txt) return response
 
         const stream = new ReadableStream({
             start(controller) {

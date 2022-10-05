@@ -122,7 +122,7 @@ async function createPanel() {
       {
         // 如果是本地环境运行，请修改url地址为实际vue请求地址
         // 例如：http://localhost:8082
-        url: "page/index.html",
+        url: "panels/index.html",
         // url: "http://localhost:8082",
         type: "popup",
         width: 1300,
