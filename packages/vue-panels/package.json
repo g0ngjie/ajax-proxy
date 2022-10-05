@@ -10,6 +10,7 @@
   "dependencies": {
     "@alrale/common-lib": "^1.0.49",
     "@alrale/downloads": "^1.0.3",
+    "@proxy/shared-utils": "workspace:^1.0.0",
     "core-js": "^3.6.5",
     "element-ui": "~2.15.1",
     "vue": "^2.6.11",

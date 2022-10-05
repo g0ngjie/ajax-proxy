@@ -79,3 +79,22 @@ function getDefaultValue(value, defaultValue) {
   }
   return value
 }
+
+/**获取全部数据 */
+export function getStorageAll() {
+  checkStorage()
+  if (useStorage) {
+    return storageData
+  } else {
+    if (JSON.stringify(localStorage) === '{}') return {}
+    const data = Object.keys(localStorage).reduce(function (obj, str) {
+      try {
+        obj[str] = JSON.parse(localStorage.getItem(str) as any)
+      } catch (e) {
+        obj[str] = localStorage.getItem(str)
+      }
+      return obj
+    }, {});
+    return data
+  }
+}

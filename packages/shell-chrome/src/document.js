@@ -17,8 +17,6 @@ window.addEventListener(
                 case NoticeKey.INTERCEPT_LIST:
                     lib.update(data.value)
                     break;
-                case NoticeKey.FIX_PROXY:
-                    lib.fixProxy()
             }
         }
     },

@@ -149,7 +149,7 @@ export default {
     // 模态展示
     async open(row) {
       // 获取标签
-      this.tags = await getTags();
+      this.tags = getTags();
       if (row) {
         this.isEdit = true;
         // 编辑

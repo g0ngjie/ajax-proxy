@@ -1,45 +1,33 @@
 // 通知
 
-import { NoticeKey } from "./enum";
-
-// 发送给background.js
-function noticeMsg(key, value) {
-  if (chrome.runtime) {
-    chrome.runtime.sendMessage(chrome.runtime.id, {
-      type: "__ajax_proxy",
-      to: "background",
-      key,
-      value,
-    }).catch(err => { });
-  }
-}
+import { noticeServiceWorkerByPanels, NoticeKey } from "@proxy/shared-utils";
 
 /**全局开关 */
 export function noticeSwitchOn(value) {
-  noticeMsg(NoticeKey.SWITCH, value);
+  noticeServiceWorkerByPanels(NoticeKey.GLOBAL_SWITCH, value)
 }
 
-/**同步路由列表 */
-export function noticeRoutes(routes) {
-  noticeMsg(NoticeKey.ROUTES, routes);
+/**同步拦截路由列表 */
+export function noticeInterceptorRoutes(routes) {
+  noticeServiceWorkerByPanels(NoticeKey.INTERCEPT_LIST, routes)
 }
 
 /**通知一下命中率 */
 export function noticeBadge() {
-  noticeMsg(NoticeKey.BADGE, null);
+  noticeServiceWorkerByPanels(NoticeKey.BADGE_STATUS, null)
 }
 
 /**同步给core 模式 */
 export function noticeMode(value) {
-  noticeMsg(NoticeKey.MODE, value);
+  noticeServiceWorkerByPanels(NoticeKey.MODE, value)
 }
 
 /**同步给cord 重定向列表 */
 export function noticeRedirects(value) {
-  noticeMsg(NoticeKey.REDIRECT, value);
+  noticeServiceWorkerByPanels(NoticeKey.REDIRECT_LIST, value)
 }
 
 /**获取当前title */
 export function noticeGetCurrentTitle() {
-  noticeMsg(NoticeKey.GET_CURRENT_TITLE)
+  noticeServiceWorkerByPanels(NoticeKey.GET_CURRENT_TITLE)
 }

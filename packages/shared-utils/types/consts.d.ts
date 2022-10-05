@@ -1,45 +1,46 @@
 /**storage enums */
 export declare enum StorageKey {
-    LANGUAGE = "colibri:storage:language",
-    /**主题 */
-    THEME = "colibri:storage:theme",
+    LANGUAGE = "ajax-proxy:storage:language",
     /**全局开关 */
-    GLOBAL_SWITCH = "colibri:storage:global-switch",
+    GLOBAL_SWITCH = "ajax-proxy:storage:global-switch",
     /**拦截列表 */
-    INTERCEPT_LIST = "colibri:storage:intercept-list",
-    /**终端声明 */
-    TERMINAL_DECLARE = "colibri:storage:terminal-declare"
+    INTERCEPT_LIST = "ajax-proxy:storage:intercept-list",
+    /**重定向列表 */
+    REDIRECT_LIST = "ajax-proxy:storage:redirect-list",
+    /**模式 */
+    MODE = "ajax-proxy:storage:mode",
+    /**标签 */
+    TAGS = "ajax-proxy:storage:tags"
 }
 /**通知 */
 export declare enum Notice {
     /**唯一通知类型 */
-    TYPE = "colibri:notice:type",
+    TYPE = "ajax-proxy:notice:type",
     /**通知 content */
-    TO_CONTENT = "colibri:notice:content",
-    /**通知 popup */
-    TO_POPUP = "colibri:notice:popup",
+    TO_CONTENT = "ajax-proxy:notice:content",
+    /**通知 panels */
+    TO_PANELS = "ajax-proxy:notice:panels",
     /**通知 document */
-    TO_DOCUMENT = "colibri:notice:document",
+    TO_DOCUMENT = "ajax-proxy:notice:document",
     /**通知 background */
-    TO_BACKGROUND = "colibri:notice:background"
+    TO_BACKGROUND = "ajax-proxy:notice:background",
+    /**通知 service-worker */
+    TO_SERVICE_WORKER = "ajax-proxy:notice:service-worker"
 }
 /**通知Key */
 export declare enum NoticeKey {
     /**全局开关 */
-    GLOBAL_SWITCH = "colibri:notice:global-switch",
+    GLOBAL_SWITCH = "ajax-proxy:notice:global-switch",
     /**拦截数据列表 */
-    INTERCEPT_LIST = "colibri:notice:intercept-list",
+    INTERCEPT_LIST = "ajax-proxy:notice:intercept-list",
+    /**重定向列表 */
+    REDIRECT_LIST = "ajax-proxy:notice:redirect-list",
+    /**获取当前title */
+    GET_CURRENT_TITLE = "ajax-proxy:notice:get-current-title",
     /**徽章状态 */
-    BADGE_STATUS = "colibri:notice:badge-status",
+    BADGE_STATUS = "ajax-proxy:notice:badge-status",
     /**命中率 */
-    HIT_RATE = "colibri:notice:hit-rate",
-    /**修复代理 */
-    FIX_PROXY = "colibri:notice:fix-proxy"
+    HIT_RATE = "ajax-proxy:notice:hit-rate",
+    /**模式 */
+    MODE = "ajax-proxy:notice:mode"
 }
-/**主题 */
-export declare const Theme: {
-    /**黑色 */
-    DARK: string;
-    /**白色 */
-    LIGHT: string;
-};

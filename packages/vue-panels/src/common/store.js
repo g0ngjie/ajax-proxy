@@ -1,106 +1,84 @@
-import { StoreType } from "./enum";
 
-/**获取数据 */
-function getStore(key) {
-  return new Promise((resolve) => {
-    if (chrome.storage) {
-      chrome.storage.local.get(key, (result) => {
-        if (result.hasOwnProperty(key))
-          resolve({ ok: true, data: result[key] });
-        else resolve({ ok: false });
-      });
-    } else resolve({ ok: false });
-  });
-}
-
-/**保存数据 */
-function setStore(k, v) {
-  chrome.storage && chrome.storage.local.set({ [k]: v });
-}
+import { setStorage, getStorage, StorageKey, getStorageAll } from "@proxy/shared-utils";
 
 /**获取所有 */
 export function getStoreAll() {
-  return new Promise((resolve) => {
-    if (chrome.storage) {
-      const { LANG, SWITCH, ROUTES, TAGS, MODE, REDIRECT } = StoreType;
-      chrome.storage.local.get(
-        [LANG, SWITCH, ROUTES, TAGS, MODE, REDIRECT],
-        (result) => {
-          resolve({ ok: true, data: result });
-        }
-      );
-    } else resolve({ ok: false });
-  });
+  const getData = getStorageAll()
+  // FIXME: 后期再调整
+  // 此处这么写，是为了兼容老数据
+  // 后期可以优化，不做向下兼容。
+  // 因为本来插件只是协助手段，并不会存在大量的需要操作接口的列表
+  const { LANGUAGE, GLOBAL_SWITCH, INTERCEPT_LIST, REDIRECT_LIST, MODE, TAGS } = StorageKey
+
+  return {
+    ok: true,
+    data: {
+      lang: getData[LANGUAGE],
+      globalSwitchOn: getData[GLOBAL_SWITCH],
+      proxy_routes: getData[INTERCEPT_LIST],
+      redirect: getData[REDIRECT_LIST],
+      mode: getData[MODE],
+      tags: getData[TAGS]
+    }
+  }
 }
 
 /**获取国际化 */
-export async function getLang() {
-  const { ok, data } = await getStore(StoreType.LANG);
-  if (ok) return data;
-  return "en";
+export function getLang() {
+  return getStorage(StorageKey.LANGUAGE, 'en')
 }
 
 /**设置国际化 */
 export function setLang(v) {
-  setStore(StoreType.LANG, v);
+  setStorage(StorageKey.LANGUAGE, v)
 }
 
 /**同步全局开关 */
 export function setGlobalSwitchOn(value) {
-  setStore(StoreType.SWITCH, value);
+  setStorage(StorageKey.GLOBAL_SWITCH, value)
 }
 
 /**获取全局开关状态 */
-export async function getGlobalSwitchOn() {
-  const { ok, data } = await getStore(StoreType.SWITCH);
-  if (ok) return data;
-  return false;
+export function getGlobalSwitchOn() {
+  return getStorage(StorageKey.GLOBAL_SWITCH, false)
 }
 
-/**保存路由列表 */
-export function setRoutes(value) {
-  setStore(StoreType.ROUTES, value);
+/**保存拦截路由列表 */
+export function setInterceptorRoutes(value) {
+  setStorage(StorageKey.INTERCEPT_LIST, value)
 }
 
 /**获取路由列表 */
-export async function getRoutes() {
-  const { ok, data } = await getStore(StoreType.ROUTES);
-  if (ok) return data;
-  return [];
+export function getInterceptorRoutes() {
+  return getStorage(StorageKey.INTERCEPT_LIST, [])
 }
 
 /**保存Tag列表 */
 export function setTags(value) {
-  setStore(StoreType.TAGS, value);
+  setStorage(StorageKey.TAGS, value)
 }
 
 /**获取Tag列表 */
-export async function getTags() {
-  const { ok, data } = await getStore(StoreType.TAGS);
-  if (ok) return data;
-  return [];
+export function getTags() {
+  return getStorage(StorageKey.TAGS, [])
 }
 
 /**同步模式状态 */
 export function setMode(value) {
-  setStore(StoreType.MODE, value);
+  setStorage(StorageKey.MODE, value)
 }
 
 /**获取模式 */
-export async function getMode() {
-  const { ok, data } = await getStore(StoreType.MODE);
-  if (ok) return data;
-  return "interceptor";
+export function getMode() {
+  return getStorage(StorageKey.MODE, "interceptor")
 }
 
 /**同步 重定向列表 */
 export function setRedirects(value) {
-  setStore(StoreType.REDIRECT, value);
+  setStorage(StorageKey.REDIRECT_LIST, value)
 }
 
 /**获取 重定向列表 */
-export async function getRedirects() {
-  const { ok, data } = await getStore(StoreType.REDIRECT);
-  if (ok) return data;
-  return [];
+export function getRedirects() {
+  return getStorage(StorageKey.REDIRECT_LIST, [])
 }

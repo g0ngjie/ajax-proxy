@@ -15,7 +15,11 @@
       </el-table-column>
       <el-table-column :label="$t('matchType')" width="100">
         <template slot-scope="{ row }">
-          {{ { "normal": $t("normal"), regex: $t("regex") }[row.filterType || "normal"] }}
+          {{
+            { normal: $t("normal"), regex: $t("regex") }[
+              row.filterType || "normal"
+            ]
+          }}
         </template>
       </el-table-column>
       <el-table-column
@@ -33,16 +37,10 @@
         :label="$t('remark')"
         show-overflow-tooltip
       />
-      <el-table-column
-        :label="$t('handle')"
-        align="center"
-        width="270"
-      >
+      <el-table-column :label="$t('handle')" align="center" width="270">
         <template slot-scope="{ row }">
           <!-- 编辑 -->
-          <el-button @click="handleEdit(row)" plain>{{
-            $t("edit")
-          }}</el-button>
+          <el-button @click="handleEdit(row)" plain>{{ $t("edit") }}</el-button>
           <!-- 删除 -->
           <el-button type="danger" @click="handleDel(row)" plain>{{
             $t("del")
@@ -85,7 +83,9 @@ export default {
       this.modifyNotice(this.tableData);
     },
     async handleDel({ id }) {
-      const { ok } = await confirmFunc({ message: this.$t("msg.confirmDeletion") });
+      const { ok } = await confirmFunc({
+        message: this.$t("msg.confirmDeletion"),
+      });
       if (ok) {
         const newList = [];
         this.tableData.forEach((item) => {
@@ -96,8 +96,8 @@ export default {
       }
     },
     // 复制
-    async handleCopy(row) {
-      const list = await getRedirects();
+    handleCopy(row) {
+      const list = getRedirects();
       let remark = row.remark || "";
       if (!remark.includes("[ -- copy -- ]"))
         remark = "[ -- copy -- ]  " + remark;
@@ -114,8 +114,8 @@ export default {
       this.tableData.push(row);
       this.modifyNotice(this.tableData);
     },
-    async editData(row) {
-      const list = await getRedirects();
+    editData(row) {
+      const list = getRedirects();
       const newList = [];
       list.forEach((item) => {
         if (item.id == row.id) newList.push(row);
@@ -129,8 +129,8 @@ export default {
       setRedirects(redirects);
       noticeRedirects(redirects);
     },
-    async initList() {
-      this.tableData = await getRedirects();
+    initList() {
+      this.tableData = getRedirects();
     },
   },
   mounted() {

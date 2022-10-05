@@ -20,23 +20,14 @@
           ]"
           prop="domain"
         >
-          <el-input
-            v-model="form.domain"
-            placeholder="http|https://foo.com"
-          >
+          <el-input v-model="form.domain" placeholder="http|https://foo.com">
             <el-select
-              style="width: 90px;"
+              style="width: 90px"
               v-model="form.filterType"
               slot="prepend"
             >
-              <el-option
-                :label="$t('normal')"
-                value="normal"
-              ></el-option>
-              <el-option
-                :label="$t('regex')"
-                value="regex"
-              ></el-option>
+              <el-option :label="$t('normal')" value="normal"></el-option>
+              <el-option :label="$t('regex')" value="regex"></el-option>
             </el-select>
           </el-input>
         </el-form-item>
@@ -71,9 +62,7 @@
             <el-row :gutter="24" style="margin-bottom: 10px">
               <el-col :span="7">Key</el-col>
               <el-col :span="7">Value</el-col>
-              <el-col :span="7">{{
-                $t("describe")
-              }}</el-col>
+              <el-col :span="7">{{ $t("describe") }}</el-col>
               <el-col :span="3">{{ $t("option") }}</el-col>
             </el-row>
             <el-row
@@ -234,9 +223,9 @@ export default {
       this.form.headers.splice(index, 1);
     },
     // 模态展示
-    async open(row) {
+    open(row) {
       // 获取标签
-      this.tags = await getTags();
+      this.tags = getTags();
       if (row) {
         this.isEdit = true;
         // 编辑

@@ -113,8 +113,12 @@
 import Modal from "./modal";
 import { confirmFunc } from "@/common/index";
 import { arrayToObject, deepClone, typeIs, uniqueId } from "@alrale/common-lib";
-import { getRoutes, getTags, setRoutes } from "@/common/store";
-import { noticeRoutes, noticeBadge } from "@/common/notice";
+import {
+  getInterceptorRoutes,
+  getTags,
+  setInterceptorRoutes,
+} from "@/common/store";
+import { noticeInterceptorRoutes, noticeBadge } from "@/common/notice";
 import Tag from "./tag";
 
 export default {
@@ -134,7 +138,7 @@ export default {
     // 删除hit
     handleTagClose(row) {
       delete row.hit;
-      setRoutes(this.tableData);
+      setInterceptorRoutes(this.tableData);
       noticeBadge();
       this.initList();
     },
@@ -191,7 +195,7 @@ export default {
       });
       if (ok) {
         const newList = [];
-        const routes = await getRoutes();
+        const routes = getInterceptorRoutes();
         routes.forEach((item) => {
           if (item.id != id) newList.push(item);
         });
@@ -201,7 +205,7 @@ export default {
     },
     // 复制
     async handleCopy(row) {
-      const routes = await getRoutes();
+      const routes = getInterceptorRoutes();
       let remark = row.remark || "";
       if (!remark.includes("[ -- copy -- ]"))
         remark = "[ -- copy -- ]  " + remark;
@@ -219,7 +223,7 @@ export default {
       this.modifyNotice(this.tableData);
     },
     async editData(row) {
-      const routes = await getRoutes();
+      const routes = getInterceptorRoutes();
       const newList = [];
       routes.forEach((item) => {
         if (item.id == row.id) newList.push(row);
@@ -230,15 +234,15 @@ export default {
     },
     // 通知
     modifyNotice(proxy_routes) {
-      setRoutes(proxy_routes);
-      noticeRoutes(proxy_routes);
+      setInterceptorRoutes(proxy_routes);
+      noticeInterceptorRoutes(proxy_routes);
     },
     async initList(tables) {
       // tag search 级联
       if (!tables) this.searchForm = {};
-      const tags = await getTags();
+      const tags = getTags();
       this.tagMapping = arrayToObject("id", tags);
-      const routes = tables || (await getRoutes());
+      const routes = tables || getInterceptorRoutes();
       if (typeIs(tags) === "array") {
         if (tags.length === 0) {
           this.tableData = routes;

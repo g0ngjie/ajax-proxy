@@ -80,3 +80,16 @@ export function noticeBackgroundByContent(key: NoticeKey, value) {
         });
     }
 }
+
+/**
+ * 通知 panels -> service-worker
+ */
+export function noticeServiceWorkerByPanels(key, value) {
+    if (useRuntime) {
+        target.chrome.runtime.sendMessage(target.chrome.runtime.id, {
+            type: Notice.TYPE,
+            to: Notice.TO_SERVICE_WORKER,
+            key, value
+        }).catch(err => { })
+    }
+}

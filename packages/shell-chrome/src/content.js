@@ -8,7 +8,6 @@ import {
     StorageKey,
     noticeDocumentByContent,
     noticeBackgroundByContent,
-    printDeclare,
 } from "@proxy/shared-utils";
 
 // 在页面上插入代码
@@ -29,10 +28,6 @@ initStorage().then(() => {
         if (getStorage(StorageKey.INTERCEPT_LIST)) {
             noticeDocumentByContent(NoticeKey.INTERCEPT_LIST, getStorage(StorageKey.INTERCEPT_LIST));
         }
-        if (getStorage(StorageKey.TERMINAL_DECLARE, true)) {
-            // 终端声明
-            printDeclare()
-        }
     });
 
     // 接收 popup 的消息 转发给 document
@@ -50,10 +45,6 @@ initStorage().then(() => {
             // 刷新命中率
             if (msg.key === NoticeKey.HIT_RATE) {
                 noticeBackgroundByContent(NoticeKey.HIT_RATE, msg.value);
-            }
-            // 修复代理
-            if (msg.key === NoticeKey.FIX_PROXY) {
-                noticeDocumentByContent(NoticeKey.HIT_PROXY);
             }
         }
     })

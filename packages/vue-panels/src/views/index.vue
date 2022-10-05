@@ -100,8 +100,8 @@ import {
   setLang,
   setGlobalSwitchOn,
   getGlobalSwitchOn,
-  getRoutes,
-  setRoutes,
+  getInterceptorRoutes,
+  setInterceptorRoutes,
   getStoreAll,
   setTags,
   setMode,
@@ -138,7 +138,7 @@ export default {
     },
     // 下载
     async handleDownload() {
-      const { ok, data } = await getStoreAll();
+      const { ok, data } = getStoreAll();
       // 数据异常
       if (!ok) return this.$message.warning(this.$t("msg.dataErr"));
       const { ok: isOk, data: value } = await promptFunc({
@@ -168,7 +168,7 @@ export default {
       reader.onload = async (e) => {
         try {
           let _json = JSON.parse(e.target.result);
-          const routes = await getRoutes();
+          const routes = getInterceptorRoutes();
           if (!_json) return;
           if (routes.length > 0) {
             // 如果存在
@@ -190,7 +190,7 @@ export default {
       } = this.$t("msg");
       // 设置拦截列表
       if (typeIs(proxy_routes) === "array" && proxy_routes.length > 0) {
-        setRoutes(proxy_routes);
+        setInterceptorRoutes(proxy_routes);
         this.$refs.table?.initList();
       } else this.$message.warning(importEmpty);
       // 设置标签列表
@@ -230,14 +230,14 @@ export default {
       // 数据处理
       setGlobalSwitchOn(bool);
     },
-    async initData() {
+    initData() {
       // 获取 开关状态
-      this.switchOn = await getGlobalSwitchOn();
+      this.switchOn = getGlobalSwitchOn();
       // 初始化国际化
-      const lang = await getLang();
+      const lang = getLang();
       this.language = lang;
       this.$i18n.locale = lang;
-      this.currentMode = await getMode();
+      this.currentMode = getMode();
     },
   },
   mounted() {

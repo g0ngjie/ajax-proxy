@@ -57,19 +57,10 @@ function setGlobalSwitch(bool: boolean) {
     mountInstance(bool)
 }
 
-// 修复代理情况
-function fixProxy() {
-    mountInstance(!globalState.global_on)
-    setTimeout(() => {
-        mountInstance(globalState.global_on)
-    }, 300);
-}
-
 initState()
 export default {
     update,
     setGlobalSwitch,
-    fixProxy,
 }
 
 export type {

@@ -50,27 +50,27 @@ export default {
   width: 100%;
   height: 100%;
   /*1.显示滚动条：当内容超出容器的时候，可以拖动：*/
-  ::v-deep .el-drawer__body {
+  :deep(.el-drawer__body) {
     overflow: auto;
   }
   /*2.隐藏滚动条，太丑了*/
-  // ::v-deep .el-drawer__container ::-webkit-scrollbar {
+  // :deep( .el-drawer__container ::-webkit-scrollbar) {
   //   display: none;
   // }
-  ::v-deep .jsoneditor-vue {
+  :deep(.jsoneditor-vue) {
     height: 100%;
   }
-  ::v-deep .jsoneditor-mode-form {
+  :deep(.jsoneditor-mode-form) {
     border-color: teal !important;
   }
-  ::v-deep .jsoneditor-menu {
+  :deep(.jsoneditor-menu) {
     background-color: teal !important;
     border-bottom: 1px solid teal !important;
     a.jsoneditor-poweredBy {
       display: none;
     }
   }
-  ::v-deep .json-editor-drawer__footer {
+  :deep(.json-editor-drawer__footer) {
     position: absolute;
     bottom: 10px;
     right: 40px;

@@ -24,7 +24,12 @@
 </template>
 
 <script>
-import { getRoutes, getTags, setRoutes, setTags } from "@/common/store";
+import {
+  getInterceptorRoutes,
+  getTags,
+  setInterceptorRoutes,
+  setTags,
+} from "@/common/store";
 import { uniqueId } from "@alrale/common-lib";
 import { confirmFunc } from "@/common";
 // 变迁栏
@@ -39,7 +44,9 @@ export default {
   methods: {
     // 移除
     async handleRemove({ id }) {
-      const { ok } = await confirmFunc({ message: this.$t("msg.confirmDeletion") });
+      const { ok } = await confirmFunc({
+        message: this.$t("msg.confirmDeletion"),
+      });
       if (!ok) return;
       const newTags = [];
       this.dynamicTags.forEach((item) => {
@@ -53,13 +60,13 @@ export default {
     },
     // 更新Store routes
     async refreshRoutes(id) {
-      const routes = await getRoutes();
+      const routes = getInterceptorRoutes();
       const newRoutes = routes.map((item) => {
         const { tagId, ...data } = item;
         if (item.tagId && item.tagId === id) return data;
         return item;
       });
-      setRoutes(newRoutes);
+      setInterceptorRoutes(newRoutes);
     },
     // 修改tag状态
     handleTagStatus(tag) {
@@ -89,8 +96,8 @@ export default {
       this.inputValue = "";
       this.refreshData(this.dynamicTags);
     },
-    async initList() {
-      this.dynamicTags = await getTags();
+    initList() {
+      this.dynamicTags = getTags();
     },
   },
   mounted() {

@@ -15,3 +15,7 @@ export declare function noticeDocumentByContent(key: NoticeKey, value: any): voi
  * @param value
  */
 export declare function noticeBackgroundByContent(key: NoticeKey, value: any): void;
+/**
+ * 通知 panels -> service-worker
+ */
+export declare function noticeServiceWorkerByPanels(key: any, value: any): void;

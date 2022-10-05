@@ -54,6 +54,7 @@ importers:
     specifiers:
       '@alrale/common-lib': ^1.0.49
       '@alrale/downloads': ^1.0.3
+      '@proxy/shared-utils': workspace:^1.0.0
       '@vue/cli-plugin-babel': ~4.5.0
       '@vue/cli-plugin-router': ~4.5.0
       '@vue/cli-plugin-vuex': ~4.5.0
@@ -71,6 +72,7 @@ importers:
     dependencies:
       '@alrale/common-lib': registry.npmmirror.com/@alrale/common-lib/1.0.75
       '@alrale/downloads': registry.npmmirror.com/@alrale/downloads/1.0.3
+      '@proxy/shared-utils': link:../shared-utils
       core-js: registry.npmmirror.com/core-js/3.25.5
       element-ui: registry.npmmirror.com/element-ui/2.15.10_vue@2.7.10
       vue: registry.npmmirror.com/vue/2.7.10
