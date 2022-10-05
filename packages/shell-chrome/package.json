@@ -1,0 +1,25 @@
+{
+  "name": "@colibri/shell-chrome",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "rm -rf build && webpack --config webpack.config.js",
+    "watch": "vite build --watch"
+  },
+  "keywords": [],
+  "author": {
+    "name": "Gj",
+    "email": "gongjie0422@163.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@colibri/lib.v2": "workspace:^1.0.0",
+    "@colibri/shared-utils": "workspace:^1.0.0"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^11.0.0",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
+  }
+}
