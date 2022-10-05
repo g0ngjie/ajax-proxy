@@ -1,7 +1,7 @@
-// console.log("Colibri document.js");
+// console.log("Ajax proxy document.js");
 
-import lib from "@colibri/lib.v2";
-import { Notice, NoticeKey } from "@colibri/shared-utils";
+import lib from "@proxy/lib";
+import { Notice, NoticeKey } from "@proxy/shared-utils";
 
 window.addEventListener(
     "message",

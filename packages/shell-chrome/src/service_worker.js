@@ -1,11 +1,11 @@
 
-// console.log("Colibri service_worker.js")
+// console.log("Ajax proxy service_worker.js")
 
 import {
     Notice,
     NoticeKey,
     StorageKey,
-} from "@colibri/shared-utils/lib/consts";
+} from "@proxy/shared-utils/lib/consts";
 
 // 同步数据
 function setStore(k, v) {

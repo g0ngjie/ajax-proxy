@@ -1,4 +1,4 @@
-// console.log("Colibri content.js")
+// console.log("Ajax proxy content.js")
 
 import {
     getStorage,
@@ -9,7 +9,7 @@ import {
     noticeDocumentByContent,
     noticeBackgroundByContent,
     printDeclare,
-} from "@colibri/shared-utils";
+} from "@proxy/shared-utils";
 
 // 在页面上插入代码
 const script = document.createElement("script");

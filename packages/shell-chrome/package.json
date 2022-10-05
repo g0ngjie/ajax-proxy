@@ -1,5 +1,5 @@
 {
-  "name": "@colibri/shell-chrome",
+  "name": "@proxy/shell-chrome",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -14,8 +14,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@colibri/lib.v2": "workspace:^1.0.0",
-    "@colibri/shared-utils": "workspace:^1.0.0"
+    "@proxy/lib": "workspace:^1.0.0",
+    "@proxy/shared-utils": "workspace:^1.0.0"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^11.0.0",
