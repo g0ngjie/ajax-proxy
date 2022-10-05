@@ -1,0 +1,40 @@
+{
+  "name": "ajax-proxy",
+  "private": true,
+  "description": "Modify your Ajax response to test",
+  "version": "2.0.5",
+  "scripts": {
+    "dev": "pnpm -C ./packages/vue-panels serve",
+    "watch": "run-p watch:lib watch:chrome",
+    "watch:lib": "pnpm -C ./packages/proxy-lib watch",
+    "watch:chrome": "pnpm -C ./packages/shell-chrome watch",
+    "build": "run-s build:all pkg",
+    "build:all": "pnpm -F \"./packages/**\" build",
+    "build:lib": "pnpm -C ./packages/proxy-lib build",
+    "build:utils": "pnpm -C ./packages/shared-utils build",
+    "build:chrome": "pnpm -C ./packages/shell-chrome build",
+    "build:popup": "pnpm -C ./packages/vue-panels build",
+    "clean:build": "rm -rf ./packages/proxy-lib/lib ./packages/shell-chrome/build ./packages/shared-utils/lib",
+    "release": "node release.js",
+    "pkg": "cp -r ./packages/vue-panels/dist ./packages/shell-chrome/build/popups",
+    "zip": "node ./extension-zips.js",
+    "preinstall": "npx only-allow pnpm"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/g0ngjie/ajax-proxy.git"
+  },
+  "engines": {
+    "node": ">=16.16.0"
+  },
+  "keywords": [],
+  "author": {
+    "name": "Gj",
+    "email": "gongjie0422@163.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/g0ngjie/ajax-proxy/issues"
+  },
+  "homepage": "https://github.com/g0ngjie/ajax-proxy#readme"
+}

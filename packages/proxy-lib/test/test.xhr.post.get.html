@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="../lib/index.umd.js"></script>
+    <script>
+        // 测试 XHR POST和GET 拦截功能
+        lib.update({
+            global_on: true,
+            matching_content: [
+                {
+                    switch_on: true,
+                    match_url: 'https://api.github.com/users/g0ngjie',
+                    override: JSON.stringify({ ok: true, text: "success" }),
+                }, {
+                    switch_on: true,
+                    match_url: 'http://fakeapi.jsonparseronline.com/categories',
+                    override: JSON.stringify({ ok: true, text: "success" }),
+                }
+            ]
+        })
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', 'https://api.github.com/users/g0ngjie', true);
+        xhr.send();
+        xhr.onload = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log(this.responseText, 'xhr GET');
+            }
+        }
+
+        const xhr1 = new XMLHttpRequest();
+        xhr1.open('POST', 'http://fakeapi.jsonparseronline.com/categories', true);
+        xhr1.send();
+        xhr1.onload = function () {
+            if (xhr1.readyState === 4 && xhr1.status === 200) {
+                console.log(this.responseText, 'xhr1 POST');
+            }
+        }
+    </script>
+</body>
+
+</html>

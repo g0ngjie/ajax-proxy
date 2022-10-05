@@ -1,0 +1,21 @@
+{
+  "name": "@proxy/shared-utils",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "main": "lib/index.js",
+  "types": "types/index.d.ts",
+  "devDependencies": {
+    "@types/node": "^18.0.1"
+  },
+  "scripts": {
+    "watch": "tsc -w",
+    "build": "rm -rf lib types && tsc"
+  },
+  "keywords": [],
+  "author": {
+    "name": "Gj",
+    "email": "gongjie0422@163.com"
+  },
+  "license": "MIT"
+}

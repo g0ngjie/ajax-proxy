@@ -1,6 +1,6 @@
 .DS_Store
 node_modules
-/dist
+dist
 
 # local env files
 .env.local
@@ -21,4 +21,6 @@ pnpm-debug.log*
 *.sln
 *.sw?
 
-ajax-proxy.zip
+lib
+build
+*.zip

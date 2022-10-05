@@ -13,7 +13,6 @@ module.exports = {
     // proxy: {},
   },
   publicPath: process.env.NODE_ENV === "production" ? "./" : "/",
-  outputDir: "../extensions/page",
   productionSourceMap: false,
   configureWebpack: (config) => {
     // 开启gzip压缩

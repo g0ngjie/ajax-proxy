@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="../lib/index.umd.js"></script>
+    <script>
+        // 轮询,测试动态改变引用对象,无刷新是否成功
+        function execFn(bool, counter) {
+            lib.update({
+                sglobal_on: bool,
+                matching_content: [
+                    {
+                        switch_on: true,
+                        match_url: 'https://api.github.com/rate_limit',
+                        override: JSON.stringify({ ok: true, text: "interceptor success" }),
+                    }
+                ]
+            })
+            fetch("https://api.github.com/rate_limit", {
+                // "method": "DELETE",
+                "headers": {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+            })
+                .then(response => response.json())
+                .then(json => console.log(json, 'fetch', bool, counter))
+        }
+
+        let flag = true
+        let counter = 0
+        let intervalId = null
+        intervalId = setInterval(() => {
+            if (counter >= 5) clearInterval(intervalId)
+            execFn(flag = !flag, counter += 1)
+        }, 1000);
+
+    </script>
+</body>
+
+</html>

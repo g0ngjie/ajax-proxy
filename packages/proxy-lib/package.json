@@ -1,0 +1,30 @@
+{
+  "name": "@proxy/lib",
+  "version": "1.0.0",
+  "description": "ajax interceptor lib",
+  "main": "lib/index.umd.js",
+  "module": "lib/index.esm.js",
+  "typings": "types/index.d.ts",
+  "scripts": {
+    "watch": "run-p watch:ts watch:vite",
+    "build": "rm -rf types lib && tsc && vite build",
+    "watch:ts": "tsc --watch",
+    "watch:vite": "vite build --watch"
+  },
+  "files": [
+    "lib",
+    "types"
+  ],
+  "keywords": [],
+  "author": {
+    "name": "Gj",
+    "email": "gongjie0422@163.com"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "vite": "^2.9.13"
+  },
+  "dependencies": {
+    "@proxy/shared-utils": "workspace:^1.0.0"
+  }
+}
