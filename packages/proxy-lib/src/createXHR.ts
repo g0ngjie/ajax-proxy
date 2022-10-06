@@ -6,7 +6,7 @@ let globalState: IGlobalState
 // XMLHttpRequest 副本
 export const OriginXHR = window.XMLHttpRequest;
 // 初始化共享状态
-export const initXHRState = (state: IGlobalState) => globalState = state
+export const initInterceptorXHRState = (state: IGlobalState) => globalState = state
 
 class CustomXHR extends XMLHttpRequest {
     // 响应内容

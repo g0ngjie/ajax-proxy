@@ -11,44 +11,31 @@
 <body>
     <script src="../lib/index.umd.js"></script>
     <script>
-        // 测试基础拦截功能
-        // 
         lib.update({
             global_on: true,
-            matching_content: [
+            mode: 'redirector',
+            redirector_matching_content: [
                 {
                     switch_on: true,
-                    match_url: 'https://api.github.com/',
-                    override: JSON.stringify({ ok: true, text: "success" }),
-                }, {
-                    switch_on: true,
-                    match_url: 'https://api.github.com/feeds',
-                    statusCode: "200",
-                    override: JSON.stringify({ ok: true, text: "success" }),
+                    domain: 'https://api.github.com/',
+                    redirect_url: "https://www.baidu.com"
                 }
             ]
         })
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', 'https://api.github.com/', true);
-        xhr.send();
-        xhr.onload = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                console.log(this.responseText, 'xhr');
+        setTimeout(() => {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', 'https://api.github.com/', true);
+            xhr.send();
+            xhr.onload = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log(this.responseText, 'xhr');
+                }
             }
-        }
-        fetch("https://api.github.com/")
-            .then(response => response.text())
-            .then(json => console.log(json, 'fetch'))
+            fetch("https://api.github.com/")
+                .then(response => response.text())
+                .then(json => console.log(json, 'fetch'))
+        }, 1000);
 
-
-        fetch("https://api.github.com/feeds", {
-            "method": "DELETE",
-            "headers": {
-                "Content-type": "application/json; charset=UTF-8"
-            }
-        })
-            .then(response => response.json())
-            .then(json => console.log(json, 'fetch feeds'))
     </script>
 </body>
 

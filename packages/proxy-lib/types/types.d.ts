@@ -2,6 +2,8 @@
 export declare type IRequestMethod = "ANY" | "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 /**规则 */
 export declare type IFilterType = "normal" | "regex";
+/**模式 */
+export declare type IMode = "interceptor" | "redirector";
 /**拦截器对象 */
 export declare type IMatchInterceptorContent = {
     /**是否需要匹配 */
@@ -13,7 +15,7 @@ export declare type IMatchInterceptorContent = {
     /**匹配规则 */
     filter_type?: IFilterType;
     /**请求协议 */
-    method: IRequestMethod;
+    method?: IRequestMethod;
     /**备注 */
     remarks?: string;
     /**命中率 */
@@ -33,16 +35,16 @@ export declare type IRedirectHeader = {
 export declare type IMatchRedirectContent = {
     /**是否需要匹配 */
     switch_on: boolean;
-    /**匹配规则 */
-    filter_type?: IFilterType;
     /**域名 */
     domain: string;
-    /**请求协议 */
-    method: IRequestMethod;
     /**重定向地址 */
     redirect_url: string;
+    /**匹配规则 */
+    filter_type?: IFilterType;
+    /**请求协议 */
+    method?: IRequestMethod;
     /**请求头 */
-    headers: IRedirectHeader[];
+    headers?: IRedirectHeader[];
     /**备注 */
     remarks?: string;
     /**忽略名单 */
@@ -52,7 +54,7 @@ export declare type IGlobalState = {
     /**全局开关 */
     global_on: boolean;
     /**模式 */
-    mode: 'interceptor' | 'redirector';
+    mode: IMode;
     /**拦截规则列表 */
     interceptor_matching_content: IMatchInterceptorContent[];
     /**重定向规则列表 */

@@ -3,6 +3,8 @@ import { IGlobalState } from "./types";
 
 // 状态
 let globalState: IGlobalState
+// 初始化共享状态
+export const initRedirectXHRState = (state: IGlobalState) => globalState = state
 
 export default class CustomRedirectXHR extends XMLHttpRequest {
 

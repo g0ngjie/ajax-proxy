@@ -5,7 +5,7 @@ import { IGlobalState } from "./types";
 let globalState: IGlobalState
 const OriginFetch = window.fetch.bind(window)
 // 初始化共享状态
-export const initFetchState = (state: IGlobalState) => globalState = state
+export const initRedirectFetchState = (state: IGlobalState) => globalState = state
 
 export default function CustomFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
     let fetchMethod: string | undefined | "ANY" = "ANY"

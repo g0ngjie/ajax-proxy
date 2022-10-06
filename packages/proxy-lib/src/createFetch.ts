@@ -6,7 +6,7 @@ let globalState: IGlobalState
 // fetch 副本
 export const OriginFetch = window.fetch.bind(window)
 // 初始化共享状态
-export const initFetchState = (state: IGlobalState) => globalState = state
+export const initInterceptorFetchState = (state: IGlobalState) => globalState = state
 
 function CustomFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
     let fetchMethod: string | undefined | "ANY" = "ANY"
