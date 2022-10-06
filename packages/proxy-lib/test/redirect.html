@@ -22,19 +22,17 @@
                 }
             ]
         })
-        setTimeout(() => {
-            const xhr = new XMLHttpRequest();
-            xhr.open('GET', 'https://api.github.com/', true);
-            xhr.send();
-            xhr.onload = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    console.log(this.responseText, 'xhr');
-                }
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', 'https://api.github.com/', true);
+        xhr.send();
+        xhr.onload = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log(this.responseText, 'xhr');
             }
-            fetch("https://api.github.com/")
-                .then(response => response.text())
-                .then(json => console.log(json, 'fetch'))
-        }, 1000);
+        }
+        fetch("https://api.github.com/")
+            .then(response => response.text())
+            .then(json => console.log(json, 'fetch'))
 
     </script>
 </body>

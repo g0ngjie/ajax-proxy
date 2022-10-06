@@ -4,6 +4,8 @@ export type IRequestMethod = "ANY" | "GET" | "POST" | "PUT" | "DELETE" | "PATCH"
 export type IFilterType = "normal" | "regex";
 /**模式 */
 export type IMode = "interceptor" | "redirector"
+/**全局状态结构体 */
+export type RefGlobalState<T = IGlobalState> = { value: T }
 
 /**拦截器对象 */
 export type IMatchInterceptorContent = {

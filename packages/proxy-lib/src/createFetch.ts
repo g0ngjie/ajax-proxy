@@ -1,12 +1,12 @@
 import { maybeMatching, notice } from "./common";
-import { IGlobalState } from "./types";
+import { RefGlobalState } from "./types";
 
 // 共享状态
-let globalState: IGlobalState
+let globalState: RefGlobalState
 // fetch 副本
 export const OriginFetch = window.fetch.bind(window)
 // 初始化共享状态
-export const initInterceptorFetchState = (state: IGlobalState) => globalState = state
+export const initInterceptorFetchState = (state: RefGlobalState) => globalState = state
 
 function CustomFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
     let fetchMethod: string | undefined | "ANY" = "ANY"
@@ -17,7 +17,7 @@ function CustomFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Resp
         let txt: string | undefined;
         let status = response.status
         let statusText = response.statusText
-        globalState.interceptor_matching_content.forEach(target => {
+        globalState.value.interceptor_matching_content.forEach(target => {
             const { switch_on = true, match_url, override = "", filter_type, method, statusCode = "200" } = target
             // 是否需要匹配
             if (switch_on && match_url) {
@@ -37,7 +37,7 @@ function CustomFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Resp
         });
 
         // 返回原始响应
-        if (!globalState.global_on || !txt) return response
+        if (!globalState.value.global_on || !txt) return response
 
         const stream = new ReadableStream({
             start(controller) {

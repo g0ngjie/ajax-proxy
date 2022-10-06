@@ -1,12 +1,12 @@
 import { maybeMatching, notice } from "./common";
-import { IGlobalState } from "./types";
+import { RefGlobalState } from "./types";
 
 // 共享状态
-let globalState: IGlobalState
+let globalState: RefGlobalState
 // XMLHttpRequest 副本
 export const OriginXHR = window.XMLHttpRequest;
 // 初始化共享状态
-export const initInterceptorXHRState = (state: IGlobalState) => globalState = state
+export const initInterceptorXHRState = (state: RefGlobalState) => globalState = state
 
 class CustomXHR extends XMLHttpRequest {
     // 响应内容
@@ -48,7 +48,7 @@ class CustomXHR extends XMLHttpRequest {
 
     // 规则匹配，修改响应内容
     private maybeNeedModifyRes() {
-        globalState.interceptor_matching_content.forEach(target => {
+        globalState.value.interceptor_matching_content.forEach(target => {
             const { switch_on = true, match_url, override = "", filter_type, method, statusCode = "200" } = target
             // 是否需要匹配
             if (switch_on && match_url) {

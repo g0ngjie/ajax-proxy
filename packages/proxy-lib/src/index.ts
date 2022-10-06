@@ -1,4 +1,4 @@
-import { IGlobalState, IMatchInterceptorContent, IMatchRedirectContent, IMode, IRequestMethod } from "./types";
+import { IGlobalState, IMatchInterceptorContent, IMatchRedirectContent, IMode, IRequestMethod, RefGlobalState } from "./types";
 import CreateXHR, { initInterceptorXHRState, OriginXHR } from "./createXHR";
 import CreateFetch, { initInterceptorFetchState, OriginFetch } from "./createFetch";
 import RedirectXHR, { initRedirectXHRState } from "./redirectXHR";
@@ -6,15 +6,17 @@ import RedirectFetch, { initRedirectFetchState } from "./redirectFetch";
 import { warn } from "./common";
 
 // 初始化共享状态
-let globalState: IGlobalState = {
-    // 全局状态开关
-    global_on: false,
-    // 模式
-    mode: 'interceptor',
-    // 拦截匹配内容
-    interceptor_matching_content: [],
-    // 重定向匹配
-    redirector_matching_content: []
+const globalState: RefGlobalState = {
+    value: {
+        // 全局状态开关
+        global_on: false,
+        // 模式
+        mode: 'interceptor',
+        // 拦截匹配内容
+        interceptor_matching_content: [],
+        // 重定向匹配
+        redirector_matching_content: []
+    }
 }
 
 // 初始化状态
@@ -25,21 +27,15 @@ function initState() {
     initRedirectXHRState(globalState);
     initRedirectFetchState(globalState);
     // 挂载实例
-    // mountInstance(globalState.global_on, globalState.mode);
-    // 默认为拦截器模式
-    // changeMode();
+    mountInstance();
 }
 
-/**切换模式 默认为 拦截器模式 */
-function changeMode(mode: IMode = 'interceptor') {
-    globalState.mode = mode
-}
-
-function mountInstance(bool: boolean = true, mode: IMode) {
+function mountInstance() {
+    const { global_on = true, mode } = globalState.value
     // 每次挂载时，需要预先重置一下引用
     window.XMLHttpRequest = OriginXHR
     window.fetch = OriginFetch
-    if (bool) {
+    if (global_on) {
         if (mode === 'interceptor') {
             // 挂载拦截器
             window.XMLHttpRequest = CreateXHR
@@ -61,8 +57,8 @@ function isIGlobalState(x: any): x is IGlobalState {
 function updateGlobalState(target: unknown) {
     if (isIGlobalState(target)) {
         // 替换全部
-        globalState = target
-        mountInstance(globalState.global_on, globalState.mode)
+        globalState.value = target
+        mountInstance()
     } else warn("unknow type")
 }
 
@@ -110,18 +106,18 @@ function update<unknow>(target: unknow) {
     // 全局开关
     if (typeof target === "boolean") setGlobalSwitch(target)
     // 修改模式
-    else if (isMode(target)) changeMode(target)
+    else if (isMode(target)) globalState.value.mode = target
     // 修改拦截器
-    else if (isInterceptors(target)) globalState.interceptor_matching_content = target
+    else if (isInterceptors(target)) globalState.value.interceptor_matching_content = target
     // 修改重定向
-    else if (isRedirectors(target)) globalState.redirector_matching_content = target
+    else if (isRedirectors(target)) globalState.value.redirector_matching_content = target
     else updateGlobalState(target)
 }
 
 // 全局开关
 function setGlobalSwitch(bool: boolean) {
-    globalState.global_on = bool
-    mountInstance(bool, globalState.mode)
+    globalState.value.global_on = bool
+    mountInstance()
 }
 
 initState()

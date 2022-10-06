@@ -1,10 +1,10 @@
 import { finalRedirectUrl, fmtURLToString, matchIgnoresAndRule } from "./common";
-import { IGlobalState } from "./types";
+import { RefGlobalState } from "./types";
 
 // 状态
-let globalState: IGlobalState
+let globalState: RefGlobalState
 // 初始化共享状态
-export const initRedirectXHRState = (state: IGlobalState) => globalState = state
+export const initRedirectXHRState = (state: RefGlobalState) => globalState = state
 
 export default class CustomRedirectXHR extends XMLHttpRequest {
 
@@ -27,7 +27,7 @@ export default class CustomRedirectXHR extends XMLHttpRequest {
             password?: string | null,
         ) => {
             this.method = (method || "ANY").toUpperCase()
-            for (let i = 0; i < globalState.redirector_matching_content.length; i++) {
+            for (let i = 0; i < globalState.value.redirector_matching_content.length; i++) {
                 const {
                     switch_on = true,
                     domain = "",
@@ -36,7 +36,7 @@ export default class CustomRedirectXHR extends XMLHttpRequest {
                     redirect_url = "",
                     headers = [],
                     ignores = [],
-                } = globalState.redirector_matching_content[i];
+                } = globalState.value.redirector_matching_content[i];
                 if (switch_on) {
                     // 判断是否存在协议匹配
                     if (method && ![this.method, "ANY"].includes(method.toUpperCase())) return
