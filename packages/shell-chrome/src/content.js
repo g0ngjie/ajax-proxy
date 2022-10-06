@@ -8,8 +8,8 @@ import {
     StorageKey,
     noticeDocumentByContent,
     noticeServiceWorkerByContent,
-    CONNECT_NAME,
 } from "@proxy/shared-utils";
+import { CONNECT_NAME } from "./consts";
 
 // 在页面上插入代码
 const script = document.createElement("script");

@@ -49,6 +49,3 @@ export enum NoticeKey {
   /**模式 */
   MODE = 'ajax-proxy:notice:mode',
 }
-
-/**长链接通信名称 */
-export const CONNECT_NAME = 'ajax-proxy:connect:custom:name'
