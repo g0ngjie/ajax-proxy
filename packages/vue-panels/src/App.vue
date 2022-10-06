@@ -1,8 +1,15 @@
 <template>
   <div id="app">
-    <router-view />
+    <MainView />
   </div>
 </template>
+<script>
+import MainView from "./views/index.vue";
+export default {
+  components: { MainView },
+};
+</script>
+
 <style>
 html,
 body,

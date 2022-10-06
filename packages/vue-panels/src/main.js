@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from "./router";
 
 import '@/common/element-plugin'
 import i18n from "@/lang/index";
@@ -14,7 +13,6 @@ Vue.config.productionTip = false
 
 initStorage().then(() => {
   new Vue({
-    router,
     i18n,
     render: h => h(App)
   }).$mount('#app')
