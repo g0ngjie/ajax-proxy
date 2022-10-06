@@ -22,7 +22,7 @@
           <el-input v-model="form.match" :placeholder="$t('placeholder.input')">
             <el-select
               style="width: 90px"
-              v-model="form.filterType"
+              v-model="form.filter_type"
               slot="prepend"
             >
               <el-option :label="$t('normal')" value="normal"></el-option>
@@ -160,7 +160,7 @@ export default {
         this.title = this.$t("create");
       }
       this.isShow = true;
-      this.form = row || { statusCode: 200, remark: "", filterType: "normal" };
+      this.form = row || { statusCode: 200, remark: "", filter_type: "normal" };
       this.$nextTick(() => this.$refs.form.clearValidate());
     },
     // 模态关闭

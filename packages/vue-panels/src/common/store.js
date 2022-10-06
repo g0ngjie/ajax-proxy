@@ -4,19 +4,14 @@ import { setStorage, getStorage, StorageKey, getStorageAll } from "@proxy/shared
 /**获取所有 */
 export function getStoreAll() {
   const getData = getStorageAll()
-  // FIXME: 后期再调整
-  // 此处这么写，是为了兼容老数据
-  // 后期可以优化，不做向下兼容。
-  // 因为本来插件只是协助手段，并不会存在大量的需要操作接口的列表
   const { LANGUAGE, GLOBAL_SWITCH, INTERCEPT_LIST, REDIRECT_LIST, MODE, TAGS } = StorageKey
-
   return {
     ok: true,
     data: {
-      lang: getData[LANGUAGE],
-      globalSwitchOn: getData[GLOBAL_SWITCH],
-      proxy_routes: getData[INTERCEPT_LIST],
-      redirect: getData[REDIRECT_LIST],
+      language: getData[LANGUAGE],
+      globalSwitch: getData[GLOBAL_SWITCH],
+      interceptors: getData[INTERCEPT_LIST],
+      redirectors: getData[REDIRECT_LIST],
       mode: getData[MODE],
       tags: getData[TAGS]
     }

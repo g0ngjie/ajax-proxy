@@ -1,4 +1,4 @@
-import { IGlobalState, IMatchContent, IRequestMethod } from "./types";
+import { IGlobalState, IMatchInterceptorContent, IRequestMethod } from "./types";
 import CreateXHR, { initXHRState, OriginXHR } from "./createXHR";
 import CreateFetch, { initFetchState, OriginFetch } from "./createFetch";
 import { warn } from "./common";
@@ -7,8 +7,12 @@ import { warn } from "./common";
 let globalState: IGlobalState = {
     // 全局状态开关
     global_on: false,
-    // 匹配内容
-    matching_content: [],
+    // 模式
+    mode: 'interceptor',
+    // 拦截匹配内容
+    interceptor_matching_content: [],
+    // 重定向匹配
+    redirector_matching_content: []
 }
 
 function initState() {
@@ -41,13 +45,13 @@ function updateGlobalState(target: unknown) {
 
 // 修改共享状态
 function update<T = boolean>(global_switch_on: T): void
-function update<T = IMatchContent[]>(matching_content: T): void
+function update<T = IMatchInterceptorContent[]>(matching_content: T): void
 function update<T = IGlobalState>(state: T): void
 function update<unknow>(target: unknow) {
     if (typeof target === "boolean") {
         setGlobalSwitch(target)
     } else if (Array.isArray(target)) {
-        globalState.matching_content = target
+        globalState.interceptor_matching_content = target
     } else updateGlobalState(target)
 }
 
@@ -65,5 +69,5 @@ export default {
 
 export type {
     IRequestMethod,
-    IMatchContent,
+    IMatchInterceptorContent,
 }

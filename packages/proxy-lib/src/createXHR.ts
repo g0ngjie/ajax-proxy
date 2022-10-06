@@ -48,7 +48,7 @@ class CustomXHR extends XMLHttpRequest {
 
     // 规则匹配，修改响应内容
     private maybeNeedModifyRes() {
-        globalState.matching_content.forEach(target => {
+        globalState.interceptor_matching_content.forEach(target => {
             const { switch_on = true, match_url, override = "", filter_type, method, statusCode = "200" } = target
             // 是否需要匹配
             if (switch_on && match_url) {

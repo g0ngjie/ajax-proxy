@@ -36,7 +36,7 @@
     <el-table :data="tableData" stripe>
       <el-table-column :label="$t('status')" width="80">
         <template slot-scope="{ row }">
-          <el-switch v-model="row.switchOn" @change="handleSwitch" />
+          <el-switch v-model="row.switch_on" @change="handleSwitch" />
         </template>
       </el-table-column>
       <el-table-column :label="$t('matchType')" width="90">
@@ -208,7 +208,7 @@ export default {
       routes.push({
         ...row,
         remark,
-        switchOn: false,
+        switch_on: false,
         id: uniqueId(),
       });
       this.modifyNotice(routes);

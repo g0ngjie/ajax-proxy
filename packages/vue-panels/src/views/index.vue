@@ -3,9 +3,9 @@
     <div class="global-switch">
       <section>
         <i class="el-icon-switch-button"></i>
-        <el-switch v-model="switchOn" @change="handleSwitch" />
+        <el-switch v-model="globalSwitchOn" @change="handleSwitch" />
       </section>
-      <section v-if="switchOn">
+      <section v-if="globalSwitchOn">
         <!-- 备份 -->
         <el-button
           style="margin-right: 10px"
@@ -67,7 +67,7 @@
         </svg>
       </section>
     </div>
-    <div class="current-title" v-if="switchOn && currentTitle">
+    <div class="current-title" v-if="globalSwitchOn && currentTitle">
       <el-alert
         show-icon
         :title="currentTitle"
@@ -76,7 +76,7 @@
       />
     </div>
     <transition name="fade" mode="out-in">
-      <section v-if="switchOn" class="table-container">
+      <section v-if="globalSwitchOn" class="table-container">
         <transition name="fade" mode="out-in">
           <IntercepTable v-if="currentMode === 'interceptor'" ref="table" />
           <RedirecTable v-else ref="redirecTable" />
@@ -101,7 +101,7 @@ import {
   useRedirects,
 } from "@/common/store";
 import {
-  noticeSwitchOn,
+  noticeGlobalSwitchOn,
   noticeMode,
   noticeGetCurrentTitle,
 } from "@/common/notice";
@@ -116,7 +116,7 @@ export default {
   },
   data() {
     return {
-      switchOn: false,
+      globalSwitchOn: false,
       language: "",
       currentMode: "",
       Langs,
@@ -176,14 +176,15 @@ export default {
       };
       reader.readAsText(file.raw);
     },
-    setStoreData({ lang, proxy_routes, tags, mode, redirect }) {
+    setStoreData(target) {
+      const { language, interceptors, tags, mode, redirectors } = target;
       const {
         // 你导入了一个空列表
         importEmpty,
       } = this.$t("msg");
       // 设置拦截列表
-      if (typeIs(proxy_routes) === "array" && proxy_routes.length > 0) {
-        useInterceptorRoutes.set(proxy_routes);
+      if (typeIs(interceptors) === "array" && interceptors.length > 0) {
+        useInterceptorRoutes.set(interceptors);
         this.$refs.table?.initList();
       } else this.$message.warning(importEmpty);
       // 设置标签列表
@@ -192,8 +193,8 @@ export default {
         this.$refs.table?.initTags();
       }
       // 设置语言
-      if (lang) {
-        useLang.set(lang);
+      if (language) {
+        useLang.set(language);
         this.initData();
       }
       // 设置当前模式
@@ -202,8 +203,8 @@ export default {
         this.currentMode;
       }
       // 设置重定向列表
-      if (typeIs(redirect) === "array" && redirect.length > 0) {
-        useRedirects.set(redirect);
+      if (typeIs(redirectors) === "array" && redirectors.length > 0) {
+        useRedirects.set(redirectors);
         this.$refs.redirecTable?.initList();
       }
     },
@@ -219,13 +220,13 @@ export default {
     },
     handleSwitch(bool) {
       // 同步
-      noticeSwitchOn(bool);
+      noticeGlobalSwitchOn(bool);
       // 数据处理
       useGLobalSwitch.set(bool);
     },
     initData() {
       // 获取 开关状态
-      this.switchOn = useGLobalSwitch.get();
+      this.globalSwitchOn = useGLobalSwitch.get();
       // 初始化国际化
       const lang = useLang.get();
       this.language = lang;

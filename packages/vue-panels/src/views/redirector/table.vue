@@ -10,7 +10,7 @@
     <el-table :data="tableData" stripe style="margin-top: 20px">
       <el-table-column :label="$t('status')" width="100">
         <template slot-scope="{ row }">
-          <el-switch v-model="row.switchOn" @change="handleSwitch" />
+          <el-switch v-model="row.switch_on" @change="handleSwitch" />
         </template>
       </el-table-column>
       <el-table-column :label="$t('matchType')" width="100">
@@ -28,7 +28,7 @@
         show-overflow-tooltip
       />
       <el-table-column
-        prop="redirect"
+        prop="redirect_url"
         :label="$t('redirect')"
         show-overflow-tooltip
       />
@@ -104,7 +104,7 @@ export default {
       list.push({
         ...row,
         remark,
-        switchOn: false,
+        switch_on: false,
         id: uniqueId(),
       });
       this.modifyNotice(list);

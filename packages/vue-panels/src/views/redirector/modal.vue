@@ -23,11 +23,24 @@
           <el-input v-model="form.domain" placeholder="http|https://foo.com">
             <el-select
               style="width: 90px"
-              v-model="form.filterType"
+              v-model="form.filter_type"
               slot="prepend"
             >
               <el-option :label="$t('normal')" value="normal"></el-option>
               <el-option :label="$t('regex')" value="regex"></el-option>
+            </el-select>
+            <el-select
+              style="width: 90px"
+              v-model="form.method"
+              slot="append"
+              placeholder="Method"
+            >
+              <el-option label="any(*)" value="ANY" />
+              <el-option label="GET" value="GET" />
+              <el-option label="POST" value="POST" />
+              <el-option label="PUT" value="PUT" />
+              <el-option label="DELETE" value="DELETE" />
+              <el-option label="PATCH" value="PATCH" />
             </el-select>
           </el-input>
         </el-form-item>
@@ -41,10 +54,10 @@
               message: $t('msg.redirectNotEmpty'),
             },
           ]"
-          prop="redirect"
+          prop="redirect_url"
         >
           <el-input
-            v-model="form.redirect"
+            v-model="form.redirect_url"
             placeholder="http|https://foo2.com"
           ></el-input>
         </el-form-item>
@@ -134,11 +147,11 @@
               style="margin-bottom: 10px"
               size="mini"
               type="text"
-              @click="handleWhitelistAdd"
+              @click="handleIgnoresAdd"
               >+{{ $t("append") }}</el-button
             >
             <el-row
-              v-for="(item, index) in form.whitelist"
+              v-for="(item, index) in form.ignores"
               :key="index"
               style="margin-bottom: 5px"
             >
@@ -150,11 +163,11 @@
                     trigger: 'change',
                   },
                 ]"
-                :prop="`whitelist[${index}]`"
+                :prop="`ignores[${index}]`"
               >
                 <el-input
                   placeholder="http|https://foo.xxx"
-                  v-model="form.whitelist[index]"
+                  v-model="form.ignores[index]"
                 >
                   <el-button
                     slot="append"
@@ -203,12 +216,12 @@ export default {
   },
   methods: {
     // 白名单添加
-    handleWhitelistAdd() {
-      this.form.whitelist.push("");
+    handleIgnoresAdd() {
+      this.form.ignores.push("");
     },
     // 删除白名单
     handleDelWhite(index) {
-      this.form.whitelist.splice(index, 1);
+      this.form.ignores.splice(index, 1);
     },
     // 请求头添加
     handleHeaderAdd() {
@@ -231,7 +244,7 @@ export default {
         // 编辑
         this.title = this.$t("edit");
         // 兼容版本迭代，旧数据未存在白名单
-        if (!row.whitelist) row.whitelist = [];
+        if (!row.ignores) row.ignores = [];
       } else {
         this.isEdit = false;
         // 新增
@@ -241,8 +254,8 @@ export default {
       this.form = row || {
         remark: "",
         headers: [],
-        whitelist: [],
-        filterType: "normal",
+        ignores: [],
+        filter_type: "normal",
       };
       this.$nextTick(() => this.$refs.form.clearValidate());
     },
@@ -259,7 +272,11 @@ export default {
     createData() {
       if (this.isEdit) this.$emit("editData", this.form);
       else
-        this.$emit("putData", { ...this.form, switchOn: true, id: uniqueId() });
+        this.$emit("putData", {
+          ...this.form,
+          switch_on: true,
+          id: uniqueId(),
+        });
       this.isShow = false;
     },
   },

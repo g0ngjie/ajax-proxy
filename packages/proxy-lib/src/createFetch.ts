@@ -13,12 +13,11 @@ function CustomFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Resp
     if (init) {
         fetchMethod = init.method?.toUpperCase() || "ANY"
     }
-    // @ts-ignore
     return OriginFetch(input, init).then((response: Response) => {
         let txt: string | undefined;
         let status = response.status
         let statusText = response.statusText
-        globalState.matching_content.forEach(target => {
+        globalState.interceptor_matching_content.forEach(target => {
             const { switch_on = true, match_url, override = "", filter_type, method, statusCode = "200" } = target
             // 是否需要匹配
             if (switch_on && match_url) {

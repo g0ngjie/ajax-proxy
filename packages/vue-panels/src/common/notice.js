@@ -2,7 +2,7 @@
 import { noticeServiceWorkerByPanels, NoticeKey } from "@proxy/shared-utils";
 
 /**全局开关 */
-export const noticeSwitchOn = (value) => noticeServiceWorkerByPanels(NoticeKey.GLOBAL_SWITCH, value)
+export const noticeGlobalSwitchOn = (value) => noticeServiceWorkerByPanels(NoticeKey.GLOBAL_SWITCH, value)
 
 /**同步拦截路由列表 */
 export const noticeInterceptorRoutes = (routes) => noticeServiceWorkerByPanels(NoticeKey.INTERCEPT_LIST, routes)
