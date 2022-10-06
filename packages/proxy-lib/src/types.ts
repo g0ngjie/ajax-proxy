@@ -7,27 +7,30 @@ export type IMode = "interceptor" | "redirector"
 /**全局状态结构体 */
 export type RefGlobalState<T = IGlobalState> = { value: T }
 
-/**拦截器对象 */
-export type IMatchInterceptorContent = {
+type CommonContent = {
     /**是否需要匹配 */
     switch_on: boolean;
+    /**匹配规则 */
+    filter_type?: IFilterType
+    /**请求协议 */
+    method?: IRequestMethod
+    /**备注 */
+    remarks?: string;
+}
+
+/**拦截器对象 */
+export type IMatchInterceptorContent = {
     /**匹配目标URL */
     match_url: string;
     /**需要覆盖的内容 */
     override?: string;
-    /**匹配规则 */
-    filter_type?: IFilterType;
-    /**请求协议 */
-    method?: IRequestMethod;
-    /**备注 */
-    remarks?: string;
     /**命中率 */
     hit?: number;
     /**标题 */
     label?: string;
     /**状态码 */
     statusCode?: string
-}
+} & CommonContent
 
 /**重定向头部结构体 */
 export type IRedirectHeader = {
@@ -38,23 +41,15 @@ export type IRedirectHeader = {
 
 /**重定向对象结构体 */
 export type IMatchRedirectContent = {
-    /**是否需要匹配 */
-    switch_on: boolean;
     /**域名 */
     domain: string
     /**重定向地址 */
     redirect_url: string
-    /**匹配规则 */
-    filter_type?: IFilterType
-    /**请求协议 */
-    method?: IRequestMethod
     /**请求头 */
     headers?: IRedirectHeader[]
-    /**备注 */
-    remarks?: string;
     /**忽略名单 */
     ignores?: string[]
-}
+} & CommonContent
 
 export type IGlobalState = {
     /**全局开关 */
