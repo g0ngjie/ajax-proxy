@@ -5,17 +5,17 @@
   "description": "Modify your Ajax response to test",
   "author": "Gj",
   "icons": {
-    "128": "images/128.png"
+    "128": "icons/128.png"
   },
   "permissions": [
     "storage",
     "notifications"
   ],
   "action": {
-    "default_icon": "images/48g.png"
+    "default_icon": "icons/48g.png"
   },
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "service_worker.js"
   },
   "content_scripts": [
     {
@@ -70,7 +70,7 @@
   "web_accessible_resources": [
     {
       "resources": [
-        "core.js"
+        "document.js"
       ],
       "matches": [
         "<all_urls>"
