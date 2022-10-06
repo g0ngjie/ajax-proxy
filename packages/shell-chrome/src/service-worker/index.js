@@ -31,8 +31,7 @@ chrome.runtime.onMessage.addListener((msg) => {
                     path: value ? "icons/128.png" : "icons/128g.png",
                 });
                 // 更新一下图标状态
-                // FIXME: 这里看看是否需要 chromeBadge value
-                chromeBadge(value)
+                chromeBadge()
                 noticeContent(key, value)
             }
             // 模式切换
@@ -42,8 +41,7 @@ chrome.runtime.onMessage.addListener((msg) => {
             }
             // 拦截器列表
             if (key === NoticeKey.INTERCEPT_LIST) {
-                // FIXME: 这里看看是否需要 chromeBadge value
-                chromeBadge(value);
+                chromeBadge();
                 noticeContent(key, value)
             }
             // 重定向列表
