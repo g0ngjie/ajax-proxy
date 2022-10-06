@@ -1,13 +1,14 @@
 // console.log("Ajax proxy content.js")
 
 import {
-    getStorage,
     initStorage,
+    getStorage,
     Notice,
     NoticeKey,
     StorageKey,
     noticeDocumentByContent,
-    noticeBackgroundByContent,
+    noticeServiceWorkerByContent,
+    CONNECT_NAME,
 } from "@proxy/shared-utils";
 
 // 在页面上插入代码
@@ -17,43 +18,46 @@ script.setAttribute("src", chrome.runtime.getURL("document.js"));
 document.documentElement.appendChild(script);
 
 initStorage().then(() => {
+    // 发送当前tab页 title
+    noticeServiceWorkerByContent(NoticeKey.INIT_CURRENT_TITLE, window.document.title)
 
+    // document.js 资源加载
     script.addEventListener("load", () => {
+        let mode, interceptors, redirectors;
+        // 全局开关
         if (getStorage(StorageKey.GLOBAL_SWITCH, false)) {
-            noticeDocumentByContent(NoticeKey.GLOBAL_SWITCH, true);
-            noticeBackgroundByContent(NoticeKey.GLOBAL_SWITCH, true);
-            // 刷新命中率
-            noticeBackgroundByContent(NoticeKey.HIT_RATE, null);
+            noticeServiceWorkerByContent(NoticeKey.GLOBAL_SWITCH, true);
         }
-        if (getStorage(StorageKey.INTERCEPT_LIST)) {
-            noticeDocumentByContent(NoticeKey.INTERCEPT_LIST, getStorage(StorageKey.INTERCEPT_LIST));
+        // 模式
+        if (mode = getStorage(StorageKey.MODE, 'interceptor')) {
+            noticeServiceWorkerByContent(NoticeKey.MODE, mode)
+        }
+        // 拦截器列表
+        if (interceptors = getStorage(StorageKey.INTERCEPT_LIST, [])) {
+            noticeServiceWorkerByContent(StorageKey.INTERCEPT_LIST, interceptors)
+        }
+        // 重定向列表
+        if (redirectors = getStorage(StorageKey.REDIRECT_LIST, [])) {
+            noticeServiceWorkerByContent(StorageKey.REDIRECT_LIST, redirectors)
         }
     });
 
-    // 接收 popup 的消息 转发给 document
-    chrome.runtime.onMessage.addListener((msg) => {
-        // console.log("[debug]接收 popup 的消息 转发给 document msg:", msg)
+    // 长链接通信接收 service-worker -> document
+    const port = chrome.runtime.connect({ name: CONNECT_NAME });
+    // 接收service-worker 传来的信息，转发给 document.js
+    port.onMessage.addListener(function (msg) {
         if (msg.type === Notice.TYPE && msg.to === Notice.TO_CONTENT) {
-            // 判断徽章
-            if (msg.key === NoticeKey.GLOBAL_SWITCH) {
-                noticeDocumentByContent(NoticeKey.GLOBAL_SWITCH, msg.value);
-            }
-            // 同步拦截列表
-            if (msg.key === NoticeKey.INTERCEPT_LIST) {
-                noticeDocumentByContent(NoticeKey.INTERCEPT_LIST, msg.value);
-            }
-            // 刷新命中率
-            if (msg.key === NoticeKey.HIT_RATE) {
-                noticeBackgroundByContent(NoticeKey.HIT_RATE, msg.value);
-            }
+            const { GLOBAL_SWITCH, INTERCEPT_LIST, REDIRECT_LIST, MODE } = NoticeKey
+            if ([GLOBAL_SWITCH, INTERCEPT_LIST, REDIRECT_LIST, MODE].includes(msg.key))
+                noticeDocumentByContent(msg.key, msg.value)
         }
-    })
+    });
 
-    // 接收lib 传来的信息 转发给 popup
+    // 接收lib 传来的信息 转发给 service-worker
     window.addEventListener(
         Notice.TO_CONTENT,
         function (event) {
-            noticeBackgroundByContent(NoticeKey.HIT_RATE, event.detail)
+            noticeServiceWorkerByContent(NoticeKey.HIT_RATE, event.detail)
         },
         false
     );

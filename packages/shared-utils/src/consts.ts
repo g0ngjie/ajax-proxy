@@ -23,8 +23,6 @@ export enum Notice {
   TO_PANELS = 'ajax-proxy:notice:panels',
   /**通知 document */
   TO_DOCUMENT = 'ajax-proxy:notice:document',
-  /**通知 background */
-  TO_BACKGROUND = 'ajax-proxy:notice:background',
   /**通知 service-worker */
   TO_SERVICE_WORKER = 'ajax-proxy:notice:service-worker'
 }
@@ -39,6 +37,11 @@ export enum NoticeKey {
   REDIRECT_LIST = 'ajax-proxy:notice:redirect-list',
   /**获取当前title */
   GET_CURRENT_TITLE = "ajax-proxy:notice:get-current-title",
+  /**
+   * 首次设置document.title
+   * 该枚举只在 content 和 service-worker 中使用
+   */
+  INIT_CURRENT_TITLE = "ajax-proxy:notice:init-current-title",
   /**徽章状态 */
   BADGE_STATUS = 'ajax-proxy:notice:badge-status',
   /**命中率 */
@@ -46,3 +49,6 @@ export enum NoticeKey {
   /**模式 */
   MODE = 'ajax-proxy:notice:mode',
 }
+
+/**长链接通信名称 */
+export const CONNECT_NAME = 'ajax-proxy:connect:custom:name'

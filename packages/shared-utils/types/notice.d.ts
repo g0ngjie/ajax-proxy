@@ -10,11 +10,11 @@ export declare function noticeContentByPopup(key: NoticeKey, value: any): void;
  */
 export declare function noticeDocumentByContent(key: NoticeKey, value: any): void;
 /**
- * 通知 content -> background
+ * 通知 content -> service-worker
  * @param key
  * @param value
  */
-export declare function noticeBackgroundByContent(key: NoticeKey, value: any): void;
+export declare function noticeServiceWorkerByContent(key: NoticeKey, value: any): void;
 /**
  * 通知 panels -> service-worker
  */

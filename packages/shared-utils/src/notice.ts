@@ -66,18 +66,18 @@ export function noticeDocumentByContent(key: NoticeKey, value) {
 }
 
 /**
- * 通知 content -> background
+ * 通知 content -> service-worker
  * @param key
  * @param value
  */
-export function noticeBackgroundByContent(key: NoticeKey, value) {
+export function noticeServiceWorkerByContent(key: NoticeKey, value) {
     if (useRuntime) {
         target.chrome.runtime.sendMessage({
             type: Notice.TYPE,
-            to: Notice.TO_BACKGROUND,
+            to: Notice.TO_SERVICE_WORKER,
             key,
             value,
-        });
+        }).catch(err => { });
     }
 }
 

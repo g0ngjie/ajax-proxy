@@ -10,11 +10,21 @@ window.addEventListener(
         let globalSwitch = false
         if (data.type === Notice.TYPE && data.to === Notice.TO_DOCUMENT) {
             switch (data.key) {
+                // 全局开关
                 case NoticeKey.GLOBAL_SWITCH:
                     globalSwitch = data.value;
                     lib.setGlobalSwitch(globalSwitch)
                     break;
+                // 模式切换
+                case NoticeKey.MODE:
+                    lib.update(data.value)
+                    break;
+                // 拦截器列表
                 case NoticeKey.INTERCEPT_LIST:
+                    lib.update(data.value)
+                    break;
+                // 重定向列表
+                case NoticeKey.REDIRECT_LIST:
                     lib.update(data.value)
                     break;
             }

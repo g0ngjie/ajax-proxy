@@ -17,9 +17,9 @@
               message: $t('msg.pathNotEmpty'),
             },
           ]"
-          prop="match"
+          prop="match_url"
         >
-          <el-input v-model="form.match" :placeholder="$t('placeholder.input')">
+          <el-input v-model="form.match_url" :placeholder="$t('placeholder.input')">
             <el-select
               style="width: 90px"
               v-model="form.filter_type"
@@ -176,7 +176,11 @@ export default {
     createData() {
       if (this.isEdit) this.$emit("editData", this.form);
       else
-        this.$emit("putData", { ...this.form, switchOn: true, id: uniqueId() });
+        this.$emit("putData", {
+          ...this.form,
+          switch_on: true,
+          id: uniqueId(),
+        });
       this.isShow = false;
     },
   },

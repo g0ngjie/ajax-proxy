@@ -109,6 +109,7 @@ import { confirmFunc, promptFunc } from "@/common";
 import { typeIs } from "@alrale/common-lib";
 import { Langs } from "@/lang/index";
 import exportFromJSON from "export-from-json";
+import { Notice, NoticeKey } from "@proxy/shared-utils";
 export default {
   components: {
     IntercepTable,
@@ -238,9 +239,9 @@ export default {
     // 获取当前连接状态
     chrome.runtime &&
       chrome.runtime.onMessage.addListener(({ type, to, key, value }) => {
-        if (type === "__ajax_proxy" && to === "page") {
+        if (type === Notice.TYPE && to === Notice.TO_PANELS) {
           // 当前链接tab页
-          if (key === "currentTitle") this.currentTitle = value;
+          if (key === NoticeKey.GET_CURRENT_TITLE) this.currentTitle = value;
         }
       });
     // 获取Title

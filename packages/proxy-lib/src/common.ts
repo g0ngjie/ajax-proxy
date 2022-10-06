@@ -82,7 +82,11 @@ export function finalRedirectUrl(
 export function notice(url: string, match_url: string, method: string) {
     window.dispatchEvent(
         new CustomEvent(Notice.TO_CONTENT, {
-            detail: { url, match_url, method },
+            detail: {
+                value: {
+                    url, match_url, method
+                }
+            },
         })
     );
 }

@@ -12,14 +12,14 @@
       <el-form :inline="true" :model="searchForm">
         <el-form-item :label="$t('path')">
           <el-input
-            v-model="searchForm.match"
+            v-model="searchForm.searchUrl"
             clearable
             :placeholder="$t('matchPath')"
           ></el-input>
         </el-form-item>
         <el-form-item :label="$t('remark')">
           <el-input
-            v-model="searchForm.remark"
+            v-model="searchForm.searchRemark"
             clearable
             :placeholder="$t('remark')"
           ></el-input>
@@ -64,7 +64,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        prop="match"
+        prop="match_url"
         :label="$t('matchPath')"
         show-overflow-tooltip
       />
@@ -116,6 +116,7 @@ import { arrayToObject, deepClone, typeIs, uniqueId } from "@alrale/common-lib";
 import { useInterceptorRoutes, useTags } from "@/common/store";
 import { noticeInterceptorRoutes, noticeBadge } from "@/common/notice";
 import Tag from "./tag";
+import { Notice, NoticeKey } from "@proxy/shared-utils";
 
 export default {
   components: {
@@ -151,20 +152,22 @@ export default {
       }
     },
     handleSearch() {
-      const { match, remark } = this.searchForm;
-      if (!match && !remark) {
+      const { searchUrl, searchRemark } = this.searchForm;
+      if (!searchUrl && !searchRemark) {
         this.initList();
         return;
       }
       const newList = [];
-      if (match) {
+      if (searchUrl) {
         this.tableData.forEach((item) => {
-          if (item.match && item.match.includes(match)) newList.push(item);
+          if (item.match_url && item.match_url.includes(searchUrl))
+            newList.push(item);
         });
       }
-      if (remark) {
+      if (searchRemark) {
         this.tableData.forEach((item) => {
-          if (item.remark && item.remark.includes(remark)) newList.push(item);
+          if (item.remark && item.remark.includes(searchRemark))
+            newList.push(item);
         });
       }
       if (newList.length > 0) this.initList(newList);
@@ -274,8 +277,8 @@ export default {
     listenerFix() {
       chrome.runtime &&
         chrome.runtime.onMessage.addListener(({ type, to, key }) => {
-          if (type === "__ajax_proxy" && to === "page") {
-            if (key === "hit") this.initList();
+          if (type === Notice.TYPE && to === Notice.TO_PANELS) {
+            if (key === NoticeKey.HIT_RATE) this.initList();
           }
         });
     },
