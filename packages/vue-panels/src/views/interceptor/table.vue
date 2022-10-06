@@ -116,7 +116,7 @@ import { arrayToObject, deepClone, typeIs, uniqueId } from "@alrale/common-lib";
 import { useInterceptorRoutes, useTags } from "@/common/store";
 import { noticeInterceptorRoutes, noticeBadge } from "@/common/notice";
 import Tag from "./tag";
-import { Notice, NoticeKey } from "@proxy/shared-utils";
+import { NoticeFrom, NoticeTo, NoticeKey } from "@proxy/shared-utils";
 
 export default {
   components: {
@@ -276,8 +276,8 @@ export default {
     // 监听 准备刷新
     listenerFix() {
       chrome.runtime &&
-        chrome.runtime.onMessage.addListener(({ type, to, key }) => {
-          if (type === Notice.TYPE && to === Notice.TO_PANELS) {
+        chrome.runtime.onMessage.addListener(({ from, to, key }) => {
+          if (from === NoticeFrom.SERVICE_WORKER && to === NoticeTo.PANELS) {
             if (key === NoticeKey.HIT_RATE) this.initList();
           }
         });

@@ -63,7 +63,7 @@ function updateGlobalState(target: unknown) {
 }
 
 function isMode(x: any): x is IMode {
-    return ["interceptor", "redirector"].includes(x)
+    return typeof x === 'string' && ["interceptor", "redirector"].includes(x)
 }
 
 function isArray(x: any): x is any[] {
@@ -71,25 +71,27 @@ function isArray(x: any): x is any[] {
 }
 
 function isInterceptors(x: any): x is IMatchInterceptorContent[] {
-    if (isArray(x)) {
-        for (let i = 0; i < x.length; i++) {
-            const target = x[i];
-            return target.hasOwnProperty("match_url") && target.hasOwnProperty("switch_on")
+    for (let i = 0; i < x.length; i++) {
+        const target = x[i];
+        const bool = target.hasOwnProperty("match_url") && target.hasOwnProperty("switch_on")
+        if (!bool) {
+            return false
         }
     }
-    return false
+    return true
 }
 
 function isRedirectors(x: any): x is IMatchRedirectContent[] {
-    if (isArray(x)) {
-        for (let i = 0; i < x.length; i++) {
-            const target = x[i];
-            return target.hasOwnProperty("domain") &&
-                target.hasOwnProperty("switch_on") &&
-                target.hasOwnProperty("redirect_url")
+    for (let i = 0; i < x.length; i++) {
+        const target = x[i];
+        const bool = target.hasOwnProperty("domain") &&
+            target.hasOwnProperty("switch_on") &&
+            target.hasOwnProperty("redirect_url")
+        if (!bool) {
+            return false
         }
     }
-    return false
+    return true
 }
 
 /**全局开关 */
@@ -107,11 +109,14 @@ function update<unknow>(target: unknow) {
     if (typeof target === "boolean") setGlobalSwitch(target)
     // 修改模式
     else if (isMode(target)) globalState.value.mode = target
-    // 修改拦截器
-    else if (isInterceptors(target)) globalState.value.interceptor_matching_content = target
-    // 修改重定向
-    else if (isRedirectors(target)) globalState.value.redirector_matching_content = target
-    else updateGlobalState(target)
+    else if (isArray(target)) {
+        if (target.length > 0) {
+            // 修改拦截器
+            if (isInterceptors(target)) globalState.value.interceptor_matching_content = target
+            // 修改重定向
+            else if (isRedirectors(target)) globalState.value.redirector_matching_content = target
+        }
+    } else updateGlobalState(target)
 }
 
 // 全局开关

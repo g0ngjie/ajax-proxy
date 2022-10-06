@@ -1,14 +1,14 @@
 // console.log("Ajax proxy document.js");
 
 import lib from "@proxy/lib";
-import { Notice, NoticeKey } from "@proxy/shared-utils";
+import { NoticeFrom, NoticeTo, NoticeKey } from "@proxy/shared-utils";
 
 window.addEventListener(
     "message",
     function (event) {
         const data = event.data;
         let globalSwitch = false
-        if (data.type === Notice.TYPE && data.to === Notice.TO_DOCUMENT) {
+        if (data.from === NoticeFrom.CONTENT && data.to === NoticeTo.DOCUMENT) {
             switch (data.key) {
                 // 全局开关
                 case NoticeKey.GLOBAL_SWITCH:

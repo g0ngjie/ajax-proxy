@@ -1,5 +1,5 @@
 import { IMatchInterceptorContent, IMatchRedirectContent } from "./types";
-import { Notice } from "@proxy/shared-utils";
+import { NoticeTo } from "@proxy/shared-utils";
 
 // match_url规则匹配
 export function maybeMatching(
@@ -81,7 +81,7 @@ export function finalRedirectUrl(
 // 通知到 content 命中统计
 export function notice(url: string, match_url: string, method: string) {
     window.dispatchEvent(
-        new CustomEvent(Notice.TO_CONTENT, {
+        new CustomEvent(NoticeTo.CONTENT, {
             detail: {
                 value: {
                     url, match_url, method

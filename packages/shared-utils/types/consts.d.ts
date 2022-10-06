@@ -12,18 +12,25 @@ export declare enum StorageKey {
     /**标签 */
     TAGS = "ajax-proxy:storage:tags"
 }
-/**通知 */
-export declare enum Notice {
-    /**唯一通知类型 */
-    TYPE = "ajax-proxy:notice:type",
+/**通知-去向 */
+export declare enum NoticeTo {
     /**通知 content */
-    TO_CONTENT = "ajax-proxy:notice:content",
+    CONTENT = "ajax-proxy:notice:to:content",
     /**通知 panels */
-    TO_PANELS = "ajax-proxy:notice:panels",
+    PANELS = "ajax-proxy:notice:to:panels",
     /**通知 document */
-    TO_DOCUMENT = "ajax-proxy:notice:document",
+    DOCUMENT = "ajax-proxy:notice:to:document",
     /**通知 service-worker */
-    TO_SERVICE_WORKER = "ajax-proxy:notice:service-worker"
+    SERVICE_WORKER = "ajax-proxy:notice:to:service-worker"
+}
+/**通知-来自 */
+export declare enum NoticeFrom {
+    /**来自 content */
+    CONTENT = "ajax-proxy:notice:from:content",
+    /**来自 panels */
+    PANELS = "ajax-proxy:notice:from:panels",
+    /**来自 service-worker */
+    SERVICE_WORKER = "ajax-proxy:notice:from:service-worker"
 }
 /**通知Key */
 export declare enum NoticeKey {
@@ -35,11 +42,6 @@ export declare enum NoticeKey {
     REDIRECT_LIST = "ajax-proxy:notice:redirect-list",
     /**获取当前title */
     GET_CURRENT_TITLE = "ajax-proxy:notice:get-current-title",
-    /**
-     * 首次设置document.title
-     * 该枚举只在 content 和 service-worker 中使用
-     */
-    INIT_CURRENT_TITLE = "ajax-proxy:notice:init-current-title",
     /**徽章状态 */
     BADGE_STATUS = "ajax-proxy:notice:badge-status",
     /**命中率 */

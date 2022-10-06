@@ -109,7 +109,7 @@ import { confirmFunc, promptFunc } from "@/common";
 import { typeIs } from "@alrale/common-lib";
 import { Langs } from "@/lang/index";
 import exportFromJSON from "export-from-json";
-import { Notice, NoticeKey } from "@proxy/shared-utils";
+import { NoticeFrom, NoticeTo, NoticeKey } from "@proxy/shared-utils";
 export default {
   components: {
     IntercepTable,
@@ -238,8 +238,8 @@ export default {
   mounted() {
     // 获取当前连接状态
     chrome.runtime &&
-      chrome.runtime.onMessage.addListener(({ type, to, key, value }) => {
-        if (type === Notice.TYPE && to === Notice.TO_PANELS) {
+      chrome.runtime.onMessage.addListener(({ from, to, key, value }) => {
+        if (from === NoticeFrom.SERVICE_WORKER && to === NoticeTo.PANELS) {
           // 当前链接tab页
           if (key === NoticeKey.GET_CURRENT_TITLE) this.currentTitle = value;
         }

@@ -1,4 +1,4 @@
-import { Notice } from "@proxy/shared-utils/lib/consts";
+import { NoticeTo, NoticeFrom } from "@proxy/shared-utils/lib/consts";
 import { CONNECT_NAME } from "../consts";
 import { createPanel } from "./panel";
 
@@ -24,8 +24,8 @@ chrome.runtime.onConnect.addListener(function (port) {
  */
 export function noticePanels(key, value) {
     chrome.runtime.sendMessage({
-        type: Notice.TYPE,
-        to: Notice.TO_PANELS,
+        from: NoticeFrom.SERVICE_WORKER,
+        to: NoticeTo.PANELS,
         key, value
     }).catch(err => { })
 }
@@ -36,8 +36,8 @@ export function noticePanels(key, value) {
 export function noticeContent(key, value) {
     // 长链接通信
     current_port?.postMessage({
-        type: Notice.TYPE,
-        to: Notice.TO_CONTENT,
+        from: NoticeFrom.SERVICE_WORKER,
+        to: NoticeTo.CONTENT,
         key,
         value,
     })
