@@ -37,11 +37,7 @@
             $t("redirector")
           }}</el-radio-button>
         </el-radio-group>
-        <!-- 国际化 -->
-        <!-- <el-radio-group v-model="language" @change="handleLangChange">
-            <el-radio-button label="en">En</el-radio-button>
-            <el-radio-button label="zh">汉</el-radio-button>
-          </el-radio-group> -->
+        <!-- 多语言 -->
         <el-select
           style="width: 100px"
           @change="handleLangChange"
@@ -96,17 +92,13 @@
 import IntercepTable from "./interceptor/table";
 import RedirecTable from "./redirector/table";
 import {
-  getLang,
-  setLang,
-  setGlobalSwitchOn,
-  getGlobalSwitchOn,
-  getInterceptorRoutes,
-  setInterceptorRoutes,
+  useLang,
+  useGLobalSwitch,
+  useInterceptorRoutes,
   getStoreAll,
-  setTags,
-  setMode,
-  getMode,
-  setRedirects,
+  useTags,
+  useMode,
+  useRedirects,
 } from "@/common/store";
 import {
   noticeSwitchOn,
@@ -115,8 +107,8 @@ import {
 } from "@/common/notice";
 import { confirmFunc, promptFunc } from "@/common";
 import { typeIs } from "@alrale/common-lib";
-import { simpleDownload } from "@alrale/downloads";
 import { Langs } from "@/lang/index";
+import exportFromJSON from "export-from-json";
 export default {
   components: {
     IntercepTable,
@@ -151,10 +143,11 @@ export default {
       if (proxy_routes?.length === 0)
         // 没有数据可以下载
         return this.$message.warning(this.$t("msg.noDataToDownload"));
-      simpleDownload(
-        JSON.stringify({ lang, proxy_routes, tags, mode, redirect }),
-        `${value}.json`
-      );
+      exportFromJSON({
+        data: { lang, proxy_routes, tags, mode, redirect },
+        fileName: `${value}.json`,
+        exportType: exportFromJSON.types.json,
+      });
     },
     // 上传
     handleUpload(file) {
@@ -168,7 +161,7 @@ export default {
       reader.onload = async (e) => {
         try {
           let _json = JSON.parse(e.target.result);
-          const routes = getInterceptorRoutes();
+          const routes = useInterceptorRoutes.get();
           if (!_json) return;
           if (routes.length > 0) {
             // 如果存在
@@ -190,54 +183,54 @@ export default {
       } = this.$t("msg");
       // 设置拦截列表
       if (typeIs(proxy_routes) === "array" && proxy_routes.length > 0) {
-        setInterceptorRoutes(proxy_routes);
+        useInterceptorRoutes.set(proxy_routes);
         this.$refs.table?.initList();
       } else this.$message.warning(importEmpty);
       // 设置标签列表
       if (typeIs(tags) === "array" && tags.length > 0) {
-        setTags(tags);
+        useTags.set(tags);
         this.$refs.table?.initTags();
       }
       // 设置语言
       if (lang) {
-        setLang(lang);
+        useLang.set(lang);
         this.initData();
       }
       // 设置当前模式
       if (mode) {
-        setMode(mode);
+        useMode.set(mode);
         this.currentMode;
       }
       // 设置重定向列表
       if (typeIs(redirect) === "array" && redirect.length > 0) {
-        setRedirects(redirect);
+        useRedirects.set(redirect);
         this.$refs.redirecTable?.initList();
       }
     },
     // 国际化
     handleLangChange(name) {
       this.$i18n.locale = name;
-      setLang(name);
+      useLang.set(name);
     },
     // 代理模式
     handleModeChange(name) {
       noticeMode(name);
-      setMode(name);
+      useMode.set(name);
     },
     handleSwitch(bool) {
       // 同步
       noticeSwitchOn(bool);
       // 数据处理
-      setGlobalSwitchOn(bool);
+      useGLobalSwitch.set(bool);
     },
     initData() {
       // 获取 开关状态
-      this.switchOn = getGlobalSwitchOn();
+      this.switchOn = useGLobalSwitch.get();
       // 初始化国际化
-      const lang = getLang();
+      const lang = useLang.get();
       this.language = lang;
       this.$i18n.locale = lang;
-      this.currentMode = getMode();
+      this.currentMode = useMode.get();
     },
   },
   mounted() {

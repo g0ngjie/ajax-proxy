@@ -59,7 +59,7 @@
 import Modal from "./modal";
 import { confirmFunc } from "@/common/index";
 import { deepClone, uniqueId } from "@alrale/common-lib";
-import { getRedirects, setRedirects } from "@/common/store";
+import { useRedirects } from "@/common/store";
 import { noticeRedirects } from "@/common/notice";
 
 export default {
@@ -97,7 +97,7 @@ export default {
     },
     // 复制
     handleCopy(row) {
-      const list = getRedirects();
+      const list = useRedirects.get();
       let remark = row.remark || "";
       if (!remark.includes("[ -- copy -- ]"))
         remark = "[ -- copy -- ]  " + remark;
@@ -115,7 +115,7 @@ export default {
       this.modifyNotice(this.tableData);
     },
     editData(row) {
-      const list = getRedirects();
+      const list = useRedirects.get();
       const newList = [];
       list.forEach((item) => {
         if (item.id == row.id) newList.push(row);
@@ -126,11 +126,11 @@ export default {
     },
     // 通知
     modifyNotice(redirects) {
-      setRedirects(redirects);
+      useRedirects.set(redirects);
       noticeRedirects(redirects);
     },
     initList() {
-      this.tableData = getRedirects();
+      this.tableData = useRedirects.get();
     },
   },
   mounted() {

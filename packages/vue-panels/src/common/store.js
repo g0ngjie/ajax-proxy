@@ -23,62 +23,62 @@ export function getStoreAll() {
   }
 }
 
-/**获取国际化 */
-export function getLang() {
-  return getStorage(StorageKey.LANGUAGE, 'en')
-}
-
-/**设置国际化 */
-export function setLang(v) {
-  setStorage(StorageKey.LANGUAGE, v)
+/**多语言设置 */
+export const useLang = {
+  get() {
+    return getStorage(StorageKey.LANGUAGE, 'en')
+  },
+  set(value) {
+    setStorage(StorageKey.LANGUAGE, value)
+  }
 }
 
 /**同步全局开关 */
-export function setGlobalSwitchOn(value) {
-  setStorage(StorageKey.GLOBAL_SWITCH, value)
+export const useGLobalSwitch = {
+  get() {
+    return getStorage(StorageKey.GLOBAL_SWITCH, false)
+  },
+  set(value) {
+    setStorage(StorageKey.GLOBAL_SWITCH, value)
+  }
 }
 
-/**获取全局开关状态 */
-export function getGlobalSwitchOn() {
-  return getStorage(StorageKey.GLOBAL_SWITCH, false)
+/**拦截路由列表 */
+export const useInterceptorRoutes = {
+  get() {
+    return getStorage(StorageKey.INTERCEPT_LIST, [])
+  },
+  set(value) {
+    setStorage(StorageKey.INTERCEPT_LIST, value)
+  }
 }
 
-/**保存拦截路由列表 */
-export function setInterceptorRoutes(value) {
-  setStorage(StorageKey.INTERCEPT_LIST, value)
+/**Tag列表 */
+export const useTags = {
+  get() {
+    return getStorage(StorageKey.TAGS, [])
+  },
+  set(value) {
+    setStorage(StorageKey.TAGS, value)
+  }
 }
 
-/**获取路由列表 */
-export function getInterceptorRoutes() {
-  return getStorage(StorageKey.INTERCEPT_LIST, [])
+/**模式状态 */
+export const useMode = {
+  get() {
+    return getStorage(StorageKey.MODE, "interceptor")
+  },
+  set(value) {
+    setStorage(StorageKey.MODE, value)
+  }
 }
 
-/**保存Tag列表 */
-export function setTags(value) {
-  setStorage(StorageKey.TAGS, value)
-}
-
-/**获取Tag列表 */
-export function getTags() {
-  return getStorage(StorageKey.TAGS, [])
-}
-
-/**同步模式状态 */
-export function setMode(value) {
-  setStorage(StorageKey.MODE, value)
-}
-
-/**获取模式 */
-export function getMode() {
-  return getStorage(StorageKey.MODE, "interceptor")
-}
-
-/**同步 重定向列表 */
-export function setRedirects(value) {
-  setStorage(StorageKey.REDIRECT_LIST, value)
-}
-
-/**获取 重定向列表 */
-export function getRedirects() {
-  return getStorage(StorageKey.REDIRECT_LIST, [])
+/**重定向列表 */
+export const useRedirects = {
+  get() {
+    return getStorage(StorageKey.REDIRECT_LIST, [])
+  },
+  set(value) {
+    setStorage(StorageKey.REDIRECT_LIST, value)
+  }
 }

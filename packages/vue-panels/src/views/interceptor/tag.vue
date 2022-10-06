@@ -24,12 +24,7 @@
 </template>
 
 <script>
-import {
-  getInterceptorRoutes,
-  getTags,
-  setInterceptorRoutes,
-  setTags,
-} from "@/common/store";
+import { useInterceptorRoutes, useTags } from "@/common/store";
 import { uniqueId } from "@alrale/common-lib";
 import { confirmFunc } from "@/common";
 // 变迁栏
@@ -60,13 +55,13 @@ export default {
     },
     // 更新Store routes
     async refreshRoutes(id) {
-      const routes = getInterceptorRoutes();
+      const routes = useInterceptorRoutes.get();
       const newRoutes = routes.map((item) => {
         const { tagId, ...data } = item;
         if (item.tagId && item.tagId === id) return data;
         return item;
       });
-      setInterceptorRoutes(newRoutes);
+      useInterceptorRoutes.set(newRoutes);
     },
     // 修改tag状态
     handleTagStatus(tag) {
@@ -80,7 +75,7 @@ export default {
       });
     },
     refreshData(tags) {
-      setTags(tags);
+      useTags.set(tags);
       this.$emit("initList");
     },
     handleInputConfirm() {
@@ -97,7 +92,7 @@ export default {
       this.refreshData(this.dynamicTags);
     },
     initList() {
-      this.dynamicTags = getTags();
+      this.dynamicTags = useTags.get();
     },
   },
   mounted() {

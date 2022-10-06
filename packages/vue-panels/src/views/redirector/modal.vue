@@ -189,7 +189,7 @@
 
 <script>
 import { uniqueId } from "@alrale/common-lib";
-import { getTags } from "@/common/store";
+import { useTags } from "@/common/store";
 
 export default {
   data() {
@@ -225,7 +225,7 @@ export default {
     // 模态展示
     open(row) {
       // 获取标签
-      this.tags = getTags();
+      this.tags = useTags.get();
       if (row) {
         this.isEdit = true;
         // 编辑
