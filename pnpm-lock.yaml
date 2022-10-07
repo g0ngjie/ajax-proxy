@@ -20,6 +20,12 @@ importers:
       semver: registry.npmmirror.com/semver/7.3.8
       typescript: registry.npmmirror.com/typescript/4.8.4
 
+  packages/data-compatibility:
+    specifiers:
+      '@types/node': ^18.0.1
+    devDependencies:
+      '@types/node': registry.npmmirror.com/@types/node/18.8.2
+
   packages/proxy-lib:
     specifiers:
       '@proxy/shared-utils': workspace:^1.0.0

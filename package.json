@@ -13,6 +13,7 @@
     "build:lib": "pnpm -C ./packages/proxy-lib build",
     "build:utils": "pnpm -C ./packages/shared-utils build",
     "build:chrome": "pnpm -C ./packages/shell-chrome build",
+    "build:comp": "pnpm -C ./packages/compatibility build",
     "build:panels": "pnpm -C ./packages/vue-panels build",
     "clean:build": "rm -rf ./packages/proxy-lib/lib ./packages/shell-chrome/build ./packages/shared-utils/lib",
     "release": "node release.js",
