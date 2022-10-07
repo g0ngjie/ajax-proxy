@@ -13,10 +13,12 @@ async function syncRoutesAsHit(routes, match_url, method) {
     for (let i = 0; i < list.length; i++) {
         const target = list[i];
         if (target.switch_on) {
-            // 如果match_url 和method 存在 则叠加当前命中率
+            // target 可能没有 method 属性时，设置默认值
+            const targetMethod = target.method || "ANY"
+            // 如果match_url 和method 匹配 则叠加当前命中率
             if (
                 target.match_url === match_url &&
-                (target.method === "ANY" || target.method === method)
+                (targetMethod === "ANY" || targetMethod === method)
             ) {
                 const totalHit = target.hit ? target.hit + 1 : 1;
                 target.hit = totalHit;
