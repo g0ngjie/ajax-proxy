@@ -241,7 +241,7 @@ export default {
       if (!tables) this.searchForm = {};
       const tags = useTags.get();
       this.tagMapping = arrayToObject("id", tags);
-      const routes = tables || useInterceptorRoutes.get();
+      const routes = tables || (await useInterceptorRoutes.getReal());
       if (typeIs(tags) === "array") {
         if (tags.length === 0) {
           this.tableData = routes;

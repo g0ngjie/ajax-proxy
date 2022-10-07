@@ -31,6 +31,23 @@ export function getStorage(key: string, defaultValue: any = null) {
   }
 }
 
+/**不走缓存获取数据 */
+export function getRealStorage(key: string, defaultValue: any = null) {
+  if (useStorage) {
+    return new Promise(resolve => {
+      target.chrome.storage.local.get(key, result => {
+        if (result.hasOwnProperty(key)) resolve(getDefaultValue(result[key], defaultValue))
+        else resolve(defaultValue);
+      })
+    })
+  } else {
+    try {
+      const result = getDefaultValue(JSON.parse(localStorage.getItem(key) as any), defaultValue)
+      return Promise.resolve(result)
+    } catch (e) { }
+  }
+}
+
 export function setStorage(key: string, val: any) {
   checkStorage()
   if (useStorage) {

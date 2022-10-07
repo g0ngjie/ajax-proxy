@@ -1,5 +1,5 @@
 
-import { setStorage, getStorage, StorageKey, getStorageAll } from "@proxy/shared-utils";
+import { setStorage, getStorage, getRealStorage, StorageKey, getStorageAll } from "@proxy/shared-utils";
 
 /**获取所有 */
 export function getStoreAll() {
@@ -40,6 +40,9 @@ export const useGLobalSwitch = {
 
 /**拦截路由列表 */
 export const useInterceptorRoutes = {
+  getReal() {
+    return getRealStorage(StorageKey.INTERCEPT_LIST, [])
+  },
   get() {
     return getStorage(StorageKey.INTERCEPT_LIST, [])
   },
