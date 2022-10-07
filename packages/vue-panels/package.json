@@ -1,5 +1,5 @@
 {
-  "name": "vue-panels",
+  "name": "@proxy/vue-panels",
   "version": "0.1.0",
   "private": true,
   "scripts": {

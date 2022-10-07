@@ -24,8 +24,6 @@
 - 当某个接口 404 时
 <!-- - 当 ... ... -->
 
-<!-- 原始项目已迁移 _main-history-20220127_ -->
-
 ## 安装
 
 [Edge 版本](https://microsoftedge.microsoft.com/addons/detail/ajax-proxy/iladajdkobpmadjfpeginhngnneaoefi)
@@ -50,20 +48,25 @@
    - 方法 2: 可以在开发者工具的`网络（network）`里面，通过 ☑️ 禁用缓存
      ![issues_disabled_cache](https://github.com/g0ngjie/ajax-proxy/wiki/images/issues_disabled_cache.png)
 
-## 目录结构
+## Monorepo
 
-- `extensions` 为浏览器插件目录
-- `vue` 为视图文件所在目录
+| Package                                           | Description           |
+| ------------------------------------------------- | --------------------- |
+| [@proxy/compatibility](./packages/compatibility/) | 老数据兼容库          |
+| [@proxy/lib](./packages/proxy-lib/)               | 操作 Ajax 核心逻辑库  |
+| [@proxy/shared-utils](./packages/shared-utils/)   | 通用类库              |
+| [@proxy/shell-chrome](./packages/shell-chrome/)   | Chrome/Edge extension |
+| [@proxy/vue-panels](./packages/vue-panels/)       | 应用操作面板          |
 
 ## 源码使用方式
 
 1. 下载对应版本的 [Source code](https://github.com/g0ngjie/ajax-proxy/releases) 解压
 2. 浏览器打开 `开发者模式`
-3. 加载源码中 `extensions` 目录
+3. 加载解压后的文件夹
 
 ## 测试用例
 
-下载 [Interceptor.test.json](https://github.com/g0ngjie/ajax-proxy/blob/main/Interceptor.test.json)
+下载 [Interceptor.test.json](https://github.com/g0ngjie/ajax-proxy/blob/master/Interceptor.test.json)
 
 分别使用在 [掘金](https://juejin.cn/) 首页、[百度翻译](https://fanyi.baidu.com/) 两个网站测试
 
