@@ -197,7 +197,7 @@ export default {
       // 设置当前模式
       if (mode) {
         useMode.set(mode);
-        this.currentMode;
+        this.currentMode = mode;
       }
       // 设置重定向列表
       if (typeIs(redirectors) === "array" && redirectors.length > 0) {
