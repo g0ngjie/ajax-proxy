@@ -137,7 +137,7 @@ export default {
       });
       if (!isOk) return;
       const { interceptors, redirectors } = data || {};
-      if (interceptors?.length === 0 || redirectors?.length === 0)
+      if (interceptors?.length === 0 && redirectors?.length === 0)
         // 没有数据可以下载
         return this.$message.warning(this.$t("msg.noDataToDownload"));
       exportFromJSON({
