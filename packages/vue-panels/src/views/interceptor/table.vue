@@ -54,13 +54,13 @@
         </template>
       </el-table-column>
       <el-table-column
-        prop="statusCode"
+        prop="status_code"
         :label="$t('statusCode')"
         show-overflow-tooltip
         width="100"
       >
         <template slot-scope="{ row }">
-          {{ row.statusCode || 200 }}
+          {{ row.status_code || 200 }}
         </template>
       </el-table-column>
       <el-table-column

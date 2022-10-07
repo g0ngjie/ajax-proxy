@@ -68,7 +68,7 @@
         </el-form-item>
         <el-form-item
           :label="$t('statusCode')"
-          prop="statusCode"
+          prop="status_code"
           :rules="[
             {
               type: 'number',
@@ -78,7 +78,7 @@
             },
           ]"
         >
-          <el-input v-model.number="form.statusCode" placeholder="200" />
+          <el-input v-model.number="form.status_code" placeholder="200" />
         </el-form-item>
         <el-form-item
           :label="$t('responseData')"
@@ -160,7 +160,7 @@ export default {
         this.title = this.$t("create");
       }
       this.isShow = true;
-      this.form = row || { statusCode: 200, remark: "", filter_type: "normal" };
+      this.form = row || { status_code: 200, remark: "", filter_type: "normal" };
       this.$nextTick(() => this.$refs.form.clearValidate());
     },
     // 模态关闭

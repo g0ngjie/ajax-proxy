@@ -18,7 +18,7 @@ function CustomFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Resp
         let status = response.status
         let statusText = response.statusText
         globalState.value.interceptor_matching_content.forEach(target => {
-            const { switch_on = true, match_url, override = "", filter_type, method, statusCode = "200" } = target
+            const { switch_on = true, match_url, override = "", filter_type, method, status_code = "200" } = target
             // 是否需要匹配
             if (switch_on && match_url) {
                 // 判断是否存在协议匹配
@@ -29,8 +29,8 @@ function CustomFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Resp
                 // 修改响应
                 txt = typeof override === "string" ? override : JSON.stringify(override);
                 // 修改状态码
-                status = +statusCode
-                statusText = statusCode
+                status = +status_code
+                statusText = status_code
                 // 通知
                 notice(response.url, match_url, fetchMethod || "")
             }

@@ -29,7 +29,7 @@ export type IMatchInterceptorContent = {
     /**标题 */
     label?: string;
     /**状态码 */
-    statusCode?: string
+    status_code?: string
 } & CommonContent
 
 /**重定向头部结构体 */

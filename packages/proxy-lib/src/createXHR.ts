@@ -49,7 +49,7 @@ class CustomXHR extends XMLHttpRequest {
     // 规则匹配，修改响应内容
     private maybeNeedModifyRes() {
         globalState.value.interceptor_matching_content.forEach(target => {
-            const { switch_on = true, match_url, override = "", filter_type, method, statusCode = "200" } = target
+            const { switch_on = true, match_url, override = "", filter_type, method, status_code = "200" } = target
             // 是否需要匹配
             if (switch_on && match_url) {
                 // 判断是否存在协议匹配
@@ -61,8 +61,8 @@ class CustomXHR extends XMLHttpRequest {
                 this.responseText = override;
                 this.response = override;
                 // 修改状态码
-                this.status = +statusCode
-                this.statusText = statusCode
+                this.status = +status_code
+                this.statusText = status_code
                 // 通知
                 if (!this.message_once_lock) {
                     notice(this.responseURL, match_url, this.method);
