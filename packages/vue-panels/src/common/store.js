@@ -4,17 +4,19 @@ import { setStorage, getStorage, getRealStorage, StorageKey, getStorageAll } fro
 /**获取所有 */
 export function getStoreAll() {
   const getData = getStorageAll()
-  const { LANGUAGE, GLOBAL_SWITCH, INTERCEPT_LIST, REDIRECT_LIST, MODE, TAGS } = StorageKey
+  const { LANGUAGE, GLOBAL_SWITCH, MODE, TAGS, INTERCEPT_LIST, REDIRECT_LIST } = StorageKey
+  const {
+    [LANGUAGE]: language = 'en',
+    [GLOBAL_SWITCH]: globalSwitch = false,
+    [MODE]: mode = 'interceptor',
+    [TAGS]: tags = [],
+    [INTERCEPT_LIST]: interceptors = [],
+    [REDIRECT_LIST]: redirectors = [],
+  } = getData || {}
+
   return {
     ok: true,
-    data: {
-      language: getData[LANGUAGE],
-      globalSwitch: getData[GLOBAL_SWITCH],
-      interceptors: getData[INTERCEPT_LIST],
-      redirectors: getData[REDIRECT_LIST],
-      mode: getData[MODE],
-      tags: getData[TAGS]
-    }
+    data: { language, globalSwitch, mode, tags, interceptors, redirectors }
   }
 }
 

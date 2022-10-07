@@ -9,8 +9,9 @@ import {
     StorageKey,
     noticeDocumentByContent,
     noticeServiceWorkerByContent,
+    getStorageAll,
 } from "@proxy/shared-utils";
-import { CONNECT_NAME, INIT_CURRENT_TITLE } from "./consts";
+import { CONNECT_NAME, INIT_CURRENT_TITLE, NOTICE_KEY_REFRESH_GLOBAL_STATE } from "./consts";
 
 // 在页面上插入代码
 const script = document.createElement("script");
@@ -24,23 +25,10 @@ initStorage().then(() => {
 
     // document.js 资源加载
     script.addEventListener("load", () => {
-        let mode, interceptors, redirectors;
-        // 全局开关
-        if (getStorage(StorageKey.GLOBAL_SWITCH, false)) {
-            noticeDocumentByContent(NoticeKey.GLOBAL_SWITCH, true);
-        }
-        // 模式
-        if (mode = getStorage(StorageKey.MODE, 'interceptor')) {
-            noticeDocumentByContent(NoticeKey.MODE, mode)
-        }
-        // 拦截器列表
-        if (interceptors = getStorage(StorageKey.INTERCEPT_LIST, [])) {
-            noticeDocumentByContent(NoticeKey.INTERCEPT_LIST, interceptors)
-        }
-        // 重定向列表
-        if (redirectors = getStorage(StorageKey.REDIRECT_LIST, [])) {
-            noticeDocumentByContent(NoticeKey.REDIRECT_LIST, redirectors)
-        }
+        // 获取 全局开关、模式、拦截列表、重定向列表
+        const data = getStorageAll();
+        const getGlobalSwtich = data[StorageKey.GLOBAL_SWITCH] || false
+        if (getGlobalSwtich) noticeDocumentByContent(NOTICE_KEY_REFRESH_GLOBAL_STATE, data)
     });
 
     // 长链接通信接收 service-worker -> document
@@ -49,8 +37,21 @@ initStorage().then(() => {
     port.onMessage.addListener(function (msg) {
         if (msg.from === NoticeFrom.SERVICE_WORKER && msg.to === NoticeTo.CONTENT) {
             const { GLOBAL_SWITCH, INTERCEPT_LIST, REDIRECT_LIST, MODE } = NoticeKey
-            if ([GLOBAL_SWITCH, INTERCEPT_LIST, REDIRECT_LIST, MODE].includes(msg.key))
+            if ([GLOBAL_SWITCH, INTERCEPT_LIST, REDIRECT_LIST, MODE].includes(msg.key)) {
+                // 注意：如果是全局开关开启的话，需要预先通知更新 mode模式
+                if (
+                    // 全局开关
+                    msg.key === GLOBAL_SWITCH &&
+                    // 开启状态下
+                    msg.value
+                ) {
+                    const getMode = getStorage(StorageKey.MODE, 'interceptor')
+                    // 通知 @proxy/lib 先更新 mode
+                    // 如果不更新，lib里始终都是 拦截模式
+                    noticeDocumentByContent(MODE, getMode)
+                }
                 noticeDocumentByContent(msg.key, msg.value)
+            }
         }
     });
 
