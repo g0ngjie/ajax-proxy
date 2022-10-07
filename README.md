@@ -83,3 +83,7 @@
 非常感谢您的支持!
 
 [![Stargazers for ajax-proxy](https://reporoster.com/stars/g0ngjie/ajax-proxy)](https://github.com/g0ngjie/ajax-proxy/stargazers)
+
+## License
+
+[MIT](http://opensource.org/licenses/MIT)
