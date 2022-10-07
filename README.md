@@ -32,7 +32,7 @@
 
 ## 效果展示
 
-可视化编辑响应数据
+视频: [https://www.bilibili.com/video/BV1KB4y1j7Gm](https://www.bilibili.com/video/BV1KB4y1j7Gm)
 
 <!-- ![interceptor](https://github.com/g0ngjie/ajax-proxy/wiki/images/interceptor-1.png) -->
 
