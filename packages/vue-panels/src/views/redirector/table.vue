@@ -60,7 +60,7 @@ import Modal from "./modal";
 import { confirmFunc } from "@/common/index";
 import { deepClone, uniqueId } from "@alrale/common-lib";
 import { useRedirects } from "@/common/store";
-import { noticeRedirects } from "@/common/notice";
+import { useNotice } from "@/common/notice";
 
 export default {
   components: {
@@ -127,7 +127,7 @@ export default {
     // 通知
     modifyNotice(redirects) {
       useRedirects.set(redirects);
-      noticeRedirects(redirects);
+      useNotice.changeRedirects(redirects);
     },
     initList() {
       this.tableData = useRedirects.get();

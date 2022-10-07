@@ -114,7 +114,7 @@ import Modal from "./modal";
 import { confirmFunc } from "@/common/index";
 import { arrayToObject, deepClone, typeIs, uniqueId } from "@alrale/common-lib";
 import { useInterceptorRoutes, useTags } from "@/common/store";
-import { noticeInterceptorRoutes, noticeBadge } from "@/common/notice";
+import { useNotice } from "@/common/notice";
 import Tag from "./tag";
 import { NoticeFrom, NoticeTo, NoticeKey } from "@proxy/shared-utils";
 
@@ -136,7 +136,7 @@ export default {
     handleTagClose(row) {
       delete row.hit;
       useInterceptorRoutes.set(this.tableData);
-      noticeBadge();
+      useNotice.changeBadge();
       this.initList();
     },
     // 父级刷新 tags
@@ -234,7 +234,7 @@ export default {
     // 通知
     modifyNotice(proxy_routes) {
       useInterceptorRoutes.set(proxy_routes);
-      noticeInterceptorRoutes(proxy_routes);
+      useNotice.changeIntercepts(proxy_routes);
     },
     async initList(tables) {
       // tag search 级联

@@ -100,11 +100,7 @@ import {
   useMode,
   useRedirects,
 } from "@/common/store";
-import {
-  noticeGlobalSwitchOn,
-  noticeMode,
-  noticeGetCurrentTitle,
-} from "@/common/notice";
+import { useNotice } from "@/common/notice";
 import { confirmFunc, promptFunc } from "@/common";
 import { typeIs } from "@alrale/common-lib";
 import { Langs } from "@/lang/index";
@@ -140,12 +136,12 @@ export default {
         inputValue: "backup",
       });
       if (!isOk) return;
-      const { lang, proxy_routes, tags, mode, redirect } = data || {};
-      if (proxy_routes?.length === 0)
+      const { interceptors, redirectors } = data || {};
+      if (interceptors?.length === 0 || redirectors?.length === 0)
         // 没有数据可以下载
         return this.$message.warning(this.$t("msg.noDataToDownload"));
       exportFromJSON({
-        data: { lang, proxy_routes, tags, mode, redirect },
+        data,
         fileName: `${value}.json`,
         exportType: exportFromJSON.types.json,
       });
@@ -178,7 +174,7 @@ export default {
       reader.readAsText(file.raw);
     },
     setStoreData(target) {
-      const { language, interceptors, tags, mode, redirectors } = target;
+      const { language, mode, tags, interceptors, redirectors } = target;
       const {
         // 你导入了一个空列表
         importEmpty,
@@ -216,12 +212,12 @@ export default {
     },
     // 代理模式
     handleModeChange(name) {
-      noticeMode(name);
+      useNotice.changeMode(name);
       useMode.set(name);
     },
     handleSwitch(bool) {
-      // 同步
-      noticeGlobalSwitchOn(bool);
+      // 同步开关状态
+      useNotice.globalSwitchOn(bool);
       // 数据处理
       useGLobalSwitch.set(bool);
     },
@@ -245,7 +241,7 @@ export default {
         }
       });
     // 获取Title
-    noticeGetCurrentTitle();
+    useNotice.getCurrentTitle();
   },
   created() {
     this.initData();

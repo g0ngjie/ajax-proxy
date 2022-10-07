@@ -81,7 +81,7 @@ export async function chromeBadge(data) {
     const counter = await syncRoutesAsHit(interceptList, match_url, method)
     // 当计算完成，且 参数存在时证明 hit 属性已经做过叠加，需要通知到 panels变更列表 hit 数据
     if (match_url && method) {
-        // 通知 panels fix已经命中，需要更新table 列表
+        // 通知 panels 当前 match_url & method 的条件下已经命中，hit 属性已经变更 需要更新table 列表
         noticePanels(NoticeKey.HIT_RATE)
     }
     if (counter) chrome.action.setBadgeText({ text: `+${counter}` });
