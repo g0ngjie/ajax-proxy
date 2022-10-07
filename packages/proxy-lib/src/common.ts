@@ -82,6 +82,9 @@ export function finalRedirectUrl(
 export function notice(url: string, match_url: string, method: string) {
     window.dispatchEvent(
         new CustomEvent(NoticeTo.CONTENT, {
+            // 注意: 这里一般只用到 match_url 和 method
+            // url为真实请求地址，使用的话 会导致 hit无法正确匹配，
+            // 例如 fanyi.baidu.com 接口参数在url上面，match_url 为原始 url
             detail: { url, match_url, method },
         })
     );
