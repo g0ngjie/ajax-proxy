@@ -16,7 +16,7 @@ declare type CommonContent = {
     /**请求协议 */
     method?: IRequestMethod;
     /**备注 */
-    remarks?: string;
+    remark?: string;
 };
 /**拦截器对象 */
 export declare type IMatchInterceptorContent = {
@@ -26,8 +26,6 @@ export declare type IMatchInterceptorContent = {
     override?: string;
     /**命中率 */
     hit?: number;
-    /**标题 */
-    label?: string;
     /**状态码 */
     status_code?: string;
 } & CommonContent;

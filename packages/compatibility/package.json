@@ -17,5 +17,8 @@
     "name": "Gj",
     "email": "gongjie0422@163.com"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@proxy/lib": "workspace:^1.0.0"
+  }
 }
