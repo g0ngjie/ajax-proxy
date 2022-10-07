@@ -16,6 +16,7 @@ async function getAllWindowIds() {
 export async function createPanel() {
     const windowId = await getStore(WIN_ID, null);
     const _createFunc = function () {
+        // https://developer.chrome.com/docs/extensions/reference/windows/
         chrome.windows.create(
             {
                 url: "panels/index.html",
@@ -23,6 +24,7 @@ export async function createPanel() {
                 width: 1300,
                 height: 800,
                 top: 100,
+                left: 150,
             },
             function (target) {
                 // bugfix: id undefined 问题
