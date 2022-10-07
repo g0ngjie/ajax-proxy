@@ -13,6 +13,7 @@ async function syncRoutesAsHit(routes, match_url, method) {
     for (let i = 0; i < list.length; i++) {
         const target = list[i];
         if (target.switch_on) {
+            // 如果match_url 和method 存在 则叠加当前命中率
             if (
                 target.match_url === match_url &&
                 (target.method === "ANY" || target.method === method)
@@ -42,6 +43,7 @@ async function syncRoutesAsHit(routes, match_url, method) {
                     });
                 }
             } else if (target.hit) {
+                // 汇总其他match_url上 hit
                 counter += target.hit;
             }
         }
@@ -76,9 +78,9 @@ export async function chromeBadge(data) {
         return;
     }
 
-    let counter
-    if (match_url) {
-        counter = await syncRoutesAsHit(interceptList, match_url, method)
+    const counter = await syncRoutesAsHit(interceptList, match_url, method)
+    // 当计算完成，且 参数存在时证明 hit 属性已经做过叠加，需要通知到 panels变更列表 hit 数据
+    if (match_url && method) {
         // 通知 panels fix已经命中，需要更新table 列表
         noticePanels(NoticeKey.HIT_RATE)
     }
