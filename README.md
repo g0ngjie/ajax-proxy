@@ -71,13 +71,6 @@
 2. 百度翻译: 随便翻译点内容即可；
 3. 也可以直接在[Swagger](https://petstore.swagger.io/)中测试
 
-## Ajax Proxy v2 新版本入口
-
-- 体积小
-- TS 重构
-
-[Colibri](https://github.com/g0ngjie/colibri)
-
 ## ⭐ Stargazers
 
 非常感谢您的支持!
