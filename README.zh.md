@@ -35,7 +35,7 @@
 
 ## 适用场景
 
-- 当需数据无法达到预期效果，需要要 `mock` 时
+- 当需数据无法满足预期结果，需要 `Mock` 时
 - 当我们在开发或者生产阶段需要验证一些 **异常场景** 或者 **临界值** 时
 - 当开发阶段数据频繁变更，导致页面无法正常联调时
 - 当某个接口 404 时
@@ -62,18 +62,18 @@
 1. 数据拦截不起作用
    - 方法 1: 可以通过切换 `interceptor` 和 `redirector` 来刷新 Ajax 引用问题
      ![issues_checked](https://github.com/g0ngjie/ajax-proxy/wiki/images/issues_checked.png)
-   - 方法 2: 可以在开发者工具的`网络（network）`里面，通过 ☑️ 禁用缓存
+   - 方法 2: 可以在开发者工具中的`网络（network）`里面，通过 ☑️ 禁用缓存
      ![issues_disabled_cache](https://github.com/g0ngjie/ajax-proxy/wiki/images/issues_disabled_cache.png)
 
 ## Monorepo
 
-| Package                                           | Description           |
-| ------------------------------------------------- | --------------------- |
-| [@proxy/compatibility](./packages/compatibility/) | 老数据兼容库          |
-| [@proxy/lib](./packages/proxy-lib/)               | 操作 Ajax 核心逻辑库  |
-| [@proxy/shared-utils](./packages/shared-utils/)   | 通用类库              |
-| [@proxy/shell-chrome](./packages/shell-chrome/)   | Chrome/Edge extension |
-| [@proxy/vue-panels](./packages/vue-panels/)       | 应用操作面板          |
+| Package                                           | Description          |
+| ------------------------------------------------- | -------------------- |
+| [@proxy/compatibility](./packages/compatibility/) | 老数据兼容库         |
+| [@proxy/lib](./packages/proxy-lib/)               | 操作 Ajax 核心逻辑库 |
+| [@proxy/shared-utils](./packages/shared-utils/)   | 通用类库             |
+| [@proxy/shell-chrome](./packages/shell-chrome/)   | 浏览器扩展库         |
+| [@proxy/vue-panels](./packages/vue-panels/)       | 应用操作面板         |
 
 ## 源码使用方式
 
