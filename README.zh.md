@@ -4,7 +4,7 @@
 
 <br>
 
-<h4 align="center">A browser plugin based on Chromium kernel · Tools for Developers · For the modification of web-side interface data</h4>
+<h4 align="center">一款基于Chromium内核的浏览器插件 · 面向开发者的工具 · 用于Web端接口数据的修改</h4>
 
 <p align="center">
   <a href="https://github.com/g0ngjie/ajax-proxy/blob/master/LICENSE">
@@ -33,22 +33,23 @@
 </strong>
 </div>
 
-## When to use
+## 适用场景
 
-- When the required data does not meet the desired effect and `Mock` is required
-- When we need to verify some **exception scenarios** or **boundary values** during the development or production phase
-- When data changes frequently during the development phase, resulting in the interface not working properly
-- When 404 appears on the interface
+- 当需数据无法满足预期结果，需要 `Mock` 时
+- 当我们在开发或者生产阶段需要验证一些 **异常场景** 或者 **临界值** 时
+- 当开发阶段数据频繁变更，导致页面无法正常联调时
+- 当某个接口 404 时
+<!-- - 当 ... ... -->
 
-## Installation
+## 安装
 
-[Microsoft Edge](https://microsoftedge.microsoft.com/addons/detail/ajax-proxy/iladajdkobpmadjfpeginhngnneaoefi)
+[Edge 版本](https://microsoftedge.microsoft.com/addons/detail/ajax-proxy/iladajdkobpmadjfpeginhngnneaoefi)
 
-[Google Chrome](https://chrome.google.com/webstore/detail/ajax-proxy/jbikjaejnjfbloojafllmdiknfndgljo)
+[Chrome 版本](https://chrome.google.com/webstore/detail/ajax-proxy/jbikjaejnjfbloojafllmdiknfndgljo)
 
-## Examples
+## 效果展示
 
-Video: [https://www.youtube.com/watch?v=F\_\_7LXBqnvQ](https://www.youtube.com/watch?v=F__7LXBqnvQ)
+视频: [https://www.bilibili.com/video/BV1KB4y1j7Gm](https://www.bilibili.com/video/BV1KB4y1j7Gm)
 
 <!-- ![interceptor](https://github.com/g0ngjie/ajax-proxy/wiki/images/interceptor-1.png) -->
 
@@ -56,37 +57,43 @@ Video: [https://www.youtube.com/watch?v=F\_\_7LXBqnvQ](https://www.youtube.com/w
 
 ![zhihu](https://github.com/g0ngjie/ajax-proxy/wiki/images/zhihu-ajaxproxy.png)
 
-## FAQ
+## 常见问题
 
-1. Data interception does not work
-   - You can switch between `interceptor` and `redirector` to solve the Ajax referencing problem
+1. 数据拦截不起作用
+   - 方法 1: 可以通过切换 `interceptor` 和 `redirector` 来刷新 Ajax 引用问题
      ![issues_checked](https://github.com/g0ngjie/ajax-proxy/wiki/images/issues_checked.png)
-   - You can select the `Network` section in Developer Tools and disable caching by checking ☑️
+   - 方法 2: 可以在开发者工具中的`网络（network）`里面，通过 ☑️ 禁用缓存
      ![issues_disabled_cache](https://github.com/g0ngjie/ajax-proxy/wiki/images/issues_disabled_cache.png)
 
 ## Monorepo
 
-| Package                                           | Description                              |
-| ------------------------------------------------- | ---------------------------------------- |
-| [@proxy/compatibility](./packages/compatibility/) | Old Data Compatibility Library           |
-| [@proxy/lib](./packages/proxy-lib/)               | Manipulating the Ajax Core Logic Library |
-| [@proxy/shared-utils](./packages/shared-utils/)   | Public Class Libraries                   |
-| [@proxy/shell-chrome](./packages/shell-chrome/)   | Browser Extension Library                |
-| [@proxy/vue-panels](./packages/vue-panels/)       | Application Operator Panel               |
+| Package                                           | Description          |
+| ------------------------------------------------- | -------------------- |
+| [@proxy/compatibility](./packages/compatibility/) | 老数据兼容库         |
+| [@proxy/lib](./packages/proxy-lib/)               | 操作 Ajax 核心逻辑库 |
+| [@proxy/shared-utils](./packages/shared-utils/)   | 通用类库             |
+| [@proxy/shell-chrome](./packages/shell-chrome/)   | 浏览器扩展库         |
+| [@proxy/vue-panels](./packages/vue-panels/)       | 应用操作面板         |
 
-## Use of source code
+## 源码使用方式
 
-1. Download the corresponding version of [Source code](https://github.com/g0ngjie/ajax-proxy/releases) and unzip it
-2. Open `Developer mode` in your browser
-3. Then just load the unpacked folder
+1. 下载对应版本的 [Source code](https://github.com/g0ngjie/ajax-proxy/releases) 解压
+2. 浏览器打开 `开发者模式`
+3. 加载解压后的文件夹
 
-## Testing
+## 测试用例
 
-You can test it directly in [Swagger](https://petstore.swagger.io/)
+下载 [Interceptor.test.json](https://github.com/g0ngjie/ajax-proxy/blob/master/Interceptor.test.json)
+
+分别使用在 [掘金](https://juejin.cn/) 首页、[百度翻译](https://fanyi.baidu.com/) 两个网站测试
+
+1. 掘金: 直接在首页查看效果；
+2. 百度翻译: 随便翻译点内容即可；
+3. 也可以直接在[Swagger](https://petstore.swagger.io/)中测试
 
 ## ⭐ Stargazers
 
-Thank you very much for your support!
+非常感谢您的支持!
 
 [![Stargazers for ajax-proxy](https://reporoster.com/stars/g0ngjie/ajax-proxy)](https://github.com/g0ngjie/ajax-proxy/stargazers)
 
