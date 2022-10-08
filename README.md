@@ -99,4 +99,4 @@
 
 ## License
 
-[MIT](http://opensource.org/licenses/MIT)
+Ajax Proxy is [MIT licensed](LICENSE).
