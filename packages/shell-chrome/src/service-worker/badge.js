@@ -1,8 +1,8 @@
 
 // 和徽章相关的函数
 
-import { NoticeKey, StorageKey, setStorage, getRealStorage } from "@proxy/shared-utils";
-import { chromeNativeNotice, noticePanels } from "./notice";
+import { NoticeKey, StorageKey, setStorage, getRealStorage, noticePanelsByServiceWorker } from "@proxy/shared-utils";
+import { chromeNativeNotice } from "./notice";
 
 // 同步 命中率
 async function syncRoutesAsHit(routes, match_url, method) {
@@ -83,7 +83,7 @@ export async function chromeBadge(data) {
     // 当计算完成，且 参数存在时证明 hit 属性已经做过叠加，需要通知到 panels变更列表 hit 数据
     if (match_url && method) {
         // 通知 panels 当前 match_url & method 的条件下已经命中，hit 属性已经变更 需要更新table 列表
-        noticePanels(NoticeKey.HIT_RATE)
+        noticePanelsByServiceWorker(NoticeKey.HIT_RATE)
     }
     if (counter) chrome.action.setBadgeText({ text: `+${counter}` });
     else chrome.action.setBadgeText({ text: "" });

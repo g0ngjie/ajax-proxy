@@ -1,4 +1,4 @@
-import { NoticeTo, NoticeFrom, NoticeKey } from "@proxy/shared-utils";
+import { NoticeKey, onConnectByServiceWorker, noticePanelsByServiceWorker, noticeContentByServiceWorker } from "@proxy/shared-utils";
 import { CONNECT_NAME } from "../consts";
 import { createPanel } from "./panel";
 
@@ -10,56 +10,25 @@ import { createPanel } from "./panel";
  *  current_port[tabId].postMessage()
  */
 let current_port = null;
+
 // 长链接
 // 好处是可以实现无刷新更新拦截器代理
 // 弊端是每一个新的tab页都会更新current_port，旧的长链会注销
-chrome.runtime.onConnect.addListener(function (port) {
+onConnectByServiceWorker((port) => {
     if (port.name === CONNECT_NAME) {
-        current_port = port;
+        current_port = port
     }
-})
-
-// 监听长链接 被断开
-chrome.runtime.onConnect.addListener(function (port) {
-    port.onDisconnect.addListener(function (port) {
-        if (port.name === CONNECT_NAME) {
-            current_port = null
-            // 通知 panels 清空 title
-            noticePanels(NoticeKey.GET_CURRENT_TITLE, "")
-        }
-    })
+}, () => {
+    // 长链接断开
+    current_port = null
+    // 通知 panels 清空 title
+    noticePanelsByServiceWorker(NoticeKey.GET_CURRENT_TITLE, "")
 })
 
 /**
- * 通知 service-worker -> panels
+ * 通知 content
  */
-export function noticePanels(key, value) {
-    chrome.runtime.sendMessage({
-        from: NoticeFrom.SERVICE_WORKER,
-        to: NoticeTo.PANELS,
-        key, value
-    }).catch(err => { })
-}
-
-/**
- * 通知 service-worker -> content
- */
-export function noticeContent(key, value) {
-    try {
-        // 长链接通信
-        current_port?.postMessage({
-            from: NoticeFrom.SERVICE_WORKER,
-            to: NoticeTo.CONTENT,
-            key,
-            value,
-        })
-    } catch (error) {
-        // catch err
-        // error: Error: Attempting to use a disconnected port object
-        // 当被操作页被关闭掉，而在操作面板上继续操作时，此时port通信断开，报异常
-        // 一般不会走到这里，上有已经做 onDisconnect 监听
-    }
-}
+export const noticeContent = (key, value) => noticeContentByServiceWorker(current_port, key, value)
 
 /**获取 port里 title */
 export function useCurrentTitle() {
