@@ -1,6 +1,5 @@
-import { getStore, setStore } from "./store";
 
-const WIN_ID = "ajax-proxy:service-worker:panel:window_id";
+let current_window_id = undefined
 
 /**获取所有windowId */
 async function getAllWindowIds() {
@@ -14,7 +13,6 @@ async function getAllWindowIds() {
 
 /**创建视图 */
 export async function createPanel() {
-    const windowId = await getStore(WIN_ID, null);
     const _createFunc = function () {
         // https://developer.chrome.com/docs/extensions/reference/windows/
         chrome.windows.create(
@@ -28,19 +26,19 @@ export async function createPanel() {
             },
             function (target) {
                 // bugfix: id undefined 问题
-                if (target) setStore(WIN_ID, target.id);
+                if (target) current_window_id = target.id
             }
         );
     };
-    if (!windowId) {
+    if (!current_window_id) {
         _createFunc();
     } else {
         // 获取所有窗口id，判断cacheId是否存在
         // 如果已经存在则置前
         const ids = await getAllWindowIds();
-        const exist = ids.some((item) => item === windowId);
+        const exist = ids.some((item) => item === current_window_id);
         if (exist) {
-            chrome.windows.update(windowId, { focused: true });
+            chrome.windows.update(current_window_id, { focused: true });
             return;
         }
         // 不存在，则重新创建，刷新cacheId
@@ -50,19 +48,18 @@ export async function createPanel() {
 
 /**关闭视图 */
 export async function closePanel() {
-    const windowId = await getStore(WIN_ID, null);
-    if (windowId) {
-        chrome.windows.remove(windowId);
-        setStore(WIN_ID, null);
+    if (current_window_id) {
+        chrome.windows.remove(current_window_id);
+        // setStore(WIN_ID, null);
+        current_window_id = undefined
     }
 }
 
 /**全屏 */
 export async function fullScreenPanel() {
-    const windowId = await getStore(WIN_ID, null);
-    if (windowId) {
+    if (current_window_id) {
         chrome.windows.getCurrent(function (current) {
-            if (current.id === windowId) {
+            if (current.id === current_window_id) {
                 switch (current.state) {
                     case "fullscreen":
                         chrome.windows.update(current.id, { state: "normal" });
@@ -78,8 +75,7 @@ export async function fullScreenPanel() {
 
 /**修改 panels 窗口大小 */
 export async function resizeWindow() {
-    const windowId = await getStore(WIN_ID, null);
-    if (windowId) {
+    if (current_window_id) {
         chrome.windows.getCurrent(function (current) {
             // normal", "minimized", "maximized", or "fullscreen"
             const conf = {
@@ -87,7 +83,7 @@ export async function resizeWindow() {
                 maximized: "fullscreen",
                 fullscreen: "normal",
             };
-            if (current.id === windowId)
+            if (current.id === current_window_id)
                 chrome.windows.update(current.id, { state: conf[current.state] });
         });
     }

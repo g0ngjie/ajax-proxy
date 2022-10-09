@@ -55,7 +55,7 @@ export default {
     },
     // 更新Store routes
     async refreshRoutes(id) {
-      const routes = useInterceptorRoutes.get();
+      const routes = await useInterceptorRoutes.getReal();
       const newRoutes = routes.map((item) => {
         const { tagId, ...data } = item;
         if (item.tagId && item.tagId === id) return data;

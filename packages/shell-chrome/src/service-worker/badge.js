@@ -1,9 +1,8 @@
 
 // 和徽章相关的函数
 
-import { NoticeKey, StorageKey } from "@proxy/shared-utils/lib/consts";
+import { NoticeKey, StorageKey, setStorage, getRealStorage } from "@proxy/shared-utils";
 import { chromeNativeNotice, noticePanels } from "./notice";
-import { getStore, setStore } from "./store";
 
 // 同步 命中率
 async function syncRoutesAsHit(routes, match_url, method) {
@@ -34,7 +33,7 @@ async function syncRoutesAsHit(routes, match_url, method) {
                 }
                 if (tooHigh) {
                     const message = [target.match_url, target.remark || ""].join("\n");
-                    const lang = await getStore(StorageKey.LANGUAGE, "en");
+                    const lang = await getRealStorage(StorageKey.LANGUAGE, "en");
                     const i18n = {
                         en: "Too many interceptions",
                         zh: "拦截次数过多",
@@ -51,20 +50,20 @@ async function syncRoutesAsHit(routes, match_url, method) {
         }
     }
     // 更新本地拦截列表
-    setStore(StorageKey.INTERCEPT_LIST, list);
+    setStorage(StorageKey.INTERCEPT_LIST, list);
     return counter;
 }
 
 // badge 右下角小徽章设置
 export async function chromeBadge(data) {
     const { match_url, method } = data || {}
-    const globalSwitchOn = await getStore(StorageKey.GLOBAL_SWITCH, false);
+    const globalSwitchOn = await getRealStorage(StorageKey.GLOBAL_SWITCH, false);
     if (!globalSwitchOn) {
         chrome.action.setBadgeText({ text: "" });
         return;
     }
     // 判断模式
-    const mode = await getStore(StorageKey.MODE, 'interceptor');
+    const mode = await getRealStorage(StorageKey.MODE, 'interceptor');
     // 如果是重定向
     if (mode === "redirector") {
         chrome.action.setBadgeBackgroundColor({ color: "#006d75" });
@@ -73,7 +72,7 @@ export async function chromeBadge(data) {
     }
     // 拦截器模式颜色
     chrome.action.setBadgeBackgroundColor({ color: "#F56C6C" });
-    const interceptList = await getStore(StorageKey.INTERCEPT_LIST, []);
+    const interceptList = await getRealStorage(StorageKey.INTERCEPT_LIST, []);
     // 如果没有需要拦截的数据时，设置默认值
     if (interceptList.length === 0) {
         chrome.action.setBadgeText({ text: "" });

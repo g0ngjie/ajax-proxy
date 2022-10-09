@@ -116,6 +116,12 @@ function update<unknow>(target: unknow) {
             if (isInterceptors(target)) globalState.value.interceptor_matching_content = target
             // 修改重定向
             else if (isRedirectors(target)) globalState.value.redirector_matching_content = target
+        } else {
+            // 判断当前模式
+            // 清空拦截列表
+            if (globalState.value.mode === 'interceptor') globalState.value.interceptor_matching_content = []
+            // 清空重定向列表
+            else globalState.value.redirector_matching_content = []
         }
     }
     // 设置全部属性

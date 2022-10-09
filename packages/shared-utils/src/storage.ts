@@ -1,15 +1,14 @@
-import { target } from './env'
+import { useStorage } from './env'
 
 // chrome.storage.sync.set 大于8,192字节的数据时，会报错 -> QUOTA_BYTES_PER_ITEM quota exceeded
 // chrome.storage.local.set可以包含5242880
-const useStorage = typeof target.chrome !== 'undefined' && typeof target.chrome.storage !== 'undefined'
 
 let storageData
 
 export function initStorage(): Promise<void> {
   return new Promise((resolve) => {
     if (useStorage) {
-      target.chrome.storage.local.get(null, result => {
+      chrome.storage.local.get(null, result => {
         storageData = result
         resolve()
       })
@@ -35,7 +34,7 @@ export function getStorage(key: string, defaultValue: any = null) {
 export function getRealStorage(key: string, defaultValue: any = null) {
   if (useStorage) {
     return new Promise(resolve => {
-      target.chrome.storage.local.get(key, result => {
+      chrome.storage.local.get(key, result => {
         if (result.hasOwnProperty(key)) resolve(getDefaultValue(result[key], defaultValue))
         else resolve(defaultValue);
       })
@@ -52,7 +51,7 @@ export function setStorage(key: string, val: any) {
   checkStorage()
   if (useStorage) {
     storageData[key] = val
-    target.chrome.storage.local.set({ [key]: val })
+    chrome.storage.local.set({ [key]: val })
   } else {
     try {
       localStorage.setItem(key, JSON.stringify(val))
@@ -64,7 +63,7 @@ export function removeStorage(key: string) {
   checkStorage()
   if (useStorage) {
     delete storageData[key]
-    target.chrome.storage.local.remove([key])
+    chrome.storage.local.remove([key])
   } else {
     try {
       localStorage.removeItem(key)
@@ -76,7 +75,7 @@ export function clearStorage() {
   checkStorage()
   if (useStorage) {
     storageData = {}
-    target.chrome.storage.local.clear()
+    chrome.storage.local.clear()
   } else {
     try {
       localStorage.clear()
@@ -98,12 +97,15 @@ function getDefaultValue(value, defaultValue) {
 }
 
 /**获取全部数据 */
-export function getStorageAll() {
-  checkStorage()
+export function getStorageAll(): Promise<{ [key: string]: any }> {
   if (useStorage) {
-    return storageData
+    return new Promise(resolve => {
+      chrome.storage.local.get(null, result => {
+        resolve(result)
+      })
+    })
   } else {
-    if (JSON.stringify(localStorage) === '{}') return {}
+    if (JSON.stringify(localStorage) === '{}') return Promise.resolve({})
     const data = Object.keys(localStorage).reduce(function (obj, str) {
       try {
         obj[str] = JSON.parse(localStorage.getItem(str) as any)
@@ -112,6 +114,6 @@ export function getStorageAll() {
       }
       return obj
     }, {});
-    return data
+    return Promise.resolve(data)
   }
 }

@@ -40,8 +40,10 @@ importers:
 
   packages/shared-utils:
     specifiers:
+      '@types/chrome': ^0.0.197
       '@types/node': ^18.0.1
     devDependencies:
+      '@types/chrome': registry.npmmirror.com/@types/chrome/0.0.197
       '@types/node': registry.npmmirror.com/@types/node/18.8.2
 
   packages/shell-chrome:
@@ -1839,6 +1841,15 @@ packages:
       '@types/node': registry.npmmirror.com/@types/node/18.8.2
     dev: true
 
+  registry.npmmirror.com/@types/chrome/0.0.197:
+    resolution: {integrity: sha512-m1NfS5bOjaypyqQfaX6CxmJodZVcvj5+Mt/K94EBHkflYjPNmXHAzbxfifdLMa0YM3PDyOxohoTS5ug/e6p5jA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/chrome/-/chrome-0.0.197.tgz}
+    name: '@types/chrome'
+    version: 0.0.197
+    dependencies:
+      '@types/filesystem': registry.npmmirror.com/@types/filesystem/0.0.32
+      '@types/har-format': registry.npmmirror.com/@types/har-format/1.2.9
+    dev: true
+
   registry.npmmirror.com/@types/connect-history-api-fallback/1.3.5:
     resolution: {integrity: sha512-h8QJa8xSb1WD4fpKBDcATDNGXghFj6/3GRWG6dhmRcu0RX1Ubasur2Uvx5aeEwlf0MwblEC2bMzzMQntxnw/Cw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/connect-history-api-fallback/-/connect-history-api-fallback-1.3.5.tgz}
     name: '@types/connect-history-api-fallback'
@@ -1901,6 +1912,20 @@ packages:
       '@types/serve-static': registry.npmmirror.com/@types/serve-static/1.15.0
     dev: true
 
+  registry.npmmirror.com/@types/filesystem/0.0.32:
+    resolution: {integrity: sha512-Yuf4jR5YYMR2DVgwuCiP11s0xuVRyPKmz8vo6HBY3CGdeMj8af93CFZX+T82+VD1+UqHOxTq31lO7MI7lepBtQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/filesystem/-/filesystem-0.0.32.tgz}
+    name: '@types/filesystem'
+    version: 0.0.32
+    dependencies:
+      '@types/filewriter': registry.npmmirror.com/@types/filewriter/0.0.29
+    dev: true
+
+  registry.npmmirror.com/@types/filewriter/0.0.29:
+    resolution: {integrity: sha512-BsPXH/irW0ht0Ji6iw/jJaK8Lj3FJemon2gvEqHKpCdDCeemHa+rI3WBGq5z7cDMZgoLjY40oninGxqk+8NzNQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/filewriter/-/filewriter-0.0.29.tgz}
+    name: '@types/filewriter'
+    version: 0.0.29
+    dev: true
+
   registry.npmmirror.com/@types/glob/7.2.0:
     resolution: {integrity: sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/glob/-/glob-7.2.0.tgz}
     name: '@types/glob'
@@ -1908,6 +1933,12 @@ packages:
     dependencies:
       '@types/minimatch': registry.npmmirror.com/@types/minimatch/5.1.2
       '@types/node': registry.npmmirror.com/@types/node/18.8.2
+    dev: true
+
+  registry.npmmirror.com/@types/har-format/1.2.9:
+    resolution: {integrity: sha512-rffW6MhQ9yoa75bdNi+rjZBAvu2HhehWJXlhuWXnWdENeuKe82wUgAwxYOb7KRKKmxYN+D/iRKd2NDQMLqlUmg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/har-format/-/har-format-1.2.9.tgz}
+    name: '@types/har-format'
+    version: 1.2.9
     dev: true
 
   registry.npmmirror.com/@types/http-proxy/1.17.9:

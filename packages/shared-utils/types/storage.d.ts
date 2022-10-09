@@ -6,4 +6,6 @@ export declare function setStorage(key: string, val: any): void;
 export declare function removeStorage(key: string): void;
 export declare function clearStorage(): void;
 /**获取全部数据 */
-export declare function getStorageAll(): any;
+export declare function getStorageAll(): Promise<{
+    [key: string]: any;
+}>;

@@ -2,7 +2,6 @@
 
 import {
     initStorage,
-    getStorage,
     NoticeTo,
     NoticeFrom,
     NoticeKey,
@@ -11,6 +10,7 @@ import {
     noticeServiceWorkerByContent,
     getStorageAll,
     setStorage,
+    getRealStorage,
 } from "@proxy/shared-utils";
 import { CONNECT_NAME, INIT_CURRENT_TITLE, NOTICE_KEY_REFRESH_GLOBAL_STATE } from "./consts";
 import { onLoadForDataConversion } from "@proxy/compatibility";
@@ -26,9 +26,9 @@ initStorage().then(() => {
     noticeServiceWorkerByContent(INIT_CURRENT_TITLE, window.document.title)
 
     // document.js 资源加载
-    script.addEventListener("load", () => {
+    script.addEventListener("load", async () => {
         // 获取 全局开关、模式、拦截列表、重定向列表
-        const data = getStorageAll();
+        const data = await getStorageAll();
         // 新老数据转换
         const { changed, data: getData } = onLoadForDataConversion(data)
         // 如果有老数据变更新数据，则需要在这里 setStorage
@@ -56,10 +56,12 @@ initStorage().then(() => {
                     // 开启状态下
                     msg.value
                 ) {
-                    const getMode = getStorage(StorageKey.MODE, 'interceptor')
-                    // 通知 @proxy/lib 先更新 mode
-                    // 如果不更新，lib里始终都是 拦截模式
-                    noticeDocumentByContent(MODE, getMode)
+                    // content-script 所有 getStorage 都必须访问真实实例，不能走缓存
+                    getRealStorage(StorageKey.MODE, 'interceptor').then(getMode => {
+                        // 通知 @proxy/lib 先更新 mode
+                        // 如果不更新，lib里始终都是 拦截模式
+                        noticeDocumentByContent(MODE, getMode)
+                    })
                 }
                 noticeDocumentByContent(msg.key, msg.value)
             }
