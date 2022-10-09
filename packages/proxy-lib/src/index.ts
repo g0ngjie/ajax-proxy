@@ -112,6 +112,9 @@ function update<unknow>(target: unknow) {
     // 数组类型: 拦截列表、重定向列表
     else if (isArray(target)) {
         if (target.length > 0) {
+            // 注意，如果时拦截列表或重定向列表有变更时
+            // 如果为删除的话，需要重新更新一下代理。不然即使table上已经删除了。但实际ajax上还会存在被删除掉的代理
+            // FIXME: 需要测试
             // 修改拦截器
             if (isInterceptors(target)) globalState.value.interceptor_matching_content = target
             // 修改重定向
