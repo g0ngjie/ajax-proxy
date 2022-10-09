@@ -1,4 +1,4 @@
-import { NoticeTo, NoticeFrom } from "@proxy/shared-utils/lib/consts";
+import { NoticeTo, NoticeFrom } from "@proxy/shared-utils";
 import { CONNECT_NAME } from "../consts";
 import { createPanel } from "./panel";
 

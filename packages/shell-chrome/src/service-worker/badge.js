@@ -1,12 +1,11 @@
 
 // 和徽章相关的函数
 
-import { NoticeKey, StorageKey, setStorage } from "@proxy/shared-utils";
+import { NoticeKey, StorageKey, setStorage, getStorage } from "@proxy/shared-utils";
 import { chromeNativeNotice, noticePanels } from "./notice";
-import { getStore, setStore } from "./store";
 
 // 同步 命中率
-async function syncRoutesAsHit(routes, match_url, method) {
+function syncRoutesAsHit(routes, match_url, method) {
     const list = routes || [];
     // 总命中率
     let counter = 0;
@@ -34,7 +33,7 @@ async function syncRoutesAsHit(routes, match_url, method) {
                 }
                 if (tooHigh) {
                     const message = [target.match_url, target.remark || ""].join("\n");
-                    const lang = await getStore(StorageKey.LANGUAGE, "en");
+                    const lang = getStorage(StorageKey.LANGUAGE, "en");
                     const i18n = {
                         en: "Too many interceptions",
                         zh: "拦截次数过多",
@@ -51,21 +50,20 @@ async function syncRoutesAsHit(routes, match_url, method) {
         }
     }
     // 更新本地拦截列表
-    // setStore(StorageKey.INTERCEPT_LIST, list);
     setStorage(StorageKey.INTERCEPT_LIST, list);
     return counter;
 }
 
 // badge 右下角小徽章设置
-export async function chromeBadge(data) {
+export function chromeBadge(data) {
     const { match_url, method } = data || {}
-    const globalSwitchOn = await getStore(StorageKey.GLOBAL_SWITCH, false);
+    const globalSwitchOn = getStorage(StorageKey.GLOBAL_SWITCH, false);
     if (!globalSwitchOn) {
         chrome.action.setBadgeText({ text: "" });
         return;
     }
     // 判断模式
-    const mode = await getStore(StorageKey.MODE, 'interceptor');
+    const mode = getStorage(StorageKey.MODE, 'interceptor');
     // 如果是重定向
     if (mode === "redirector") {
         chrome.action.setBadgeBackgroundColor({ color: "#006d75" });
@@ -74,14 +72,14 @@ export async function chromeBadge(data) {
     }
     // 拦截器模式颜色
     chrome.action.setBadgeBackgroundColor({ color: "#F56C6C" });
-    const interceptList = await getStore(StorageKey.INTERCEPT_LIST, []);
+    const interceptList = getStorage(StorageKey.INTERCEPT_LIST, []);
     // 如果没有需要拦截的数据时，设置默认值
     if (interceptList.length === 0) {
         chrome.action.setBadgeText({ text: "" });
         return;
     }
 
-    const counter = await syncRoutesAsHit(interceptList, match_url, method)
+    const counter = syncRoutesAsHit(interceptList, match_url, method)
     // 当计算完成，且 参数存在时证明 hit 属性已经做过叠加，需要通知到 panels变更列表 hit 数据
     if (match_url && method) {
         // 通知 panels 当前 match_url & method 的条件下已经命中，hit 属性已经变更 需要更新table 列表
