@@ -1,10 +1,10 @@
-import { getStorage, StorageKey } from "@proxy/shared-utils";
+import { getRealStorage, StorageKey } from "@proxy/shared-utils";
 import { chromeBadge } from "./badge";
 
 /**设置默认项 */
-export function initDefaultSth() {
+export async function initDefaultSth() {
     // 设置默认icon
-    const bool = getStorage(StorageKey.GLOBAL_SWITCH, false)
+    const bool = await getRealStorage(StorageKey.GLOBAL_SWITCH, false)
     if (bool) chrome.action.setIcon({ path: "icons/128.png" });
     else chrome.action.setIcon({ path: "icons/128g.png" });
 

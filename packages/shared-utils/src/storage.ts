@@ -97,12 +97,15 @@ function getDefaultValue(value, defaultValue) {
 }
 
 /**获取全部数据 */
-export function getStorageAll() {
-  checkStorage()
+export function getStorageAll(): Promise<{ [key: string]: any }> {
   if (useStorage) {
-    return storageData
+    return new Promise(resolve => {
+      chrome.storage.local.get(null, result => {
+        resolve(result)
+      })
+    })
   } else {
-    if (JSON.stringify(localStorage) === '{}') return {}
+    if (JSON.stringify(localStorage) === '{}') return Promise.resolve({})
     const data = Object.keys(localStorage).reduce(function (obj, str) {
       try {
         obj[str] = JSON.parse(localStorage.getItem(str) as any)
@@ -111,6 +114,6 @@ export function getStorageAll() {
       }
       return obj
     }, {});
-    return data
+    return Promise.resolve(data)
   }
 }

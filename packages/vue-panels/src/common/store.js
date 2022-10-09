@@ -2,8 +2,8 @@
 import { setStorage, getStorage, getRealStorage, StorageKey, getStorageAll } from "@proxy/shared-utils";
 
 /**获取所有 */
-export function getStoreAll() {
-  const getData = getStorageAll()
+export async function getStoreAll() {
+  const getData = await getStorageAll()
   const { LANGUAGE, GLOBAL_SWITCH, MODE, TAGS, INTERCEPT_LIST, REDIRECT_LIST } = StorageKey
   const {
     [LANGUAGE]: language = 'en',

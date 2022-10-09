@@ -128,7 +128,7 @@ export default {
     },
     // 下载
     async handleDownload() {
-      const { ok, data } = getStoreAll();
+      const { ok, data } = await getStoreAll();
       // 数据异常
       if (!ok) return this.$message.warning(this.$t("msg.dataErr"));
       const { ok: isOk, data: value } = await promptFunc({
