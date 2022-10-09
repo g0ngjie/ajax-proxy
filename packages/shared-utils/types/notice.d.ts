@@ -1,3 +1,4 @@
+/// <reference types="chrome" />
 import { NoticeKey } from "./consts";
 /**
  * 通知 content -> document
@@ -13,3 +14,13 @@ export declare function noticeServiceWorkerByContent(key: NoticeKey | string, va
  * 通知 panels -> service-worker
  */
 export declare function noticeServiceWorkerByPanels(key: any, value: any): void;
+/**
+ * 通知 service-worker -> panels
+ */
+export declare function noticePanelsByServiceWorker(key: any, value: any): void;
+/** service-worker 长链接监听 */
+export declare function onConnectByServiceWorker(onConnectFn: (port: chrome.runtime.Port) => void, onDisconnectFn: () => void): void;
+/**
+ * 通知 service-worker -> content
+ */
+export declare function noticeContentByServiceWorker(port: chrome.runtime.Port | undefined, key: NoticeKey, value: any): void;

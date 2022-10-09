@@ -47,3 +47,53 @@ export function noticeServiceWorkerByPanels(key, value) {
         });
     }
 }
+
+/**
+ * 通知 service-worker -> panels
+ */
+export function noticePanelsByServiceWorker(key, value) {
+    if (useRuntime) {
+        chrome.runtime.sendMessage({
+            from: NoticeFrom.SERVICE_WORKER,
+            to: NoticeTo.PANELS,
+            key, value
+        }).catch(err => { })
+    }
+}
+
+/** service-worker 长链接监听 */
+export function onConnectByServiceWorker(
+    onConnectFn: (port: chrome.runtime.Port) => void,
+    onDisconnectFn: () => void,
+) {
+    // 长链接
+    // 好处是可以实现无刷新更新拦截器代理
+    // 弊端是每一个新的tab页都会更新current_port，旧的长链会注销
+    chrome.runtime.onConnect.addListener((port) => {
+        onConnectFn(port)
+        // 监听长链接 被断开
+        port.onDisconnect.addListener(() => onDisconnectFn())
+    })
+}
+
+
+/**
+ * 通知 service-worker -> content
+ */
+export function noticeContentByServiceWorker(port: chrome.runtime.Port | undefined, key: NoticeKey, value) {
+    if (port) {
+        try {
+            port.postMessage({
+                from: NoticeFrom.SERVICE_WORKER,
+                to: NoticeTo.CONTENT,
+                key, value
+            })
+        } catch (error) {
+            // catch err
+            // error: Error: Attempting to use a disconnected port object
+            // 当被操作页被关闭掉，而在操作面板上继续操作时，此时port通信断开，报异常
+            // 一般不会走到这里，上有已经做 onDisconnect 监听
+        }
+    }
+
+}

@@ -6,9 +6,10 @@ import {
     NoticeTo,
     NoticeKey,
     initStorage,
+    noticePanelsByServiceWorker,
 } from "@proxy/shared-utils";
 import { injectEventListener } from "./event";
-import { noticeContent, noticePanels, useCurrentTitle } from "./notice";
+import { noticeContent, useCurrentTitle } from "./notice";
 import { initDefaultSth } from "./init";
 import { chromeBadge } from "./badge";
 import { INIT_CURRENT_TITLE } from "../consts";
@@ -54,14 +55,14 @@ initStorage().then(() => {
                 // panels -> service-worker -> connect.port.sender.tab.title -> panels
                 if (key === NoticeKey.GET_CURRENT_TITLE) {
                     const title = useCurrentTitle()
-                    noticePanels(NoticeKey.GET_CURRENT_TITLE, title)
+                    noticePanelsByServiceWorker(NoticeKey.GET_CURRENT_TITLE, title)
                 }
             } else if (msg.from === NoticeFrom.CONTENT) {
                 // content -> service-worker -> panels
                 // 页面加载初始化当前title [主动]
                 if (key === INIT_CURRENT_TITLE) {
                     // 接收content转发给panels
-                    noticePanels(NoticeKey.GET_CURRENT_TITLE, value)
+                    noticePanelsByServiceWorker(NoticeKey.GET_CURRENT_TITLE, value)
                 }
             }
         }
