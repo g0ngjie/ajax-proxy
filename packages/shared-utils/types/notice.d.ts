@@ -24,3 +24,7 @@ export declare function onConnectByServiceWorker(onConnectFn: (port: chrome.runt
  * 通知 service-worker -> content
  */
 export declare function noticeContentByServiceWorker(port: chrome.runtime.Port | undefined, key: NoticeKey, value: any): void;
+/**
+ * 当前活动页签发生改变
+ */
+export declare function onCurrentTabChanged(callback: (tab: chrome.tabs.Tab) => void): void;

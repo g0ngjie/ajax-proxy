@@ -1,4 +1,10 @@
-import { NoticeKey, onConnectByServiceWorker, noticePanelsByServiceWorker, noticeContentByServiceWorker } from "@proxy/shared-utils";
+import {
+    NoticeKey,
+    onConnectByServiceWorker,
+    noticePanelsByServiceWorker,
+    noticeContentByServiceWorker,
+    onCurrentTabChanged
+} from "@proxy/shared-utils";
 import { CONNECT_NAME } from "../consts";
 import { createPanel } from "./panel";
 
@@ -23,6 +29,11 @@ onConnectByServiceWorker((port) => {
     current_port = null
     // 通知 panels 清空 title
     noticePanelsByServiceWorker(NoticeKey.GET_CURRENT_TITLE, "")
+})
+
+// 当页签发生改变时，通知panels 变更title
+onCurrentTabChanged((tab) => {
+    noticePanelsByServiceWorker(NoticeKey.GET_CURRENT_TITLE, tab.title)
 })
 
 /**

@@ -9,7 +9,8 @@
   },
   "permissions": [
     "storage",
-    "notifications"
+    "notifications",
+    "tabs"
   ],
   "action": {
     "default_icon": "icons/48g.png"

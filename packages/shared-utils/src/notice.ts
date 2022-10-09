@@ -96,3 +96,19 @@ export function noticeContentByServiceWorker(port: chrome.runtime.Port | undefin
         }
     }
 }
+
+/**
+ * 当前活动页签发生改变
+ */
+export function onCurrentTabChanged(callback: (tab: chrome.tabs.Tab) => void) {
+    chrome.tabs.onActivated.addListener(activeInfo => {
+        chrome.tabs.get(activeInfo.tabId)
+            .then(getTab => {
+                // 判断是否为一个正常的页签
+                if (getTab.url?.startsWith("http") || getTab.url?.startsWith("https")) callback(getTab)
+                // title 置空
+                else callback({ ...getTab, title: "" })
+            })
+            .catch(err => { })
+    })
+}
