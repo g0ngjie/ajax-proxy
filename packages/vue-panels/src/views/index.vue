@@ -183,9 +183,13 @@ export default {
         importEmpty,
       } = this.$t("msg");
       // 设置拦截列表
-      if (typeIs(interceptors) === "array" && interceptors.length > 0) {
-        useInterceptorRoutes.set(interceptors);
-        this.$refs.table?.initList();
+      if (typeIs(interceptors) === "array") {
+        if (interceptors.length > 0) {
+          useInterceptorRoutes.set(interceptors);
+          this.$refs.table?.initList();
+        }
+        // 通知 拦截列表数据变更
+        useNotice.changeIntercepts(interceptors);
       } else this.$message.warning(importEmpty);
       // 设置标签列表
       if (typeIs(tags) === "array" && tags.length > 0) {
@@ -201,11 +205,17 @@ export default {
       if (mode) {
         useMode.set(mode);
         this.currentMode = mode;
+        // 通知模式变更，重新挂载 ajax 实例
+        useNotice.changeMode(mode);
       }
       // 设置重定向列表
-      if (typeIs(redirectors) === "array" && redirectors.length > 0) {
-        useRedirects.set(redirectors);
-        this.$refs.redirecTable?.initList();
+      if (typeIs(redirectors) === "array") {
+        if (redirectors.length > 0) {
+          useRedirects.set(redirectors);
+          this.$refs.redirecTable?.initList();
+        }
+        // 通知 重定向列表数据变更
+        useNotice.changeRedirects(redirectors);
       }
     },
     // 国际化
