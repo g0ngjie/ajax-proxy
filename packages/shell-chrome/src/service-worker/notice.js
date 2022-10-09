@@ -1,4 +1,4 @@
-import { NoticeTo, NoticeFrom } from "@proxy/shared-utils";
+import { NoticeTo, NoticeFrom, NoticeKey } from "@proxy/shared-utils";
 import { CONNECT_NAME } from "../consts";
 import { createPanel } from "./panel";
 
@@ -19,6 +19,17 @@ chrome.runtime.onConnect.addListener(function (port) {
     }
 })
 
+// 监听长链接 被断开
+chrome.runtime.onConnect.addListener(function (port) {
+    port.onDisconnect.addListener(function (port) {
+        if (port.name === CONNECT_NAME) {
+            current_port = null
+            // 通知 panels 清空 title
+            noticePanels(NoticeKey.GET_CURRENT_TITLE, "")
+        }
+    })
+})
+
 /**
  * 通知 service-worker -> panels
  */
@@ -34,13 +45,20 @@ export function noticePanels(key, value) {
  * 通知 service-worker -> content
  */
 export function noticeContent(key, value) {
-    // 长链接通信
-    current_port?.postMessage({
-        from: NoticeFrom.SERVICE_WORKER,
-        to: NoticeTo.CONTENT,
-        key,
-        value,
-    })
+    try {
+        // 长链接通信
+        current_port?.postMessage({
+            from: NoticeFrom.SERVICE_WORKER,
+            to: NoticeTo.CONTENT,
+            key,
+            value,
+        })
+    } catch (error) {
+        // catch err
+        // error: Error: Attempting to use a disconnected port object
+        // 当被操作页被关闭掉，而在操作面板上继续操作时，此时port通信断开，报异常
+        // 一般不会走到这里，上有已经做 onDisconnect 监听
+    }
 }
 
 /**获取 port里 title */
