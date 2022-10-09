@@ -95,5 +95,4 @@ export function noticeContentByServiceWorker(port: chrome.runtime.Port | undefin
             // 一般不会走到这里，上有已经做 onDisconnect 监听
         }
     }
-
 }
