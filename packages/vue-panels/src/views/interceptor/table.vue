@@ -194,7 +194,7 @@ export default {
       });
       if (ok) {
         const newList = [];
-        const routes = useInterceptorRoutes.get();
+        const routes = await useInterceptorRoutes.getReal();
         routes.forEach((item) => {
           if (item.id != id) newList.push(item);
         });
@@ -204,12 +204,13 @@ export default {
     },
     // 复制
     async handleCopy(row) {
-      const routes = useInterceptorRoutes.get();
+      const routes = await useInterceptorRoutes.getReal();
       let remark = row.remark || "";
       if (!remark.includes("[ -- copy -- ]"))
         remark = "[ -- copy -- ]  " + remark;
       routes.push({
         ...row,
+        hit: 0,
         remark,
         switch_on: false,
         id: uniqueId(),
@@ -222,7 +223,7 @@ export default {
       this.modifyNotice(this.tableData);
     },
     async editData(row) {
-      const routes = useInterceptorRoutes.get();
+      const routes = await useInterceptorRoutes.getReal();
       const newList = [];
       routes.forEach((item) => {
         if (item.id == row.id) newList.push(row);

@@ -1,15 +1,13 @@
-import { target } from "./env";
-
-const useAction = typeof target.chrome !== "undefined" && typeof target.chrome.action !== "undefined";
+import { useAction } from "./env";
 
 /**设置徽章 */
 export function setBadge(count: number | undefined) {
     if (useAction) {
-        target.chrome.action.setBadgeBackgroundColor({ color: "#006d75" });
+        chrome.action.setBadgeBackgroundColor({ color: "#006d75" });
         if (count) {
-            target.chrome.action.setBadgeText({ text: `+${count}` });
+            chrome.action.setBadgeText({ text: `+${count}` });
         } else {
-            target.chrome.action.setBadgeText({ text: "" });
+            chrome.action.setBadgeText({ text: "" });
         }
     }
 }
@@ -17,7 +15,7 @@ export function setBadge(count: number | undefined) {
 /**Tab栏图片启用禁用状态 */
 export function setTabIcon(enable: boolean) {
     if (useAction) {
-        target.chrome.action.setIcon({
+        chrome.action.setIcon({
             path: enable ? "/icons/128.png" : "/icons/128g.png",
         });
     }

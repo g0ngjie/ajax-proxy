@@ -42,11 +42,11 @@ export const useGLobalSwitch = {
 
 /**拦截路由列表 */
 export const useInterceptorRoutes = {
+  // 注意，panels 与 service-worker 使用的storage 是不同的实例
+  // 命中率更新 是在 service-worker 里面直接进行数据存储的
+  // 所以这里面不能用 getStorage，因为这里面会走缓存，导致无法拿到最新的数据
   getReal() {
     return getRealStorage(StorageKey.INTERCEPT_LIST, [])
-  },
-  get() {
-    return getStorage(StorageKey.INTERCEPT_LIST, [])
   },
   set(value) {
     setStorage(StorageKey.INTERCEPT_LIST, value)

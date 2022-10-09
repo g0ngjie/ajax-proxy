@@ -159,7 +159,7 @@ export default {
       reader.onload = async (e) => {
         try {
           let _json = JSON.parse(e.target.result);
-          const routes = useInterceptorRoutes.get();
+          const routes = await useInterceptorRoutes.getReal();
           if (!_json) return;
           if (routes.length > 0) {
             // 如果存在

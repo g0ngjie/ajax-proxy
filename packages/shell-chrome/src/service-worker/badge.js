@@ -1,7 +1,7 @@
 
 // 和徽章相关的函数
 
-import { NoticeKey, StorageKey } from "@proxy/shared-utils/lib/consts";
+import { NoticeKey, StorageKey, setStorage } from "@proxy/shared-utils";
 import { chromeNativeNotice, noticePanels } from "./notice";
 import { getStore, setStore } from "./store";
 
@@ -51,7 +51,8 @@ async function syncRoutesAsHit(routes, match_url, method) {
         }
     }
     // 更新本地拦截列表
-    setStore(StorageKey.INTERCEPT_LIST, list);
+    // setStore(StorageKey.INTERCEPT_LIST, list);
+    setStorage(StorageKey.INTERCEPT_LIST, list);
     return counter;
 }
 
