@@ -72,6 +72,11 @@ export type OldGLobalStateStruct = {
 }
 
 /**
+ * 旧数据 key 值映射
+ */
+export type MappingOldKeys = (keyof OldGLobalStateStruct)[]
+
+/**
  * 新GlobalState数据结构体
  */
 export type NewGLobalStateStruct = IGlobalState & {

@@ -1,4 +1,4 @@
-import { NewGLobalStateStruct, NewUploadStruct, OldGLobalStateStruct, OldUploadStruct } from "./types";
+import { MappingOldKeys, NewGLobalStateStruct, NewUploadStruct, OldGLobalStateStruct, OldUploadStruct } from "./types";
 /**
  * 数据转换
  * content-script 使用, 页面加载时
@@ -8,6 +8,7 @@ import { NewGLobalStateStruct, NewUploadStruct, OldGLobalStateStruct, OldUploadS
 export declare function onLoadForDataConversion(target: NewGLobalStateStruct | OldGLobalStateStruct): {
     changed: boolean;
     data: NewGLobalStateStruct;
+    changeKeywords: MappingOldKeys;
 };
 /**
  * 数据转换
