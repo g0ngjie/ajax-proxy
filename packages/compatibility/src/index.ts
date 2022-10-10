@@ -2,7 +2,8 @@ import { NewGLobalStateStruct, NewUploadStruct, OldGLobalStateStruct, OldInterce
 
 // 判断是否为老GlobalState 数据
 function isOldGlobalState(x: any): x is OldGLobalStateStruct {
-    return x && x.hasOwnProperty("globalSwitchOn")
+    return x &&
+        (x.hasOwnProperty("globalSwitchOn") || x.hasOwnProperty("globalSwitch"))
 }
 
 // 判断是否为老上传数据结构
@@ -83,7 +84,6 @@ export function onLoadForDataConversion(target: NewGLobalStateStruct | OldGLobal
     if (isOldGlobalState(target)) {
         // 需要转换数据格式
         const {
-            globalSwitchOn,
             mode,
             proxy_routes,
             redirect
@@ -94,7 +94,8 @@ export function onLoadForDataConversion(target: NewGLobalStateStruct | OldGLobal
         // 转义 重定向列表
         const redirectors = redirectorConversion(redirect)
         const newData: NewGLobalStateStruct = {
-            global_on: globalSwitchOn,
+            // 全局开关 转义后默认关闭
+            global_on: false,
             mode,
             interceptor_matching_content: interceptors,
             redirector_matching_content: redirectors
