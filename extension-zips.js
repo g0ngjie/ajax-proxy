@@ -5,6 +5,7 @@ const archiver = require('archiver')
 const IS_CI = !!(process.env.CIRCLECI || process.env.GITHUB_ACTIONS)
 const ProgressBar = require('progress')
 const readDirGlob = require('readdir-glob')
+const PKG = require("./package.json")
 
 const INCLUDE_GLOBS = [
   'icons/**',
@@ -25,7 +26,7 @@ function bytesToSize(bytes) {
 }
 
 (async () => {
-  await writeZip('extension-chrome.zip', 'shell-chrome/build')
+  await writeZip(`ajax-proxy-${PKG.version}.zip`, 'shell-chrome/build')
 
   async function writeZip(fileName, packageDir) {
     // create a file to stream archive data to.
