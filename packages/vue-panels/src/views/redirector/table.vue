@@ -17,7 +17,7 @@
         <template slot-scope="{ row }">
           {{
             { normal: $t("normal"), regex: $t("regex") }[
-              row.filterType || "normal"
+              row.filter_type || "normal"
             ]
           }}
         </template>
