@@ -63,6 +63,8 @@ export type OldRedirectorStruct = {
 export type OldGLobalStateStruct = {
     /**全局开关 */
     globalSwitchOn: boolean
+    /**或者 */
+    globalSwitch: boolean
     /**模式 */
     mode: IMode
     /**拦截规则列表 */
