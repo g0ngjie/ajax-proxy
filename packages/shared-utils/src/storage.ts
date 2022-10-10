@@ -59,14 +59,16 @@ export function setStorage(key: string, val: any) {
   }
 }
 
-export function removeStorage(key: string) {
+export function removeStorage(keys: string | string[]) {
   checkStorage()
   if (useStorage) {
-    delete storageData[key]
-    chrome.storage.local.remove([key])
+    if (Array.isArray(keys)) keys.forEach(target => delete storageData[target])
+    else delete storageData[keys]
+    chrome.storage.local.remove(keys)
   } else {
     try {
-      localStorage.removeItem(key)
+      if (Array.isArray(keys)) keys.forEach(target => localStorage.removeItem(target))
+      else localStorage.removeItem(keys)
     } catch (e) { }
   }
 }

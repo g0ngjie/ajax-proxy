@@ -58,6 +58,10 @@ export declare type OldGLobalStateStruct = {
     redirect?: OldRedirectorStruct[];
 };
 /**
+ * 旧数据 key 值映射
+ */
+export declare type MappingOldKeys = (keyof OldGLobalStateStruct)[];
+/**
  * 新GlobalState数据结构体
  */
 export declare type NewGLobalStateStruct = IGlobalState & {

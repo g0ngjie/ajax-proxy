@@ -1,4 +1,12 @@
-import { NewGLobalStateStruct, NewUploadStruct, OldGLobalStateStruct, OldInterceptorStruct, OldRedirectorStruct, OldUploadStruct } from "./types";
+import {
+    MappingOldKeys,
+    NewGLobalStateStruct,
+    NewUploadStruct,
+    OldGLobalStateStruct,
+    OldInterceptorStruct,
+    OldRedirectorStruct,
+    OldUploadStruct
+} from "./types";
 
 // 判断是否为老GlobalState 数据
 function isOldGlobalState(x: any): x is OldGLobalStateStruct {
@@ -99,15 +107,20 @@ export function onLoadForDataConversion(target: NewGLobalStateStruct | OldGLobal
             interceptor_matching_content: interceptors,
             redirector_matching_content: redirectors
         }
+        // 旧数据对应key，用于上游做旧数据清理使用
+        const changeKeywords: MappingOldKeys = ["globalSwitchOn", "mode", "proxy_routes", "redirect"]
         return {
             changed: true,
-            data: newData
+            data: newData,
+            changeKeywords
         }
     }
+
     // 新数据结构，无需转换
     return {
         changed: false,
-        data: target
+        data: target,
+        changeKeywords: []
     }
 }
 
