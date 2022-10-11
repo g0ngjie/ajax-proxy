@@ -1,4 +1,4 @@
-import { finalRedirectUrl, matchIgnoresAndRule, maybeMatching, notice } from "./common";
+import { finalRedirectUrl, matchIgnoresAndRule } from "./common";
 import { RefGlobalState } from "./types";
 
 // 共享状态
@@ -9,6 +9,7 @@ export const initRedirectFetchState = (state: RefGlobalState) => globalState = s
 
 export default function CustomFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
     let fetchMethod: string | undefined | "ANY" = "ANY"
+    let customInit: RequestInit = init || {}
     if (init) {
         fetchMethod = init.method?.toUpperCase() || "ANY"
     }
@@ -29,20 +30,25 @@ export default function CustomFetch(input: RequestInfo | URL, init?: RequestInit
             if (matchIgnoresAndRule(input.toString(), domain, filter_type, ignores)) {
                 input = finalRedirectUrl(input.toString(), domain, redirect_url, filter_type)
 
-                if (init) {
-                    for (let j = 0; j < headers.length; j++) {
-                        const { key, value } = headers[j];
-                        if (init?.headers && key in init?.headers) {
-                            const newHeaders = new Headers(init.headers)
-                            newHeaders.append(key, value)
-                            init.headers = newHeaders
-                        }
+                if (init?.headers) {
+                    // 初始化 RequestInit
+                    customInit = init
+                    const initHeaders = new Headers(init.headers)
+                    headers.forEach(header => {
+                        initHeaders.set(header.key, header.value)
+                    })
+                    customInit.headers = initHeaders
+                } else {
+                    const newHeaders: HeadersInit = headers.map(header => [header.key, header.value])
+                    customInit = {
+                        headers: newHeaders
                     }
                 }
+
                 // 值取当前命中的第一个，后续再命中的忽略
                 break;
             }
         }
     }
-    return OriginFetch.call(CustomFetch, input, init)
+    return OriginFetch.call(CustomFetch, input, customInit)
 }

@@ -20,6 +20,7 @@ export default class CustomRedirectXHR extends XMLHttpRequest {
         const { open } = this
         const origin_XHR_open = open
         const origin_XHR_setRequestHeader = this.setRequestHeader
+        const origin_XHR_send = this.send
         this.open = (method: string,
             url: string | URL,
             async?: boolean,
@@ -45,13 +46,23 @@ export default class CustomRedirectXHR extends XMLHttpRequest {
                     if (matchIgnoresAndRule(currentUrl, domain, filter_type, ignores)) {
                         url = finalRedirectUrl(currentUrl, domain, redirect_url, filter_type)
 
+                        // 获取 自定义 header 映射关系
+                        const cacheHeaderMap: { [key: string]: string } = {}
+                        headers.forEach(header => (cacheHeaderMap[header.key] = header.value))
+
                         this.setRequestHeader = (name: string, value: string) => {
+                            // 判断是否存在需要修改的header
+                            // 如果存在，则不修改，让send里面重新设置
+                            if (!cacheHeaderMap[name]) origin_XHR_setRequestHeader.apply(this, [name, value])
+                        }
+                        this.send = (body?: Document | XMLHttpRequestBodyInit | null) => {
                             for (let k = 0; k < headers.length; k++) {
                                 const header = headers[k];
-                                // 如果匹配则修改
-                                if (header.key === name) value = header.value
-                                origin_XHR_setRequestHeader.apply(this, [name, value])
+                                // 移除掉 映射关系
+                                delete cacheHeaderMap[header.key]
+                                this.setRequestHeader(header.key, header.value)
                             }
+                            origin_XHR_send.call(this, body)
                         }
                         // 值取当前命中的第一个，后续再命中的忽略
                         break;

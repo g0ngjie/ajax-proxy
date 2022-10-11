@@ -18,19 +18,25 @@
                 {
                     switch_on: true,
                     domain: 'https://api.github.com/',
-                    redirect_url: "https://www.baidu.com"
+                    redirect_url: "https://www.baidu.com",
+                    headers: [
+                        { key: 'test_one', value: 'test_one' },
+                        { key: 'test_two', value: 'test_two' },
+                        // { key: 'test_three', value: 'test_three' },
+                    ]
                 }
             ]
         })
         const xhr = new XMLHttpRequest();
         xhr.open('GET', 'https://api.github.com/', true);
+        // xhr.setRequestHeader("test_three", 111)
         xhr.send();
         xhr.onload = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 console.log(this.responseText, 'xhr');
             }
         }
-        fetch("https://api.github.com/")
+        fetch("https://api.github.com/", { headers: { "test_three": "222" } })
             .then(response => response.text())
             .then(json => console.log(json, 'fetch'))
 
