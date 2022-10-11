@@ -1,6 +1,7 @@
 
 // 和徽章相关的函数
 
+import { IRequestMethod } from "@proxy/lib";
 import { NoticeKey, StorageKey, setStorage, getRealStorage, noticePanelsByServiceWorker } from "@proxy/shared-utils";
 import { chromeNativeNotice } from "./notice";
 
@@ -54,8 +55,13 @@ async function syncRoutesAsHit(routes, match_url, method) {
     return counter;
 }
 
+/**当前命中数据的结构体 */
+type BadgeHit = {
+    match_url: string
+    method: IRequestMethod
+}
 // badge 右下角小徽章设置
-export async function chromeBadge(data) {
+export async function chromeBadge(data?: BadgeHit) {
     const { match_url, method } = data || {}
     const globalSwitchOn = await getRealStorage(StorageKey.GLOBAL_SWITCH, false);
     if (!globalSwitchOn) {

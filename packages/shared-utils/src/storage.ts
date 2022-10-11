@@ -1,3 +1,4 @@
+import { StorageKey } from './consts'
 import { useStorage } from './env'
 
 // chrome.storage.sync.set 大于8,192字节的数据时，会报错 -> QUOTA_BYTES_PER_ITEM quota exceeded
@@ -31,7 +32,7 @@ export function getStorage(key: string, defaultValue: any = null) {
 }
 
 /**不走缓存获取数据 */
-export function getRealStorage(key: string, defaultValue: any = null) {
+export function getRealStorage(key: StorageKey, defaultValue: any = null) {
   if (useStorage) {
     return new Promise(resolve => {
       chrome.storage.local.get(key, result => {
@@ -43,7 +44,9 @@ export function getRealStorage(key: string, defaultValue: any = null) {
     try {
       const result = getDefaultValue(JSON.parse(localStorage.getItem(key) as any), defaultValue)
       return Promise.resolve(result)
-    } catch (e) { }
+    } catch (e) {
+      return Promise.resolve(null)
+    }
   }
 }
 

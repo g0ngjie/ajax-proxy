@@ -51,7 +51,9 @@ importers:
       '@proxy/compatibility': workspace:^1.0.0
       '@proxy/lib': workspace:^1.0.0
       '@proxy/shared-utils': workspace:^1.0.0
+      '@types/chrome': ^0.0.197
       copy-webpack-plugin: ^11.0.0
+      ts-loader: ^9.4.1
       webpack: ^5.74.0
       webpack-cli: ^4.10.0
     dependencies:
@@ -59,7 +61,9 @@ importers:
       '@proxy/lib': link:../proxy-lib
       '@proxy/shared-utils': link:../shared-utils
     devDependencies:
+      '@types/chrome': registry.npmmirror.com/@types/chrome/0.0.197
       copy-webpack-plugin: registry.npmmirror.com/copy-webpack-plugin/11.0.0_webpack@5.74.0
+      ts-loader: registry.npmmirror.com/ts-loader/9.4.1_webpack@5.74.0
       webpack: registry.npmmirror.com/webpack/5.74.0_webpack-cli@4.10.0
       webpack-cli: registry.npmmirror.com/webpack-cli/4.10.0_webpack@5.74.0
 
@@ -11978,6 +11982,23 @@ packages:
     resolution: {integrity: sha512-c3zayb8/kWWpycWYg87P71E1S1ZL6b6IJxfb5fvsUgsf0S2MVGaDhDXXjDMpdCpfWXqptc+4mXwmiy1ypXqRAA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/tryer/-/tryer-1.0.1.tgz}
     name: tryer
     version: 1.0.1
+    dev: true
+
+  registry.npmmirror.com/ts-loader/9.4.1_webpack@5.74.0:
+    resolution: {integrity: sha512-384TYAqGs70rn9F0VBnh6BPTfhga7yFNdC5gXbQpDrBj9/KsT4iRkGqKXhziofHOlE2j6YEaiTYVGKKvPhGWvw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/ts-loader/-/ts-loader-9.4.1.tgz}
+    id: registry.npmmirror.com/ts-loader/9.4.1
+    name: ts-loader
+    version: 9.4.1
+    engines: {node: '>=12.0.0'}
+    peerDependencies:
+      typescript: '*'
+      webpack: ^5.0.0
+    dependencies:
+      chalk: registry.npmmirror.com/chalk/4.1.2
+      enhanced-resolve: registry.npmmirror.com/enhanced-resolve/5.10.0
+      micromatch: registry.npmmirror.com/micromatch/4.0.5
+      semver: registry.npmmirror.com/semver/7.3.8
+      webpack: registry.npmmirror.com/webpack/5.74.0_webpack-cli@4.10.0
     dev: true
 
   registry.npmmirror.com/ts-pnp/1.2.0:

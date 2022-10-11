@@ -15,7 +15,7 @@ import { createPanel } from "./panel";
  *  ...
  *  current_port[tabId].postMessage()
  */
-let current_port = null;
+let current_port: chrome.runtime.Port | undefined = undefined;
 
 // 长链接
 // 好处是可以实现无刷新更新拦截器代理
@@ -26,7 +26,7 @@ onConnectByServiceWorker((port) => {
     }
 }, () => {
     // 长链接断开
-    current_port = null
+    current_port = undefined
     // 通知 panels 清空 title
     noticePanelsByServiceWorker(NoticeKey.GET_CURRENT_TITLE, "")
 })

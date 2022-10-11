@@ -4,7 +4,7 @@ import { NoticeFrom, NoticeTo, NoticeKey } from "./consts";
 /**
  * 通知 content -> document
  */
-export function noticeDocumentByContent(key: NoticeKey, value) {
+export function noticeDocumentByContent(key: NoticeKey | string, value) {
     window.postMessage({
         from: NoticeFrom.CONTENT,
         to: NoticeTo.DOCUMENT,
@@ -51,7 +51,7 @@ export function noticeServiceWorkerByPanels(key, value) {
 /**
  * 通知 service-worker -> panels
  */
-export function noticePanelsByServiceWorker(key, value) {
+export function noticePanelsByServiceWorker(key: NoticeKey, value?: any) {
     if (useRuntime) {
         chrome.runtime.sendMessage({
             from: NoticeFrom.SERVICE_WORKER,

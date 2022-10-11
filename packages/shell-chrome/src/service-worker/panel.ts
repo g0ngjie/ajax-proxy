@@ -1,8 +1,8 @@
 
-let current_window_id = undefined
+let current_window_id: number | undefined
 
 /**获取所有windowId */
-async function getAllWindowIds() {
+async function getAllWindowIds(): Promise<(number | undefined)[]> {
     return new Promise((resolve) => {
         chrome.windows.getAll(function (targets) {
             const ids = targets.map((item) => item.id);
@@ -50,7 +50,6 @@ export async function createPanel() {
 export async function closePanel() {
     if (current_window_id) {
         chrome.windows.remove(current_window_id);
-        // setStore(WIN_ID, null);
         current_window_id = undefined
     }
 }
@@ -59,7 +58,7 @@ export async function closePanel() {
 export async function fullScreenPanel() {
     if (current_window_id) {
         chrome.windows.getCurrent(function (current) {
-            if (current.id === current_window_id) {
+            if (current.id && current.id === current_window_id) {
                 switch (current.state) {
                     case "fullscreen":
                         chrome.windows.update(current.id, { state: "normal" });
@@ -83,7 +82,7 @@ export async function resizeWindow() {
                 maximized: "fullscreen",
                 fullscreen: "normal",
             };
-            if (current.id === current_window_id)
+            if (current.id && current.state && current.id === current_window_id)
                 chrome.windows.update(current.id, { state: conf[current.state] });
         });
     }
