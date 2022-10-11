@@ -76,8 +76,9 @@ initStorage().then(() => {
     window.addEventListener(
         NoticeTo.CONTENT,
         function (event) {
+            const customEvent = event as CustomEvent
             // 通知徽章上命中率需要变更
-            noticeServiceWorkerByContent(NoticeKey.BADGE_STATUS, event.detail)
+            noticeServiceWorkerByContent(NoticeKey.BADGE_STATUS, customEvent.detail)
         },
         false
     );

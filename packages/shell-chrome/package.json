@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "rm -rf build && webpack --config webpack.config.js",
-    "watch": "vite build --watch"
+    "build": "rm -rf build && webpack --config webpack.config.js"
   },
   "keywords": [],
   "author": {
@@ -19,7 +18,9 @@
     "@proxy/shared-utils": "workspace:^1.0.0"
   },
   "devDependencies": {
+    "@types/chrome": "^0.0.197",
     "copy-webpack-plugin": "^11.0.0",
+    "ts-loader": "^9.4.1",
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0"
   }

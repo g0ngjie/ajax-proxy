@@ -87,7 +87,7 @@ function redirectorConversion(target: any) {
  * 由于 v2.1.0 版本 项目重构，数据属性有变动。
  * 需要将老数据预处理为新数据结构体
  */
-export function onLoadForDataConversion(target: NewGLobalStateStruct | OldGLobalStateStruct) {
+export function onLoadForDataConversion<T extends NewGLobalStateStruct | OldGLobalStateStruct | { [key: string]: any }>(target: T) {
     if (isOldGlobalState(target)) {
         // 需要转换数据格式
         const {

@@ -5,10 +5,16 @@ import { MappingOldKeys, NewGLobalStateStruct, NewUploadStruct, OldGLobalStateSt
  * 由于 v2.1.0 版本 项目重构，数据属性有变动。
  * 需要将老数据预处理为新数据结构体
  */
-export declare function onLoadForDataConversion(target: NewGLobalStateStruct | OldGLobalStateStruct): {
+export declare function onLoadForDataConversion<T extends NewGLobalStateStruct | OldGLobalStateStruct | {
+    [key: string]: any;
+}>(target: T): {
     changed: boolean;
     data: NewGLobalStateStruct;
     changeKeywords: MappingOldKeys;
+} | {
+    changed: boolean;
+    data: T;
+    changeKeywords: never[];
 };
 /**
  * 数据转换
