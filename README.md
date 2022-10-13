@@ -48,7 +48,7 @@
 
 ## Examples
 
-Video: [https://www.youtube.com/watch?v=F\_\_7LXBqnvQ](https://www.youtube.com/watch?v=F__7LXBqnvQ)
+Video: [https://www.youtube.com/watch?v=F\_\_7LXBqnvQ&list=PLniy0-3-8-V1ZhsmG6\_\_HdOJBAschGWSt](https://www.youtube.com/watch?v=F__7LXBqnvQ&list=PLniy0-3-8-V1ZhsmG6__HdOJBAschGWSt)
 
 <!-- ![interceptor](https://github.com/g0ngjie/ajax-proxy/wiki/images/interceptor-1.png) -->
 

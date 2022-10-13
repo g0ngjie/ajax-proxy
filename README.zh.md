@@ -41,11 +41,6 @@
 - 当某个接口 404 时
 <!-- - 当 ... ... -->
 
-## 视频介绍
-
-- [请求方式拦截介绍](https://www.bilibili.com/video/BV1eW4y1H76x/?vd_source=47f2c439d1dcdfef3c5f144bf04b0c01)
-- [状态码规则与正则的使用介绍](https://www.bilibili.com/video/BV1LV4y1V7e2/?vd_source=47f2c439d1dcdfef3c5f144bf04b0c01)
-
 ## 安装
 
 [Edge 版本](https://microsoftedge.microsoft.com/addons/detail/ajax-proxy/iladajdkobpmadjfpeginhngnneaoefi)
@@ -61,6 +56,11 @@
 ![operation.gif](media/operation.gif)
 
 ![zhihu](https://github.com/g0ngjie/ajax-proxy/wiki/images/zhihu-ajaxproxy.png)
+
+## 视频介绍
+
+- [请求方式拦截介绍](https://www.bilibili.com/video/BV1eW4y1H76x/?vd_source=47f2c439d1dcdfef3c5f144bf04b0c01)
+- [状态码规则与正则的使用介绍](https://www.bilibili.com/video/BV1LV4y1V7e2/?vd_source=47f2c439d1dcdfef3c5f144bf04b0c01)
 
 ## 常见问题
 
