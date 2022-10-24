@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { VueJsonEditor } from "../packages";
+import { VueJsonEditor } from "../packages/index";
 export default {
   data() {
     return {

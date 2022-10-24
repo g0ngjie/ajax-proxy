@@ -89,7 +89,7 @@ export default {
   }
   :deep(.json-editor-drawer__footer) {
     position: absolute;
-    bottom: 10px;
+    bottom: 28px;
     right: 40px;
     z-index: 999;
   }

@@ -5,8 +5,8 @@
 </template>
 
 <script>
-import JsonEditor from "jsoneditor";
 import "jsoneditor/dist/jsoneditor.min.css";
+import JsonEditor from "jsoneditor/dist/jsoneditor.min.js";
 
 export default {
   name: "VueJsonEditor",
