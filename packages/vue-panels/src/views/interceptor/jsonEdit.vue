@@ -4,6 +4,7 @@
       <vue-json-editor
         v-model="json"
         style="height: 100%"
+        :language="language"
         :expandedOnStart="true"
         mode="code"
         @json-change="onJsonChange"
@@ -18,19 +19,35 @@
 </template>
 
 <script>
-import vueJsonEditor from "vue-json-editor";
+import "@proxy/json-editor/lib/index.css";
+import { VueJsonEditor } from "@proxy/json-editor";
+import { useLang } from "@/common/store";
 
 export default {
-  components: { vueJsonEditor },
+  components: { VueJsonEditor },
   data() {
     return {
       drawer: false,
       json: {},
       cache: null,
+      language: "en",
     };
   },
   methods: {
     show(json) {
+      const lang = useLang.get();
+      // https://github.com/josdejong/jsoneditor/blob/master/docs/api.md
+      // en es zh-CN pt-BR tr ja fr-FR de ru ko languages
+      const langMap = {
+        en: "en",
+        zh: "zh-CN",
+        tw: "zh-CN",
+        ja: "ja",
+        fr: "fr-FR",
+        ko: "ko",
+        ru: "ru",
+      };
+      this.language = langMap[lang] || "en";
       this.cache = null;
       this.json = json;
       this.drawer = true;
