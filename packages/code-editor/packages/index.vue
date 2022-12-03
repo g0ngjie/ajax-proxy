@@ -45,6 +45,7 @@ export default {
           this.internalChange = false;
         });
       });
+      this.setValue(this.value);
     },
     setValue(value) {
       if (this.aceEditor) {

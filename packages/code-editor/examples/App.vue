@@ -31,8 +31,5 @@ export default {
       this.$refs.codeEditor.setValue();
     },
   },
-  mounted() {
-    this.$refs.codeEditor.setValue();
-  },
 };
 </script>
