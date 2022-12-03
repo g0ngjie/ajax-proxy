@@ -19,7 +19,10 @@
           ]"
           prop="match_url"
         >
-          <el-input v-model="form.match_url" :placeholder="$t('placeholder.input')">
+          <el-input
+            v-model="form.match_url"
+            :placeholder="$t('placeholder.input')"
+          >
             <el-select
               style="width: 90px"
               v-model="form.filter_type"
@@ -80,31 +83,56 @@
         >
           <el-input v-model.number="form.status_code" placeholder="200" />
         </el-form-item>
-        <el-form-item
-          :label="$t('responseData')"
-          :rules="[
-            {
-              required: true,
-              trigger: 'change',
-              message: $t('msg.responseDataNotEmpty'),
-            },
-          ]"
-          prop="override"
-        >
-          <el-input
-            type="textarea"
-            :rows="10"
-            v-model="form.override"
-            :placeholder="$t('placeholder.input')"
-          >
-          </el-input>
-        </el-form-item>
-        <el-button
-          type="primary"
-          :disabled="!form.override"
-          @click="handleOpenJsonEditor(form.override)"
-          >JSON Editor</el-button
-        >
+
+        <el-tabs v-model="form.overrideType" type="card">
+          <el-tab-pane :label="$t('responseData')" name="json">
+            <el-form-item
+              v-if="form.overrideType === 'json'"
+              :rules="[
+                {
+                  required: true,
+                  trigger: 'change',
+                  message: $t('msg.responseDataNotEmpty'),
+                },
+              ]"
+              prop="override"
+            >
+              <el-button
+                type="primary"
+                :disabled="!form.override"
+                style="margin-bottom: 10px"
+                @click="handleOpenJsonEditor(form.override)"
+                >JSON Editor</el-button
+              >
+              <el-input
+                type="textarea"
+                :rows="10"
+                v-model="form.override"
+                :placeholder="$t('placeholder.input')"
+              >
+              </el-input>
+            </el-form-item>
+          </el-tab-pane>
+          <el-tab-pane label="函数式" name="function">
+            <el-checkbox style="margin-bottom: 10px" v-model="form.debug"
+              >Debug</el-checkbox
+            >
+            <!-- 函数式 -->
+            <el-form-item
+              v-if="form.overrideType === 'function'"
+              :rules="[
+                {
+                  required: true,
+                  trigger: 'change',
+                  message: $t('msg.responseDataNotEmpty'),
+                },
+              ]"
+              prop="func"
+            >
+              <CodeEditor v-model="form.func" ref="codeEditor" />
+            </el-form-item>
+          </el-tab-pane>
+        </el-tabs>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="handleClose">{{ $t("cancel") }}</el-button>
@@ -121,9 +149,10 @@
 import { uniqueId } from "@alrale/common-lib";
 import { useTags } from "@/common/store";
 import JsonEditor from "./jsonEdit";
+import { VueCodeEditor } from "@proxy/code-editor";
 
 export default {
-  components: { JsonEditor },
+  components: { JsonEditor, CodeEditor: VueCodeEditor },
   data() {
     return {
       isShow: false,
@@ -154,13 +183,20 @@ export default {
         this.isEdit = true;
         // 编辑
         this.title = this.$t("edit");
+        // 响应类型
+        if (!row.overrideType) row.overrideType = "json";
       } else {
         this.isEdit = false;
         // 新增
         this.title = this.$t("create");
       }
       this.isShow = true;
-      this.form = row || { status_code: 200, remark: "", filter_type: "normal" };
+      this.form = row || {
+        status_code: 200,
+        remark: "",
+        filter_type: "normal",
+        overrideType: "function",
+      };
       this.$nextTick(() => this.$refs.form.clearValidate());
     },
     // 模态关闭
