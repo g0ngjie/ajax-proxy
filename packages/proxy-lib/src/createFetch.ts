@@ -40,7 +40,14 @@ function CustomFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Resp
                 if (!matched) continue // 退出当前循环
                 _overrideType = override_type
                 if (override_type === "function") {
-                    const ctx = getCtx(response.url, init?.method?.toUpperCase() || "GET", response.status, status_code)
+                    const ctx = getCtx(
+                        response.url,
+                        init?.method?.toUpperCase() || "GET",
+                        response.status,
+                        status_code,
+                        init?.body,
+                        response
+                    )
                     const payload = await execSetup(ctx, override_func)
                     if (payload.override)
                         txt = typeof payload.override === "string" ? payload.override : JSON.stringify(payload.override);

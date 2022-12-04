@@ -18,6 +18,8 @@ class CustomXHR extends XMLHttpRequest {
     statusText: string = "";
     // 请求协议
     method = 'GET'
+    // 请求Body
+    body?: Document | XMLHttpRequestBodyInit | null
     // 消息锁
     private message_once_lock: boolean = false;
 
@@ -33,7 +35,7 @@ class CustomXHR extends XMLHttpRequest {
 
     // 获取请求协议
     private getMethod() {
-        const { open } = this
+        const { open, send } = this
         this.open = (
             method: string,
             url: string | URL,
@@ -45,10 +47,14 @@ class CustomXHR extends XMLHttpRequest {
             this.method = (method || 'ANY').toUpperCase()
             open.apply(this, [method, url, async !== undefined ? async : true, username, password])
         }
+        this.send = (body?: Document | XMLHttpRequestBodyInit | null) => {
+            this.body = body
+            send.call(this, body)
+        }
     }
 
     // 规则匹配，修改响应内容
-    private async maybeNeedModifyRes() {
+    private async maybeNeedModifyRes(origin_xhr_response: any) {
         for (let i = 0; i < globalState.value.interceptor_matching_content.length; i++) {
             const target = globalState.value.interceptor_matching_content[i];
             const {
@@ -69,7 +75,7 @@ class CustomXHR extends XMLHttpRequest {
                 const matched = maybeMatching(this.responseURL, match_url, filter_type);
                 if (!matched) continue // 退出当前循环
                 if (override_type === "function") {
-                    const ctx = getCtx(this.responseURL, this.method, this.status, status_code)
+                    const ctx = getCtx(this.responseURL, this.method, this.status, status_code, this.body, origin_xhr_response)
                     const payload = await execSetup(ctx, override_func)
                     if (payload.override) {
                         const _override = typeof payload.override === "string" ? payload.override : JSON.stringify(payload.override);
@@ -128,14 +134,14 @@ class CustomXHR extends XMLHttpRequest {
             if (attr === "onreadystatechange") {
                 xhr.onreadystatechange = async (...args) => {
                     // 开启拦截
-                    if (this.readyState == 4) await this.maybeNeedModifyRes();
+                    if (this.readyState == 4) await this.maybeNeedModifyRes(xhr.response);
                     this.onreadystatechange && this.onreadystatechange.apply(this, args);
                 };
                 continue;
             } else if (attr === "onload") {
                 xhr.onload = async (...args) => {
                     // 开启拦截
-                    await this.maybeNeedModifyRes();
+                    await this.maybeNeedModifyRes(xhr.response);
                     this.onload && this.onload.apply(this, args);
                 };
                 continue;
