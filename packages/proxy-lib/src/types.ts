@@ -6,6 +6,8 @@ export type IFilterType = "normal" | "regex";
 export type IMode = "interceptor" | "redirector"
 /**全局状态结构体 */
 export type RefGlobalState<T = IGlobalState> = { value: T }
+/**响应式类型 */
+export type OverrideType = 'json' | 'function'
 
 type CommonContent = {
     /**是否需要匹配 */
@@ -28,6 +30,10 @@ export type IMatchInterceptorContent = {
     hit?: number;
     /**状态码 */
     status_code?: string
+    /**响应式类型 */
+    override_type?: OverrideType
+    /**函数响应 */
+    override_func?: string
 } & CommonContent
 
 /**重定向头部结构体 */

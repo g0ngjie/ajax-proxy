@@ -24,8 +24,8 @@ export function useInit(container) {
         enableBasicAutocompletion: true,
     });
 
-    // 自定义提示
-    customCompletions(target)
+    // TODO: 自定义提示
+    // customCompletions(target)
 
     return target;
 }
@@ -39,27 +39,7 @@ function customCompletions(target) {
                 return;
             }
             callback(null, [
-                { meta: '逻辑操作符', caption: 'AND', value: 'AND', score: 1 },
-                { meta: '逻辑操作符', caption: 'OR', value: 'OR', score: 1 },
-                { meta: '逻辑操作符', caption: 'NOT', value: 'NOT', score: 1 },
-                {
-                    name: "chen",
-                    value: "chen",
-                    score: 100,
-                    meta: "keyword",
-                },
-                // {
-                //   name: "${s}",
-                //   value: "function",
-                //   score: 100,
-                //   meta: "test",
-                // },
-                {
-                    caption: "hello",
-                    snippet: "hello ${1:world}",
-                    type: "snippet",
-                    meta: "snippet",
-                },
+                { meta: 'todo', caption: 'AND', value: 'AND', score: 1 },
             ]);
         },
     });
@@ -68,17 +48,10 @@ function customCompletions(target) {
 // 默认内容
 export function getDefaultContent() {
     const defaultContent =
-        `// type Ctx = {
-//     req: { 
-//         url: string
-//     },
-//     res: {
-//         responseText: string
-//     }
-// }
-function setup(ctx) {
+        `function setup(req, res, next) {
     // ...todo
-    return ctx.responseText;
+    // type next = { override?: string, status?: string | number }
+    next({ override: "", status: "" });
 }
 `
     return defaultContent

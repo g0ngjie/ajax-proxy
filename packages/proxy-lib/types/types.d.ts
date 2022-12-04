@@ -8,6 +8,8 @@ export declare type IMode = "interceptor" | "redirector";
 export declare type RefGlobalState<T = IGlobalState> = {
     value: T;
 };
+/**响应式类型 */
+export declare type OverrideType = 'json' | 'function';
 declare type CommonContent = {
     /**是否需要匹配 */
     switch_on: boolean;
@@ -28,6 +30,10 @@ export declare type IMatchInterceptorContent = {
     hit?: number;
     /**状态码 */
     status_code?: string;
+    /**响应式类型 */
+    override_type?: OverrideType;
+    /**函数响应 */
+    override_func?: string;
 } & CommonContent;
 /**重定向头部结构体 */
 export declare type IRedirectHeader = {

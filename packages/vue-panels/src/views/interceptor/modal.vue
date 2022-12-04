@@ -84,10 +84,10 @@
           <el-input v-model.number="form.status_code" placeholder="200" />
         </el-form-item>
 
-        <el-tabs v-model="form.overrideType" type="card">
+        <el-tabs v-model="form.override_type" type="card">
           <el-tab-pane :label="$t('responseData')" name="json">
             <el-form-item
-              v-if="form.overrideType === 'json'"
+              v-if="form.override_type === 'json'"
               :rules="[
                 {
                   required: true,
@@ -114,12 +114,9 @@
             </el-form-item>
           </el-tab-pane>
           <el-tab-pane label="函数式" name="function">
-            <el-checkbox style="margin-bottom: 10px" v-model="form.debug"
-              >Debug</el-checkbox
-            >
             <!-- 函数式 -->
             <el-form-item
-              v-if="form.overrideType === 'function'"
+              v-if="form.override_type === 'function'"
               :rules="[
                 {
                   required: true,
@@ -127,9 +124,9 @@
                   message: $t('msg.responseDataNotEmpty'),
                 },
               ]"
-              prop="func"
+              prop="override_func"
             >
-              <CodeEditor v-model="form.func" ref="codeEditor" />
+              <CodeEditor v-model="form.override_func" ref="codeEditor" />
             </el-form-item>
           </el-tab-pane>
         </el-tabs>
@@ -184,7 +181,7 @@ export default {
         // 编辑
         this.title = this.$t("edit");
         // 响应类型
-        if (!row.overrideType) row.overrideType = "json";
+        if (!row.override_type) row.override_type = "json";
       } else {
         this.isEdit = false;
         // 新增
@@ -195,7 +192,7 @@ export default {
         status_code: 200,
         remark: "",
         filter_type: "normal",
-        overrideType: "function",
+        override_type: "function",
       };
       this.$nextTick(() => this.$refs.form.clearValidate());
     },
