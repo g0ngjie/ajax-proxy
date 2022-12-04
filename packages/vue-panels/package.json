@@ -16,7 +16,7 @@
     "core-js": "^3.6.5",
     "element-ui": "~2.15.1",
     "export-from-json": "^1.7.0",
-    "vue": "2.6.10",
+    "vue": "^2.6.11",
     "vue-i18n": "^8.24.3"
   },
   "devDependencies": {
@@ -27,7 +27,7 @@
     "babel-plugin-component": "^1.1.1",
     "sass": "~1.26.5",
     "sass-loader": "~8.0.2",
-    "vue-template-compiler": "2.6.10"
+    "vue-template-compiler": "^2.6.11"
   },
   "browserslist": [
     "> 1%",
