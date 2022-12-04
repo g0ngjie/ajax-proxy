@@ -11,6 +11,7 @@ export default {
   normal: "Normal",
   regex: "Regex",
   responseData: 'ResponseText',
+  responseFunc: 'Function',
   remark: 'Remark',
   tag: 'Tag',
   statusCode: 'StatusCode',

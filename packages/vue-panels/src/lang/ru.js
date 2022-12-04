@@ -12,6 +12,7 @@ export default {
     normal: "обычный",
     regex: "регулярный",
     responseData: 'данные ответа',
+    responseFunc: 'функция',
     remark: 'Примечание',
     tag: 'метка',
     statusCode: 'код состояния',

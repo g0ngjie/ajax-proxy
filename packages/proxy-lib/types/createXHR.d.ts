@@ -15,6 +15,7 @@ declare class CustomXHR extends XMLHttpRequest {
     status: number;
     statusText: string;
     method: string;
+    body?: Document | XMLHttpRequestBodyInit | null;
     private message_once_lock;
     constructor();
     private getMethod;

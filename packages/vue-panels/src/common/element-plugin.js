@@ -21,6 +21,8 @@ import {
   Tag,
   Row,
   Col,
+  Tabs,
+  TabPane,
 } from "element-ui";
 
 Vue.use(Dialog);
@@ -42,6 +44,8 @@ Vue.use(Drawer);
 Vue.use(Tag);
 Vue.use(Row);
 Vue.use(Col);
+Vue.use(Tabs);
+Vue.use(TabPane);
 
 Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$alert = MessageBox.alert;

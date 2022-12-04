@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@alrale/common-lib": "^1.0.49",
+    "@proxy/code-editor": "workspace:^1.0.0",
     "@proxy/compatibility": "workspace:^1.0.0",
     "@proxy/json-editor": "workspace:^1.0.0",
     "@proxy/shared-utils": "workspace:^1.0.0",

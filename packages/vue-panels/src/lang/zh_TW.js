@@ -12,6 +12,7 @@ export default {
     normal: "普通",
     regex: "正則",
     responseData: '響應數據',
+    responseFunc: '函數式',
     remark: '備註',
     tag: '標籤',
     statusCode: '狀態碼',

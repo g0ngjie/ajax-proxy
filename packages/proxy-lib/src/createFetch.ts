@@ -1,5 +1,6 @@
 import { maybeMatching, notice } from "./common";
-import { RefGlobalState } from "./types";
+import { execSetup, getCtx } from "./overrideFunc";
+import { OverrideType, RefGlobalState } from "./types";
 
 // 共享状态
 let globalState: RefGlobalState
@@ -13,31 +14,59 @@ function CustomFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Resp
     if (init) {
         fetchMethod = init.method?.toUpperCase() || "ANY"
     }
-    return OriginFetch(input, init).then((response: Response) => {
+    return OriginFetch(input, init).then(async (response: Response) => {
         let txt: string | undefined;
         let status = response.status
         let statusText = response.statusText
-        globalState.value.interceptor_matching_content.forEach(target => {
-            const { switch_on = true, match_url, override = "", filter_type, method, status_code = "200" } = target
+        let _overrideType: OverrideType = "json"
+        for (let i = 0; i < globalState.value.interceptor_matching_content.length; i++) {
+            const target = globalState.value.interceptor_matching_content[i];
+            const {
+                switch_on = true,
+                match_url,
+                override = "",
+                filter_type,
+                method,
+                status_code = "200",
+                override_type = "json",
+                override_func = ""
+            } = target
             // 是否需要匹配
             if (switch_on && match_url) {
                 // 判断是否存在协议匹配
-                if (method && ![fetchMethod, "ANY"].includes(method.toUpperCase())) return
+                if (method && ![fetchMethod, "ANY"].includes(method.toUpperCase())) continue
                 // 规则匹配
                 const matched = maybeMatching(response.url, match_url, filter_type);
-                if (!matched) return // 退出当前循环
-                // 修改响应
-                txt = typeof override === "string" ? override : JSON.stringify(override);
-                // 修改状态码
-                status = +status_code
-                statusText = status_code
+                if (!matched) continue // 退出当前循环
+                _overrideType = override_type
+                if (override_type === "function") {
+                    const ctx = getCtx(
+                        response.url,
+                        init?.method?.toUpperCase() || "GET",
+                        response.status,
+                        status_code,
+                        init?.body,
+                        response
+                    )
+                    const payload = await execSetup(ctx, override_func)
+                    if (payload.override)
+                        txt = typeof payload.override === "string" ? payload.override : JSON.stringify(payload.override);
+                    status = +payload.status!
+                    statusText = payload.status + ""
+                } else {
+                    // 修改响应
+                    txt = typeof override === "string" ? override : JSON.stringify(override);
+                    // 修改状态码
+                    status = +status_code
+                    statusText = status_code
+                }
                 // 通知
                 notice(response.url, match_url, fetchMethod || "")
             }
-        });
+        }
 
         // 返回原始响应
-        if (!globalState.value.global_on || !txt) return response
+        if (!globalState.value.global_on || (!txt && _overrideType !== 'function')) return response
 
         const stream = new ReadableStream({
             start(controller) {

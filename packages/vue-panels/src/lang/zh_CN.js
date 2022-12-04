@@ -11,6 +11,7 @@ export default {
   normal: "普通",
   regex: "正则",
   responseData: '响应数据',
+  responseFunc: '函数式',
   remark: '备注',
   tag: '标签',
   statusCode: '状态码',
