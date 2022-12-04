@@ -48,7 +48,8 @@ function customCompletions(target) {
 // 默认内容
 export function getDefaultContent() {
     const defaultContent =
-        `function setup(req, res, next) {
+        `
+function setup(req, res, next) {
     // ...todo
     // type next = { override?: string, status?: string | number }
     next({ override: "", status: "" });

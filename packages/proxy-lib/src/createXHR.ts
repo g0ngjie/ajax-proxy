@@ -1,4 +1,5 @@
 import { maybeMatching, notice } from "./common";
+import { execSetup, getCtx } from "./overrideFunc";
 import { RefGlobalState } from "./types";
 
 // 共享状态
@@ -47,29 +48,51 @@ class CustomXHR extends XMLHttpRequest {
     }
 
     // 规则匹配，修改响应内容
-    private maybeNeedModifyRes() {
-        globalState.value.interceptor_matching_content.forEach(target => {
-            const { switch_on = true, match_url, override = "", filter_type, method, status_code = "200" } = target
+    private async maybeNeedModifyRes() {
+        for (let i = 0; i < globalState.value.interceptor_matching_content.length; i++) {
+            const target = globalState.value.interceptor_matching_content[i];
+            const {
+                switch_on = true,
+                match_url,
+                override = "",
+                filter_type,
+                method,
+                status_code = "200",
+                override_type = "json",
+                override_func = ""
+            } = target
             // 是否需要匹配
             if (switch_on && match_url) {
                 // 判断是否存在协议匹配
-                if (method && ![this.method, "ANY"].includes(method.toUpperCase())) return
+                if (method && ![this.method, "ANY"].includes(method.toUpperCase())) continue
                 // 规则匹配
                 const matched = maybeMatching(this.responseURL, match_url, filter_type);
-                if (!matched) return // 退出当前循环
-                // 修改响应
-                this.responseText = override;
-                this.response = override;
-                // 修改状态码
-                this.status = +status_code
-                this.statusText = status_code
+                if (!matched) continue // 退出当前循环
+                if (override_type === "function") {
+                    const ctx = getCtx(this.responseURL, this.method, this.status, status_code)
+                    const payload = await execSetup(ctx, override_func)
+                    if (payload.override) {
+                        const _override = typeof payload.override === "string" ? payload.override : JSON.stringify(payload.override);
+                        this.responseText = _override;
+                        this.response = _override;
+                    }
+                    this.status = +payload.status!
+                    this.statusText = payload.status + ""
+                } else {
+                    // 修改响应
+                    this.responseText = override;
+                    this.response = override;
+                    // 修改状态码
+                    this.status = +status_code
+                    this.statusText = status_code
+                }
                 // 通知
                 if (!this.message_once_lock) {
                     notice(this.responseURL, match_url, this.method);
                     this.message_once_lock = true;
                 }
             }
-        });
+        }
     }
 
     // 属性重写
@@ -103,16 +126,16 @@ class CustomXHR extends XMLHttpRequest {
         const xhr = new OriginXHR();
         for (let attr in xhr) {
             if (attr === "onreadystatechange") {
-                xhr.onreadystatechange = (...args) => {
+                xhr.onreadystatechange = async (...args) => {
                     // 开启拦截
-                    if (this.readyState == 4) this.maybeNeedModifyRes();
+                    if (this.readyState == 4) await this.maybeNeedModifyRes();
                     this.onreadystatechange && this.onreadystatechange.apply(this, args);
                 };
                 continue;
             } else if (attr === "onload") {
-                xhr.onload = (...args) => {
+                xhr.onload = async (...args) => {
                     // 开启拦截
-                    this.maybeNeedModifyRes();
+                    await this.maybeNeedModifyRes();
                     this.onload && this.onload.apply(this, args);
                 };
                 continue;
