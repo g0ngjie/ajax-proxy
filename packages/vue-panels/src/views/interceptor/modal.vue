@@ -192,7 +192,7 @@ export default {
         status_code: 200,
         remark: "",
         filter_type: "normal",
-        override_type: "function",
+        override_type: "json",
       };
       this.$nextTick(() => this.$refs.form.clearValidate());
     },

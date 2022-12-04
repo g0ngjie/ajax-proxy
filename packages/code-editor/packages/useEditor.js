@@ -52,6 +52,8 @@ export function getDefaultContent() {
 function setup(req, res, next) {
     // ...todo
     // type next = { override?: string, status?: string | number }
+    // override === "" // use default override
+    // status === ""   // use default customStatusCode
     next({ override: "", status: "" });
 }
 `
