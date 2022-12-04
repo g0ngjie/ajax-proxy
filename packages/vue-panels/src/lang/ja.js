@@ -12,6 +12,7 @@ export default {
     normal: "通常",
     regex: "正則",
     responseData: 'レスポンスデータ',
+    responseFunc: 'ビスポーク',
     remark: 'コメント',
     tag: 'タブ',
     statusCode: 'じょうたいコード',

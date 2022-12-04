@@ -12,6 +12,7 @@ export default {
     normal: "gnáth",
     regex: "rialta",
     responseData: 'Sonraí freagra',
+    responseFunc: 'feidhm',
     remark: 'ráitis',
     tag: 'label',
     statusCode: 'Cód stádais',

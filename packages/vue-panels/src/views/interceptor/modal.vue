@@ -113,7 +113,7 @@
               </el-input>
             </el-form-item>
           </el-tab-pane>
-          <el-tab-pane label="函数式" name="function">
+          <el-tab-pane :label="$t('responseFunc')" name="function">
             <!-- 函数式 -->
             <el-form-item
               v-if="form.override_type === 'function'"

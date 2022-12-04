@@ -12,6 +12,7 @@ export default {
     normal: "여간하다",
     regex: "정칙",
     responseData: '응답 데이터',
+    responseFunc: '사용자 정의',
     remark: '비고',
     tag: '라벨',
     statusCode: '상태 코드',

@@ -12,6 +12,7 @@ export default {
     normal: "Fréquent",
     regex: "Regular",
     responseData: 'Données de réponse',
+    responseFunc: 'Sur mesure',
     remark: 'Remarques',
     tag: 'Étiquettes',
     statusCode: "Code d'état",
