@@ -50,10 +50,8 @@ export function getDefaultContent() {
     const defaultContent =
         `
 function setup(req, res, next) {
-    // ...todo
-    // type next = { override?: string, status?: string | number }
-    // override === "" // use default override
-    // status === ""   // use default customStatusCode
+    // TODO...
+    // type Next = { override?: string, status?: string | number }
     next({ override: "", status: "" });
 }
 `
