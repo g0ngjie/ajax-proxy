@@ -138,17 +138,18 @@ class CustomXHR extends XMLHttpRequest {
                     this.onreadystatechange && this.onreadystatechange.apply(this, args);
                 };
                 continue;
-            } else if (attr === "onload") {
-                xhr.onload = async (...args) => {
-                    // 开启拦截
-                    await this.maybeNeedModifyRes(xhr.response);
-                    this.onload && this.onload.apply(this, args);
-                };
-                continue;
             }
+            // else if (attr === "onload") {
+            //     xhr.onload = async (...args) => {
+            //         // 开启拦截
+            //         await this.maybeNeedModifyRes(xhr.response);
+            //         this.onload && this.onload.apply(this, args);
+            //     };
+            //     this.onload = null;
+            //     continue;
+            // }
             // 其他属性重写
-            // @ts-ignore
-            this.overrideAttr(attr, xhr)
+            this.overrideAttr(attr as keyof XMLHttpRequest, xhr)
         }
     }
 }
