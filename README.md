@@ -4,7 +4,7 @@
 
 <br>
 
-<h4 align="center">A browser plugin based on Chromium kernel · Tools for Developers · For the modification of web-side interface data</h4>
+<h4 align="center">A browser plugin based on Chromium kernel · Tools for Developers · For the modification of web-side response</h4>
 
 <p align="center">
   <a href="https://github.com/g0ngjie/ajax-proxy/blob/master/LICENSE">
