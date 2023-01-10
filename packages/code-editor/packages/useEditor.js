@@ -24,8 +24,8 @@ export function useInit(container) {
         enableBasicAutocompletion: true,
     });
 
-    // TODO: 自定义提示
-    // customCompletions(target)
+    // 自定义提示
+    customCompletions(target)
 
     return target;
 }
@@ -39,7 +39,18 @@ function customCompletions(target) {
                 return;
             }
             callback(null, [
-                { meta: 'todo', caption: 'AND', value: 'AND', score: 1 },
+                { meta: 'AjaxProxy::Ctx.req', caption: 'req.url: string', value: 'req.url', score: 100 },
+                { meta: 'AjaxProxy::Ctx.req', caption: 'req.method: string', value: 'req.method', score: 100 },
+                { meta: 'AjaxProxy::Ctx.req', caption: 'req.body?: any', value: 'req.body', score: 100 },
+                { meta: 'AjaxProxy::Ctx.res', caption: 'res.status: string', value: 'res.status', score: 100 },
+                { meta: 'AjaxProxy::Ctx.res', caption: 'res.customStatus: string', value: 'res.customStatus', score: 100 },
+                { meta: 'AjaxProxy::Ctx.res', caption: 'res.response: any', value: 'res.response', score: 100 },
+                {
+                    meta: 'AjaxProxy::Next',
+                    caption: 'next({ override?: string, status?: string | number })',
+                    value: 'next({ override: "", status: "" });',
+                    score: 100
+                },
             ]);
         },
     });
