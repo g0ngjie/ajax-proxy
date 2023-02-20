@@ -242,6 +242,9 @@ export default {
       this.language = lang;
       this.$i18n.locale = lang;
       this.currentMode = useMode.get();
+      // 初始化title
+      const manifest = chrome.runtime?.getManifest();
+      document.title = `Ajax Proxy ${manifest?.version}`;
     },
   },
   mounted() {
