@@ -4,6 +4,8 @@
       :title="title"
       :visible.sync="isShow"
       :before-close="handleClose"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
       top="1%"
       width="80%"
     >
