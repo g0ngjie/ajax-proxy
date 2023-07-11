@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Ajax Proxy",
-  "version": "2.2.5",
+  "version": "2.2.6",
   "description": "Modify your Ajax response to test",
   "author": "Gj",
   "icons": {
