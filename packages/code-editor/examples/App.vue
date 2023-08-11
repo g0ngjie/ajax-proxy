@@ -5,6 +5,7 @@
       ref="codeEditor"
       v-model="codeText"
       @change="handleChange"
+      type="redirector"
     />
     <button type="button" @click="reset">reset</button>
   </div>

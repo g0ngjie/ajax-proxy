@@ -8,7 +8,7 @@ import "ace-builds/src-noconflict/snippets/javascript"; //代码提示
 
 // https://ace.c9.io/#nav=howto
 // 初始化
-export function useInit(container) {
+export function useInit(container, type) {
     // 初始化
     const target = ace.edit(container, {
         maxLines: 20, // 最大行数，超过会自动出现滚动条
@@ -25,45 +25,74 @@ export function useInit(container) {
     });
 
     // 自定义提示
-    customCompletions(target)
+    customCompletions(target, type)
 
     return target;
 }
 
 // 自定义提示
-function customCompletions(target) {
-    target.completers.push({
-        getCompletions: function (state, session, pos, prefix, callback) {
-            if (prefix.length === 0) {
-                callback(null, []);
-                return;
-            }
-            callback(null, [
-                { meta: 'AjaxProxy::Ctx.req', caption: 'req.url: string', value: 'req.url', score: 100 },
-                { meta: 'AjaxProxy::Ctx.req', caption: 'req.method: string', value: 'req.method', score: 100 },
-                { meta: 'AjaxProxy::Ctx.req', caption: 'req.body?: any', value: 'req.body', score: 100 },
-                { meta: 'AjaxProxy::Ctx.res', caption: 'res.status: string', value: 'res.status', score: 100 },
-                { meta: 'AjaxProxy::Ctx.res', caption: 'res.customStatus: string', value: 'res.customStatus', score: 100 },
-                { meta: 'AjaxProxy::Ctx.res', caption: 'res.response: any', value: 'res.response', score: 100 },
-                {
-                    meta: 'AjaxProxy::Next',
-                    caption: 'next({ override?: string, status?: string | number })',
-                    value: 'next({ override: "", status: "" });',
-                    score: 100
-                },
-            ]);
-        },
-    });
+function customCompletions(target, type = 'interceptor') {
+    if (type === 'interceptor')
+        target.completers.push({
+            getCompletions: function (state, session, pos, prefix, callback) {
+                if (prefix.length === 0) {
+                    callback(null, []);
+                    return;
+                }
+                callback(null, [
+                    { meta: 'AjaxProxy::Ctx.req', caption: 'req.url: string', value: 'req.url', score: 100 },
+                    { meta: 'AjaxProxy::Ctx.req', caption: 'req.method: string', value: 'req.method', score: 100 },
+                    { meta: 'AjaxProxy::Ctx.req', caption: 'req.body?: any', value: 'req.body', score: 100 },
+                    { meta: 'AjaxProxy::Ctx.res', caption: 'res.status: string', value: 'res.status', score: 100 },
+                    { meta: 'AjaxProxy::Ctx.res', caption: 'res.customStatus: string', value: 'res.customStatus', score: 100 },
+                    { meta: 'AjaxProxy::Ctx.res', caption: 'res.response: any', value: 'res.response', score: 100 },
+                    {
+                        meta: 'AjaxProxy::Next',
+                        caption: 'next({ override?: string, status?: string | number })',
+                        value: 'next({ override: "", status: "" });',
+                        score: 100
+                    },
+                ]);
+            },
+        });
+    else
+        target.completers.push({
+            getCompletions: function (state, session, pos, prefix, callback) {
+                if (prefix.length === 0) {
+                    callback(null, []);
+                    return;
+                }
+                callback(null, [
+                    { meta: 'AjaxProxy::Ctx.req', caption: 'req.url: string', value: 'req.url', score: 100 },
+                    { meta: 'AjaxProxy::Ctx.req', caption: 'req.method: string', value: 'req.method', score: 100 },
+                    {
+                        meta: 'AjaxProxy::Next',
+                        caption: 'next({ url: string, headers?: { [key: string]: string } })',
+                        value: 'next({ url: req.url });',
+                        score: 100
+                    },
+                ]);
+            },
+        });
 }
 
 // 默认内容
-export function getDefaultContent() {
-    const defaultContent =
+export function getDefaultContent(type = "interceptor") {
+    let defaultContent = type === 'interceptor' ?
         `
 function setup(req, res, next) {
     // TODO...
     // type Next = { override?: string, status?: string | number }
     next({ override: "", status: "" });
+}
+` :
+        `
+function setup(
+    req, /** req: { url: string, method: string }*/
+    next /**{ url: string, headers?: { [key: string]: string } }*/
+) {
+    // TODO...
+    next({ url: "" });
 }
 `
     return defaultContent

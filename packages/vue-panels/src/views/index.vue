@@ -244,7 +244,7 @@ export default {
       this.currentMode = useMode.get();
       // 初始化title
       const manifest = chrome.runtime?.getManifest();
-      document.title = `Ajax Proxy ${manifest?.version}`;
+      document.title = `Ajax Proxy ${manifest?.version || 'DEV'}`;
     },
   },
   mounted() {

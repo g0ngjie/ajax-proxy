@@ -14,6 +14,10 @@ export default {
       type: String,
       default: "",
     },
+    type: {
+      type: String,
+      default: "interceptor",
+    },
   },
   watch: {
     value: {
@@ -35,7 +39,7 @@ export default {
 
   methods: {
     initEditor() {
-      this.aceEditor = useInit(this.$refs.ace);
+      this.aceEditor = useInit(this.$refs.ace, this.type);
 
       this.aceEditor.getSession().on("change", () => {
         this.$emit("change", this.aceEditor.getSession().getValue());
@@ -49,7 +53,7 @@ export default {
     },
     setValue(value) {
       if (this.aceEditor) {
-        if (!value) this.aceEditor.setValue(getDefaultContent());
+        if (!value) this.aceEditor.setValue(getDefaultContent(this.type));
         else this.aceEditor.setValue(value);
       }
     },
