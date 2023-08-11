@@ -1,4 +1,5 @@
 import { finalRedirectUrl, fmtURLToString, matchIgnoresAndRule } from "./common";
+import { execSetup } from "./redirectUrlFunc";
 import { RefGlobalState } from "./types";
 
 // 状态
@@ -21,7 +22,7 @@ export default class CustomRedirectXHR extends XMLHttpRequest {
         const origin_XHR_open = open
         const origin_XHR_setRequestHeader = this.setRequestHeader
         const origin_XHR_send = this.send
-        this.open = (method: string,
+        this.open = async (method: string,
             url: string | URL,
             async?: boolean,
             username?: string | null,
@@ -37,13 +38,31 @@ export default class CustomRedirectXHR extends XMLHttpRequest {
                     redirect_url = "",
                     headers = [],
                     ignores = [],
+                    redirect_type = "text",
+                    redirect_func = ""
                 } = globalState.value.redirector_matching_content[i];
                 if (switch_on) {
                     // 判断是否存在协议匹配
                     if (method && ![this.method, "ANY"].includes(method.toUpperCase())) return
                     // 规则判断
                     const currentUrl = fmtURLToString(url)
-                    if (matchIgnoresAndRule(currentUrl, domain, filter_type, ignores)) {
+                    if (redirect_type === "function") {
+                        const payload = await execSetup({ url: currentUrl, method: this.method }, redirect_func)
+                        url = payload.url
+                        this.send = (body?: Document | XMLHttpRequestBodyInit | null) => {
+                            if (payload.headers) {
+                                for (const key in payload.headers) {
+                                    if (Object.prototype.hasOwnProperty.call(payload.headers, key)) {
+                                        const value = payload.headers[key];
+                                        if (key && value)
+                                            this.setRequestHeader(key, value)
+                                    }
+                                }
+                            }
+                            origin_XHR_send.call(this, body)
+                        }
+                        break;
+                    } else if (matchIgnoresAndRule(currentUrl, domain, filter_type, ignores)) {
                         url = finalRedirectUrl(currentUrl, domain, redirect_url, filter_type)
 
                         // 获取 自定义 header 映射关系
@@ -59,6 +78,7 @@ export default class CustomRedirectXHR extends XMLHttpRequest {
                             for (let k = 0; k < headers.length; k++) {
                                 const header = headers[k];
                                 // 移除掉 映射关系
+                                // Reflect.deleteProperty(cacheHeaderMap, header.key)
                                 delete cacheHeaderMap[header.key]
                                 this.setRequestHeader(header.key, header.value)
                             }

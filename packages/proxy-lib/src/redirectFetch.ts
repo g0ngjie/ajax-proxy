@@ -1,4 +1,5 @@
 import { finalRedirectUrl, matchIgnoresAndRule } from "./common";
+import { execSetup } from "./redirectUrlFunc";
 import { RefGlobalState } from "./types";
 
 // 共享状态
@@ -7,7 +8,7 @@ const OriginFetch = window.fetch.bind(window)
 // 初始化共享状态
 export const initRedirectFetchState = (state: RefGlobalState) => globalState = state
 
-export default function CustomFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
+export default async function CustomFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
     let fetchMethod: string | undefined | "ANY" = "ANY"
     let customInit: RequestInit = init || {}
     if (init) {
@@ -23,11 +24,39 @@ export default function CustomFetch(input: RequestInfo | URL, init?: RequestInit
             redirect_url = "",
             headers = [],
             ignores = [],
+            redirect_type = "text",
+            redirect_func = ""
         } = globalState.value.redirector_matching_content[i];
         if (switch_on) {
             // 判断是否存在协议匹配
             if (method && ![fetchMethod, "ANY"].includes(method.toUpperCase())) break
-            if (matchIgnoresAndRule(input.toString(), domain, filter_type, ignores)) {
+            if (redirect_type === "function") {
+                const payload = await execSetup({ url: input.toString(), method: fetchMethod }, redirect_func)
+                input = payload.url
+
+                if (init?.headers) {
+                    // 初始化 RequestInit
+                    customInit = init
+                    const initHeaders = new Headers(init.headers)
+                    if (payload.headers) {
+                        for (const key in payload.headers) {
+                            if (Object.prototype.hasOwnProperty.call(payload.headers, key)) {
+                                const value = payload.headers[key];
+                                if (key && value) initHeaders.set(key, value)
+                            }
+                        }
+                    }
+                    customInit.headers = initHeaders
+                } else {
+                    const newHeaders: HeadersInit = payload.headers ? Object.keys(payload.headers).map(key => [key, payload.headers![key]]) : []
+                    customInit = {
+                        headers: newHeaders
+                    }
+                }
+
+                // 值取当前命中的第一个，后续再命中的忽略
+                break;
+            } else if (matchIgnoresAndRule(input.toString(), domain, filter_type, ignores)) {
                 input = finalRedirectUrl(input.toString(), domain, redirect_url, filter_type)
 
                 if (init?.headers) {

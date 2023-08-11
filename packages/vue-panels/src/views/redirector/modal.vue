@@ -46,141 +46,171 @@
             </el-select>
           </el-input>
         </el-form-item>
-        <!-- 重定向 -->
-        <el-form-item
-          :label="$t('redirector')"
-          :rules="[
-            {
-              required: true,
-              trigger: 'change',
-              message: $t('msg.redirectNotEmpty'),
-            },
-          ]"
-          prop="redirect_url"
-        >
-          <el-input
-            v-model="form.redirect_url"
-            placeholder="http|https://foo2.com"
-          ></el-input>
-        </el-form-item>
-        <!-- 请求头 -->
-        <el-form-item :label="$t('updateRequestHeaders')">
-          <section style="padding: 0 20px">
-            <!-- 新增槽 -->
-            <el-button
-              style="margin-bottom: 10px"
-              size="mini"
-              type="text"
-              @click="handleHeaderAdd"
-              >+{{ $t("append") }}</el-button
+        <el-tabs v-model="form.redirect_type" type="card">
+          <el-tab-pane :label="$t('redirector')" name="text">
+            <!-- 重定向 -->
+            <el-form-item
+              v-if="form.redirect_type === 'text'"
+              :rules="[
+                {
+                  required: true,
+                  trigger: 'change',
+                  message: $t('msg.redirectNotEmpty'),
+                },
+              ]"
+              prop="redirect_url"
             >
-            <el-row :gutter="24" style="margin-bottom: 10px">
-              <el-col :span="7">Key</el-col>
-              <el-col :span="7">Value</el-col>
-              <el-col :span="7">{{ $t("describe") }}</el-col>
-              <el-col :span="3">{{ $t("option") }}</el-col>
-            </el-row>
-            <el-row
-              :gutter="24"
-              v-for="(item, index) in form.headers"
-              :key="index"
+              <el-input
+                v-model="form.redirect_url"
+                placeholder="http|https://foo2.com"
+              ></el-input>
+            </el-form-item>
+            <!-- 请求头 -->
+            <el-form-item
+              v-if="form.redirect_type === 'text'"
+              :label="$t('updateRequestHeaders')"
             >
-              <el-col :span="7">
-                <!-- key -->
-                <el-form-item
-                  :rules="[
-                    {
-                      required: true,
-                      message: $t('msg.keyNotEmpty'),
-                      trigger: 'change',
-                    },
-                  ]"
-                  :prop="`headers[${index}].key`"
-                >
-                  <el-input
-                    v-model="form.headers[index].key"
-                    :placeholder="$t('placeholder.input')"
-                  />
-                </el-form-item>
-              </el-col>
-              <el-col :span="7">
-                <!-- value -->
-                <el-form-item
-                  :rules="[
-                    {
-                      required: true,
-                      message: $t('msg.valueNotEmpty'),
-                      trigger: 'change',
-                    },
-                  ]"
-                  :prop="`headers[${index}].value`"
-                >
-                  <el-input
-                    v-model="form.headers[index].value"
-                    :placeholder="$t('placeholder.input')"
-                  />
-                </el-form-item>
-              </el-col>
-              <el-col :span="7">
-                <!-- description -->
-                <el-form-item>
-                  <el-input
-                    v-model="form.headers[index].description"
-                    :placeholder="$t('placeholder.input')"
-                  />
-                </el-form-item>
-              </el-col>
-              <el-col :span="3">
+              <section style="padding: 0 20px">
+                <!-- 新增槽 -->
                 <el-button
+                  style="margin-bottom: 10px"
+                  size="mini"
                   type="text"
-                  class="text-btn-underline"
-                  @click.stop="handleDel(index)"
-                  >{{ $t("del") }}</el-button
+                  @click="handleHeaderAdd"
+                  >+{{ $t("append") }}</el-button
                 >
-              </el-col>
-            </el-row>
-          </section>
-        </el-form-item>
-        <!-- 白名单列表 -->
-        <el-form-item :label="$t('exclusionList')">
-          <section style="padding: 0 20px">
-            <!-- 新增槽 -->
-            <el-button
-              style="margin-bottom: 10px"
-              size="mini"
-              type="text"
-              @click="handleIgnoresAdd"
-              >+{{ $t("append") }}</el-button
-            >
-            <el-row
-              v-for="(item, index) in form.ignores"
-              :key="index"
-              style="margin-bottom: 5px"
-            >
-              <el-form-item
-                :rules="[
-                  {
-                    required: true,
-                    message: $t('noEmpty'),
-                    trigger: 'change',
-                  },
-                ]"
-                :prop="`ignores[${index}]`"
-              >
-                <el-input
-                  placeholder="http|https://foo.xxx"
-                  v-model="form.ignores[index]"
+                <el-row :gutter="24" style="margin-bottom: 10px">
+                  <el-col :span="7">Key</el-col>
+                  <el-col :span="7">Value</el-col>
+                  <el-col :span="7">{{ $t("describe") }}</el-col>
+                  <el-col :span="3">{{ $t("option") }}</el-col>
+                </el-row>
+                <el-row
+                  :gutter="24"
+                  v-for="(item, index) in form.headers"
+                  :key="index"
                 >
-                  <el-button
-                    slot="append"
-                    icon="el-icon-delete"
-                    @click.stop="handleDelWhite(index)"
-                  />
-                </el-input>
-              </el-form-item>
-            </el-row>
-          </section>
-        </el-form-item>
+                  <el-col :span="7">
+                    <!-- key -->
+                    <el-form-item
+                      :rules="[
+                        {
+                          required: true,
+                          message: $t('msg.keyNotEmpty'),
+                          trigger: 'change',
+                        },
+                      ]"
+                      :prop="`headers[${index}].key`"
+                    >
+                      <el-input
+                        v-model="form.headers[index].key"
+                        :placeholder="$t('placeholder.input')"
+                      />
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="7">
+                    <!-- value -->
+                    <el-form-item
+                      :rules="[
+                        {
+                          required: true,
+                          message: $t('msg.valueNotEmpty'),
+                          trigger: 'change',
+                        },
+                      ]"
+                      :prop="`headers[${index}].value`"
+                    >
+                      <el-input
+                        v-model="form.headers[index].value"
+                        :placeholder="$t('placeholder.input')"
+                      />
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="7">
+                    <!-- description -->
+                    <el-form-item>
+                      <el-input
+                        v-model="form.headers[index].description"
+                        :placeholder="$t('placeholder.input')"
+                      />
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="3">
+                    <el-button
+                      type="text"
+                      class="text-btn-underline"
+                      @click.stop="handleDel(index)"
+                      >{{ $t("del") }}</el-button
+                    >
+                  </el-col>
+                </el-row>
+              </section>
+            </el-form-item>
+            <!-- 白名单列表 -->
+            <el-form-item
+              v-if="form.redirect_type === 'text'"
+              :label="$t('exclusionList')"
+            >
+              <section style="padding: 0 20px">
+                <!-- 新增槽 -->
+                <el-button
+                  style="margin-bottom: 10px"
+                  size="mini"
+                  type="text"
+                  @click="handleIgnoresAdd"
+                  >+{{ $t("append") }}</el-button
+                >
+                <el-row
+                  v-for="(item, index) in form.ignores"
+                  :key="index"
+                  style="margin-bottom: 5px"
+                >
+                  <el-form-item
+                    :rules="[
+                      {
+                        required: true,
+                        message: $t('noEmpty'),
+                        trigger: 'change',
+                      },
+                    ]"
+                    :prop="`ignores[${index}]`"
+                  >
+                    <el-input
+                      placeholder="http|https://foo.xxx"
+                      v-model="form.ignores[index]"
+                    >
+                      <el-button
+                        slot="append"
+                        icon="el-icon-delete"
+                        @click.stop="handleDelWhite(index)"
+                      />
+                    </el-input>
+                  </el-form-item>
+                </el-row>
+              </section>
+            </el-form-item>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('responseFunc')" name="function">
+            <!-- 函数式 -->
+            <el-form-item
+              v-if="form.redirect_type === 'function'"
+              :rules="[
+                {
+                  required: true,
+                  trigger: 'change',
+                  message: $t('msg.responseDataNotEmpty'),
+                },
+              ]"
+              prop="redirect_func"
+            >
+              <CodeEditor
+                v-model="form.redirect_func"
+                ref="codeEditor"
+                type="redirector"
+              />
+            </el-form-item>
+          </el-tab-pane>
+        </el-tabs>
         <!-- 备注 -->
         <el-form-item :label="$t('remark')">
           <el-input
@@ -205,8 +235,10 @@
 <script>
 import { uniqueId } from "@alrale/common-lib";
 import { useTags } from "@/common/store";
+import { VueCodeEditor } from "@proxy/code-editor";
 
 export default {
+  components: { CodeEditor: VueCodeEditor },
   data() {
     return {
       isShow: false,
@@ -245,6 +277,8 @@ export default {
         this.isEdit = true;
         // 编辑
         this.title = this.$t("edit");
+        // 重定向类型
+        if (!row.redirect_type) row.redirect_type = "text";
         // 兼容版本迭代，旧数据未存在白名单
         if (!row.ignores) row.ignores = [];
       } else {
@@ -258,6 +292,7 @@ export default {
         headers: [],
         ignores: [],
         filter_type: "normal",
+        redirect_type: "text",
       };
       this.$nextTick(() => this.$refs.form.clearValidate());
     },

@@ -8,6 +8,8 @@ export type IMode = "interceptor" | "redirector"
 export type RefGlobalState<T = IGlobalState> = { value: T }
 /**响应式类型 */
 export type OverrideType = 'json' | 'function'
+/**重定向类型 */
+export type RedirectType = 'text' | 'function'
 
 type CommonContent = {
     /**是否需要匹配 */
@@ -53,6 +55,10 @@ export type IMatchRedirectContent = {
     headers?: IRedirectHeader[]
     /**忽略名单 */
     ignores?: string[]
+    /**重定向类型 */
+    redirect_type?: RedirectType
+    /**函数响应 */
+    redirect_func?: string
 } & CommonContent
 
 export type IGlobalState = {

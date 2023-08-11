@@ -10,6 +10,8 @@ export declare type RefGlobalState<T = IGlobalState> = {
 };
 /**响应式类型 */
 export declare type OverrideType = 'json' | 'function';
+/**重定向类型 */
+export declare type RedirectType = 'text' | 'function';
 declare type CommonContent = {
     /**是否需要匹配 */
     switch_on: boolean;
@@ -51,6 +53,10 @@ export declare type IMatchRedirectContent = {
     headers?: IRedirectHeader[];
     /**忽略名单 */
     ignores?: string[];
+    /**重定向类型 */
+    redirect_type?: RedirectType;
+    /**函数响应 */
+    redirect_func?: string;
 } & CommonContent;
 export declare type IGlobalState = {
     /**全局开关 */
