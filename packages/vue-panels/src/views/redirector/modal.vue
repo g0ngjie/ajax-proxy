@@ -16,7 +16,7 @@
           :rules="[
             {
               required: true,
-              trigger: 'change',
+              trigger: 'blur',
               message: $t('msg.domainNotEmpty'),
             },
           ]"
