@@ -47,6 +47,7 @@ export default {
     dataErr: '数据异常',
     formatErr: '格式错误',
     importEmpty: '你导入了一个空列表',
+    existsEmptyString: '存在空字符串',
   },
   placeholder: {
     select: '请选择',

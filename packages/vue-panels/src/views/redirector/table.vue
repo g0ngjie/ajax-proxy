@@ -22,6 +22,11 @@
           }}
         </template>
       </el-table-column>
+      <el-table-column label="Method" width="90">
+        <template slot-scope="{ row }">
+          {{ row.method || "ANY" }}
+        </template>
+      </el-table-column>
       <el-table-column
         prop="domain"
         :label="$t('domain')"

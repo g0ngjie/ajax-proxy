@@ -48,6 +48,7 @@ export default {
         dataErr: 'Données anormales',
         formatErr: 'Mauvais format',
         importEmpty: 'Vous avez importé une liste vide',
+        existsEmptyString: 'Présence d\'une chaîne vide',
     },
     placeholder: {
         select: 'Veuillez sélectionner',

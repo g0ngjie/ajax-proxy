@@ -48,6 +48,7 @@ export default {
         dataErr: 'аномалия данных',
         formatErr: 'ошибка формата',
         importEmpty: 'вы импортировали пустой список',
+        existsEmptyString: 'Наличие пустых строк',
     },
     placeholder: {
         select: 'Выберите',

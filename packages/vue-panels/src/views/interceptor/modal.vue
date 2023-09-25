@@ -18,6 +18,11 @@
               trigger: 'blur',
               message: $t('msg.pathNotEmpty'),
             },
+            {
+              validator: validUrl,
+              trigger: 'change',
+              message: $t('msg.existsEmptyString'),
+            },
           ]"
           prop="match_url"
         >
@@ -162,6 +167,15 @@ export default {
     };
   },
   methods: {
+    validUrl(rule, value, callback) {
+      if (value) {
+        const trimStr = value.trim();
+        if (value.length != trimStr.length) {
+          callback(new Error());
+        }
+      }
+      callback();
+    },
     // 打开编辑器
     handleOpenJsonEditor(jsonStr) {
       try {

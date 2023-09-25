@@ -19,6 +19,11 @@
               trigger: 'blur',
               message: $t('msg.domainNotEmpty'),
             },
+            {
+              validator: validUrl,
+              trigger: 'change',
+              message: $t('msg.existsEmptyString'),
+            },
           ]"
           prop="domain"
         >
@@ -56,6 +61,11 @@
                   required: true,
                   trigger: 'change',
                   message: $t('msg.redirectNotEmpty'),
+                },
+                {
+                  validator: validUrl,
+                  trigger: 'change',
+                  message: $t('msg.existsEmptyString'),
                 },
               ]"
               prop="redirect_url"
@@ -249,6 +259,15 @@ export default {
     };
   },
   methods: {
+    validUrl(rule, value, callback) {
+      if (value) {
+        const trimStr = value.trim();
+        if (value.length != trimStr.length) {
+          callback(new Error());
+        }
+      }
+      callback();
+    },
     // 白名单添加
     handleIgnoresAdd() {
       this.form.ignores.push("");

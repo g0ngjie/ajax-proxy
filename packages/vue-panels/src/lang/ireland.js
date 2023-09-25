@@ -48,6 +48,7 @@ export default {
         dataErr: 'Eisceachta sonraí',
         formatErr: 'Earráid fhormáide',
         importEmpty: 'Iompórtáil tú liosta folamh',
+        existsEmptyString: 'Tá teaghrán folamh ann',
     },
     placeholder: {
         select: 'Roghnaigh le do thoil',

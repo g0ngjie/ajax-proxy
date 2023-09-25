@@ -2,7 +2,7 @@
   "name": "ajax-proxy",
   "private": true,
   "description": "Modify your Ajax response to test",
-  "version": "2.2.7",
+  "version": "2.2.8",
   "scripts": {
     "dev": "pnpm -C ./packages/vue-panels serve",
     "watch": "run-p watch:lib watch:chrome",

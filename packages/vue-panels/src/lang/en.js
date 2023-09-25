@@ -47,6 +47,7 @@ export default {
     dataErr: 'Data exception',
     formatErr: 'Format error',
     importEmpty: 'You imported an empty list',
+    existsEmptyString: 'Empty string exists',
   },
   placeholder: {
     select: 'Please select',

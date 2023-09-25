@@ -48,6 +48,7 @@ export default {
         dataErr: '데이터 예외',
         formatErr: '형식 오류',
         importEmpty: '빈 목록을 가져왔습니다',
+        existsEmptyString: '빈 문자열 있음',
     },
     placeholder: {
         select: '선택하십시오.',

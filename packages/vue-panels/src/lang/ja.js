@@ -48,6 +48,7 @@ export default {
         dataErr: 'データ異常',
         formatErr: 'フォーマットエラー',
         importEmpty: '空のリストをインポートしました',
+        existsEmptyString: '空の文字列が存在します',
     },
     placeholder: {
         select: '選択してください',
