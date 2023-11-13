@@ -218,9 +218,11 @@ export default {
       this.modifyNotice(routes);
       this.initList(routes);
     },
-    putData(row) {
+    async putData(row) {
       this.tableData.push(row);
-      this.modifyNotice(this.tableData);
+      const routes = await useInterceptorRoutes.getReal();
+      routes.push(row);
+      this.modifyNotice(routes);
     },
     async editData(row) {
       const routes = await useInterceptorRoutes.getReal();
