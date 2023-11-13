@@ -20,8 +20,8 @@ export async function createPanel() {
                 url: "panels/index.html",
                 type: "popup",
                 width: 1300,
-                height: 800,
-                top: 100,
+                height: 750,
+                top: 30,
                 left: 150,
             },
             function (target) {
