@@ -80,6 +80,7 @@ function customCompletions(target, type = 'interceptor') {
 export function getDefaultContent(type = "interceptor") {
     let defaultContent = type === 'interceptor' ?
         `
+/** @see https://github.com/g0ngjie/ajax-proxy/blob/master/README.func.md */
 function setup(req, res, next) {
     // TODO...
     // type Next = { override?: string, status?: string | number }
@@ -87,6 +88,7 @@ function setup(req, res, next) {
 }
 ` :
         `
+/** @see https://github.com/g0ngjie/ajax-proxy/blob/master/README.func.md */
 function setup(
     req, /** req: { url: string, method: string }*/
     next /**{ url: string, headers?: { [key: string]: string } }*/

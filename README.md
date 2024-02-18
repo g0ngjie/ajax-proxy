@@ -28,17 +28,17 @@
 <div align="center">
 <strong>
 
-[English](README.md) | [简体中文](README.zh.md)
+English | [中文](README.zh.md)
 
 </strong>
 </div>
 
 ## When to use
 
-- When the required data does not meet the desired effect and `Mock` is required
-- When we need to verify some **exception scenarios** or **boundary values** during the development or production phase
-- When data changes frequently during the development phase, resulting in the interface not working properly
-- When 404 appears on the interface
+- When actual data fails to meet expected results, mocking data is needed.
+- In development or production stages, verification of exceptional scenarios or edge cases is necessary.
+- The frequent changes in interface data hinder the development process.
+- When a certain interface returns a 404 error.
 
 ## Installation
 
@@ -63,6 +63,7 @@ Video: [https://www.youtube.com/watch?v=F\_\_7LXBqnvQ&list=PLniy0-3-8-V1ZhsmG6\_
      ![issues_checked](https://github.com/g0ngjie/ajax-proxy/wiki/images/issues_checked.png)
    - You can select the `Network` section in Developer Tools and disable caching by checking ☑️
      ![issues_disabled_cache](https://github.com/g0ngjie/ajax-proxy/wiki/images/issues_disabled_cache.png)
+2. [Function-based response explanation](README.func.md)
 
 ## Monorepo
 
@@ -86,7 +87,7 @@ You can test it directly in [Swagger](https://petstore.swagger.io/)
 
 ## ⭐ Stargazers
 
-Thank you very much for your support!
+Thank you for your support!
 
 [![Stargazers for ajax-proxy](https://reporoster.com/stars/g0ngjie/ajax-proxy)](https://github.com/g0ngjie/ajax-proxy/stargazers)
 

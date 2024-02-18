@@ -5,7 +5,7 @@
       :visible.sync="isShow"
       :before-close="handleClose"
       :close-on-click-modal="false"
-      :close-on-press-escape="false"
+      :close-on-press-escape="true"
       top="1%"
       width="80%"
     >
