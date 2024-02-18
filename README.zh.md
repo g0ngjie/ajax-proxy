@@ -28,17 +28,18 @@
 <div align="center">
 <strong>
 
-[English](README.md) | [简体中文](README.zh.md)
+[English](README.md) | 中文
 
 </strong>
 </div>
 
 ## 适用场景
 
-- 当需数据无法满足预期结果，需要 `Mock` 时
-- 当我们在开发或者生产阶段需要验证一些 **异常场景** 或者 **临界值** 时
-- 当开发阶段数据频繁变更，导致页面无法正常联调时
-- 当某个接口 404 时
+- 当实际数据无法达到预期结果时，需要进行 Mock 数据处理。
+- 在开发或生产阶段，需要验证异常场景或临界值。
+- 开发阶段数据频繁变更，导致页面无法正常联调时。
+- 某个接口返回 404 错误时。
+
 <!-- - 当 ... ... -->
 
 ## 安装
@@ -69,6 +70,7 @@
      ![issues_checked](https://github.com/g0ngjie/ajax-proxy/wiki/images/issues_checked.png)
    - 方法 2: 可以在开发者工具中的`网络（network）`里面，通过 ☑️ 禁用缓存
      ![issues_disabled_cache](https://github.com/g0ngjie/ajax-proxy/wiki/images/issues_disabled_cache.png)
+2. [函数方式响应说明](README.func.md)
 
 ## Monorepo
 
