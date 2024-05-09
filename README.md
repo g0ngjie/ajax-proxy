@@ -87,7 +87,7 @@ You can test it directly in [Swagger](https://petstore.swagger.io/)
 
 ## ⭐ Stargazers
 
-Thank you for your support!
+Thanks for your support!
 
 [![Stargazers for ajax-proxy](https://reporoster.com/stars/g0ngjie/ajax-proxy)](https://github.com/g0ngjie/ajax-proxy/stargazers)
 
